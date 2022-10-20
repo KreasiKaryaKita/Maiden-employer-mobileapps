@@ -44,7 +44,10 @@ class RegisterStepTwoController extends GetxController {
   void onClose() {}
 
   init() {
-    phonePrefixes.assignAll([PhonePrefixModel(icon: 'assets/images/icon-country-singapore.svg', name: '+65')]);
+    phonePrefixes.assignAll([
+      PhonePrefixModel(icon: 'assets/images/icon-country-indonesia.svg', name: '+62'),
+      PhonePrefixModel(icon: 'assets/images/icon-country-singapore.svg', name: '+65'),
+    ]);
     onPhonePrefixChanged(phonePrefixes[0]);
 
     months.assignAll([
@@ -62,7 +65,6 @@ class RegisterStepTwoController extends GetxController {
       'Dec',
     ]);
     selectedMonth.value = months[0];
-    doContinue();
   }
 
   onPhonePrefixChanged(PhonePrefixModel value) {
@@ -101,12 +103,6 @@ class RegisterStepTwoController extends GetxController {
         }
       }
 
-      printInfo(info: "valueDate : ${int.parse(valueDate)}");
-      printInfo(info: "valueYear : ${int.parse(valueYear)}");
-      printInfo(
-          info:
-              "valueYear : ${(int.parse(valueDate) > 0 && int.parse(valueDate) <= 31) && (int.parse(valueYear) <= DateTime.now().year)}");
-
       if (valueDate.isEmpty || valueYear.isEmpty) {
         validateDate.value = false;
         msgDate.value = "date_of_birth_validation".tr;
@@ -127,8 +123,6 @@ class RegisterStepTwoController extends GetxController {
   Future doContinue() async {
     isValidateFirst.value = true;
     bool validation = onValidationFormInput(null);
-    // if (validation) {
-    //   Get.toNamed(Routes.REGISTER_STEP_TWO);
-    // }
+    if (validation) {}
   }
 }
