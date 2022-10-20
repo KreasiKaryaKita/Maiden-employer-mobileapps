@@ -77,7 +77,7 @@ class RegisterStepOneView extends GetView<RegisterStepOneController> {
                       fontFamily: AppConstant.SF_PRO_FONT,
                     ),
                   ).marginOnly(top: 10, bottom: 8),
-                  DefaultInputTextField(
+                  DefaultCustomErrorInputTextField(
                     controller: controller.inputEmail,
                     hintText: 'Eg. johndoe@gmail.com',
                     msgError: controller.msgEmail.value,
@@ -102,7 +102,7 @@ class RegisterStepOneView extends GetView<RegisterStepOneController> {
                       fontFamily: AppConstant.SF_PRO_FONT,
                     ),
                   ).marginOnly(bottom: 8),
-                  DefaultInputTextField(
+                  DefaultCustomErrorInputTextField(
                     controller: controller.inputPassword,
                     hintText: 'Eg. ********',
                     msgError: controller.msgPassword.value,
@@ -136,7 +136,7 @@ class RegisterStepOneView extends GetView<RegisterStepOneController> {
                       fontFamily: AppConstant.SF_PRO_FONT,
                     ),
                   ).marginOnly(bottom: 8),
-                  DefaultInputTextField(
+                  DefaultCustomErrorInputTextField(
                     controller: controller.inputConfPassword,
                     hintText: 'Eg. ********',
                     msgError: controller.msgConfPassword.value,

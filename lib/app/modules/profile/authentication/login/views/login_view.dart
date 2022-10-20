@@ -53,7 +53,7 @@ class LoginView extends GetView<LoginController> {
                       fontFamily: AppConstant.SF_PRO_FONT,
                     ),
                   ).marginOnly(top: 100, bottom: 8),
-                  DefaultInputTextField(
+                  DefaultCustomErrorInputTextField(
                     controller: controller.inputEmail,
                     hintText: 'Eg. johndoe@gmail.com',
                     msgError: controller.msgEmail.value,
@@ -78,7 +78,7 @@ class LoginView extends GetView<LoginController> {
                       fontFamily: AppConstant.SF_PRO_FONT,
                     ),
                   ).marginOnly(bottom: 8),
-                  DefaultInputTextField(
+                  DefaultCustomErrorInputTextField(
                     controller: controller.inputPassword,
                     hintText: 'Eg. ********',
                     msgError: controller.msgPassword.value,

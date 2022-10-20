@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:maiden_employer/app/config/constants/app_constant.dart';
 
-class DefaultInputTextField extends StatelessWidget {
-  const DefaultInputTextField({
+class DefaultCustomErrorInputTextField extends StatelessWidget {
+  const DefaultCustomErrorInputTextField({
     Key? key,
     required this.controller,
     required this.hintText,
-    this.msgError,
+    required this.msgError,
     required this.validate,
     required this.obscureText,
     required this.suffixIcon,
@@ -27,7 +27,7 @@ class DefaultInputTextField extends StatelessWidget {
 
   final TextEditingController controller;
   final String hintText, label;
-  final String? msgError;
+  final String msgError;
   final bool validate, obscureText;
   final Widget? suffixIcon;
   final TextInputType keyboardType;

@@ -78,7 +78,7 @@ class ForgotPasswordView extends GetView<ForgotPasswordController> {
                       fontFamily: AppConstant.SF_PRO_FONT,
                     ),
                   ).marginOnly(top: 10, bottom: 8),
-                  DefaultInputTextField(
+                  DefaultCustomErrorInputTextField(
                     controller: controller.inputEmail,
                     hintText: 'Eg. johndoe@gmail.com',
                     msgError: controller.msgEmail.value,

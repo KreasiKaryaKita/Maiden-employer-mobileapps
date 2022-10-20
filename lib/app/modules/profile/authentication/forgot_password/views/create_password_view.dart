@@ -78,7 +78,7 @@ class CreatePasswordView extends GetView<CreatePasswordController> {
                       fontFamily: AppConstant.SF_PRO_FONT,
                     ),
                   ).marginOnly(bottom: 8, top: 10),
-                  DefaultInputTextField(
+                  DefaultCustomErrorInputTextField(
                     controller: controller.inputPassword,
                     hintText: 'Eg. ********',
                     msgError: controller.msgPassword.value,
@@ -112,7 +112,7 @@ class CreatePasswordView extends GetView<CreatePasswordController> {
                       fontFamily: AppConstant.SF_PRO_FONT,
                     ),
                   ).marginOnly(bottom: 8),
-                  DefaultInputTextField(
+                  DefaultCustomErrorInputTextField(
                     controller: controller.inputConfPassword,
                     hintText: 'Eg. ********',
                     msgError: controller.msgConfPassword.value,
