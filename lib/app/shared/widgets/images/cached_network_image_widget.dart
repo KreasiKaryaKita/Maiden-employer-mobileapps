@@ -43,14 +43,15 @@ class CachedNetworkImageWidget extends StatelessWidget {
     }
 
     return Center(
-        child: CachedNetworkImage(
-      imageUrl: finalUrl,
-      fit: fit,
-      alignment: alignment,
-      width: double.infinity,
-      height: double.infinity,
-      placeholder: (ctx, url) => isHavePlacehodler ? Center(child: CircularProgressIndicator()) : Container(),
-      errorWidget: (ctx, url, child) => Center(child: Icon(Icons.error_outline, color: Theme.of(context).focusColor)),
-    ));
+      child: CachedNetworkImage(
+        imageUrl: finalUrl,
+        fit: fit,
+        alignment: alignment,
+        width: double.infinity,
+        height: double.infinity,
+        placeholder: (ctx, url) => isHavePlacehodler ? Center(child: CircularProgressIndicator()) : Container(),
+        errorWidget: (ctx, url, child) => Center(child: Icon(Icons.error_outline, color: Theme.of(context).focusColor)),
+      ),
+    );
   }
 }

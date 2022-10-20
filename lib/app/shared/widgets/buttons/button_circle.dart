@@ -8,14 +8,14 @@ class ButtonCircle extends StatelessWidget {
   final EdgeInsets margin;
   final EdgeInsets padding;
 
-  const ButtonCircle(
-      {Key? key,
-      required this.onPressed,
-      this.backgroundColor,
-      this.margin = const EdgeInsets.symmetric(horizontal: 0, vertical: 0),
-      this.padding = const EdgeInsets.symmetric(horizontal: 0, vertical: 0),
-      required this.icon})
-      : super(key: key);
+  const ButtonCircle({
+    Key? key,
+    required this.onPressed,
+    this.backgroundColor,
+    this.margin = const EdgeInsets.symmetric(horizontal: 0, vertical: 0),
+    this.padding = const EdgeInsets.symmetric(horizontal: 0, vertical: 0),
+    required this.icon,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

@@ -1,3 +1,5 @@
+// ignore_for_file: non_constant_identifier_names
+
 class SplashLanguages {
   static final EN = {
     'get_started': 'Get Started',
