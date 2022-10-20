@@ -55,6 +55,8 @@ class AppThemes {
       )),
       inputDecorationTheme: InputDecorationTheme(
           hintStyle: TextStyle(fontSize: 14, fontWeight: FontWeight.w400, color: AppColors.neutral_40),
+          border: OutlineInputBorder(borderSide: BorderSide(color: Color(0xFFEBEBEB))),
+          enabledBorder: OutlineInputBorder(borderSide: BorderSide(color: Color(0xFFEBEBEB))),
           errorStyle: TextStyle(fontSize: 10),
           errorMaxLines: 2),
       progressIndicatorTheme: ProgressIndicatorThemeData(color: AppColors.primary_20),
@@ -73,6 +75,12 @@ class AppThemes {
       iconTheme: const IconThemeData(color: Colors.black),
       popupMenuTheme: const PopupMenuThemeData(color: Colors.grey),
       textTheme: _lightTextTheme,
+      checkboxTheme: CheckboxThemeData(fillColor: MaterialStateProperty.resolveWith((states) {
+        if (!states.contains(MaterialState.selected)) {
+          return AppColors.neutral_50;
+        }
+        return Color(0xFFE1464A);
+      })),
       radioTheme: RadioThemeData(fillColor: MaterialStateProperty.resolveWith((states) {
         if (!states.contains(MaterialState.selected)) {
           return AppColors.neutral_50;

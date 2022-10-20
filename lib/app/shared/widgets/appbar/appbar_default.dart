@@ -18,13 +18,14 @@ class AppbarDefault extends StatelessWidget {
         children: [
           Expanded(child: leading ?? SizedBox()),
           Expanded(
+              flex: 4,
               child: Center(
-            child: title ??
-                Text(
-                  'get_started'.tr.toUpperCase(),
-                  style: TextStyle(fontWeight: FontWeight.w700, fontSize: 17, color: Color(0xFF212121)),
-                ),
-          )),
+                child: title ??
+                    Text(
+                      'get_started'.tr.toUpperCase(),
+                      style: TextStyle(fontWeight: FontWeight.w700, fontSize: 17, color: Color(0xFF212121)),
+                    ),
+              )),
           Expanded(
               child: action ??
                   Row(

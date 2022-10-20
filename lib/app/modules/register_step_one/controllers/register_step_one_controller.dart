@@ -1,9 +1,17 @@
+import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
+import 'package:maiden_employer/app/routes/app_pages.dart';
 
 class RegisterStepOneController extends GetxController {
-  //TODO: Implement RegisterStepOneController
+  var formKey = GlobalKey<FormState>();
+  var isAutoValidate = false.obs;
+  var emailCt = TextEditingController();
+  var passCt = TextEditingController();
+  var confirmPassCt = TextEditingController();
+  var isPassSecure = true.obs;
+  var isPassConfirmSecure = true.obs;
+  var isAgree = false.obs;
 
-  final count = 0.obs;
   @override
   void onInit() {
     super.onInit();
@@ -16,5 +24,33 @@ class RegisterStepOneController extends GetxController {
 
   @override
   void onClose() {}
-  void increment() => count.value++;
+
+  onPassSecureChanged() {
+    isPassSecure.value = !isPassSecure.value;
+  }
+
+  onConfirmPassSecureChanged() {
+    isPassConfirmSecure.value = !isPassConfirmSecure.value;
+  }
+
+  onAgreeChanged(bool value) {
+    isAgree.value = !isAgree.value;
+  }
+
+  onFacebookPressed() {}
+
+  onGooglePressed() {}
+
+  bool isRegisterEnabled() {
+    return isAgree.value;
+  }
+
+  onRegisterStepOne() {
+    if (formKey.currentState!.validate()) {
+      formKey.currentState!.save();
+      Get.toNamed(Routes.REGISTER_STEP_TWO);
+    } else {
+      isAutoValidate.value = true;
+    }
+  }
 }
