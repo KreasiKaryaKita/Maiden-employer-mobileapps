@@ -7,7 +7,7 @@ class DefaultInputTextField extends StatelessWidget {
     Key? key,
     required this.controller,
     required this.hintText,
-    required this.msgError,
+    this.msgError,
     required this.validate,
     required this.obscureText,
     required this.suffixIcon,
@@ -26,7 +26,8 @@ class DefaultInputTextField extends StatelessWidget {
   }) : super(key: key);
 
   final TextEditingController controller;
-  final String hintText, msgError, label;
+  final String hintText, label;
+  final String? msgError;
   final bool validate, obscureText;
   final Widget? suffixIcon;
   final TextInputType keyboardType;
