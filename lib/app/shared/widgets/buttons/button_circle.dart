@@ -23,7 +23,12 @@ class ButtonCircle extends StatelessWidget {
       padding: margin,
       child: InkWell(
         splashColor: Colors.white,
-        onTap: onPressed,
+        onTap: onPressed != null
+            ? () {
+                FocusScope.of(context).requestFocus(FocusNode());
+                onPressed!();
+              }
+            : null,
         child: Container(
           decoration: BoxDecoration(
             shape: BoxShape.circle,

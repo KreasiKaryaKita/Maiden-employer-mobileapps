@@ -1,11 +1,11 @@
 import 'package:get/get.dart';
+import 'package:maiden_employer/app/modules/register/bindings/register_step_one_binding.dart';
+import 'package:maiden_employer/app/modules/register/views/register_step_one_view.dart';
 
 import '../modules/login/bindings/login_binding.dart';
 import '../modules/login/views/login_view.dart';
-import '../modules/register/register_step_one/bindings/register_step_one_binding.dart';
-import '../modules/register/register_step_one/views/register_step_one_view.dart';
-import '../modules/register/register_step_two/bindings/register_step_two_binding.dart';
-import '../modules/register/register_step_two/views/register_step_two_view.dart';
+import '../modules/register/bindings/register_step_two_binding.dart';
+import '../modules/register/views/register_step_two_view.dart';
 import '../modules/splash/bindings/splash_binding.dart';
 import '../modules/splash/views/splash_view.dart';
 

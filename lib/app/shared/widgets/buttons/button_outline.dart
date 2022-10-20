@@ -31,7 +31,12 @@ class ButtonOutline extends StatelessWidget {
       child: ClipRRect(
         borderRadius: BorderRadius.all(Radius.circular(radius)),
         child: InkWell(
-          onTap: onPressed,
+          onTap: onPressed != null
+              ? () {
+                  FocusScope.of(context).requestFocus(FocusNode());
+                  onPressed!();
+                }
+              : null,
           borderRadius: BorderRadius.all(Radius.circular(radius)),
           splashColor: (backgroundColor ?? Theme.of(context).colorScheme.primary).withOpacity(0.2),
           child: Container(

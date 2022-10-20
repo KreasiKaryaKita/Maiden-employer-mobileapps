@@ -3,21 +3,21 @@
 class LoginLanguages {
   static final EN = {
     'login': 'login',
-    'login_input_email': 'Email',
-    'login_input_email_validation': 'Please enter a valid email',
-    'login_input_email_validation_2': 'Email cannot be empty',
-    'login_input_password': 'Password',
-    'login_input_password_validation_2': 'Password cannot be empty',
+    'email': 'Email',
+    'email_validation': 'Please enter a valid email',
+    'email_validation_2': 'Email is required',
+    'password': 'Password',
+    'password_validation_2': 'Password is required',
     'login_forgot_password': 'Forgot Password',
   };
 
   static final ID = {
     'login': 'masuk',
-    'login_input_email': 'Email',
-    'login_input_email_validation': 'Tolong masukkan email yang benar',
-    'login_input_email_validation_2': 'Email tidak boleh kosong',
-    'login_input_password': 'Kata Sandi',
-    'login_input_password_validation_2': 'Kata sandi cannot be empty',
+    'email': 'Email',
+    'email_validation': 'Silahkan masukkan email dengan benar',
+    'email_validation_2': 'Email tidak boleh kosong',
+    'password': 'Kata Sandi',
+    'password_validation_2': 'Kata sandi is required',
     'login_forgot_password': 'Lupa Kata Sandi',
   };
 }

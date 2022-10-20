@@ -37,7 +37,12 @@ class ButtonFill extends StatelessWidget {
           padding: padding,
           color: backgroundColor ?? Theme.of(context).colorScheme.primary,
           disabledColor: (backgroundColor ?? Theme.of(context).colorScheme.primary).withOpacity(0.3),
-          onPressed: onPressed,
+          onPressed: onPressed != null
+              ? () {
+                  FocusScope.of(context).requestFocus(FocusNode());
+                  onPressed!();
+                }
+              : null,
           child: text is String
               ? Text(
                   text,

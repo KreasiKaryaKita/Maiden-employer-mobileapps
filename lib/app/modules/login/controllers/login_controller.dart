@@ -37,11 +37,11 @@ class LoginController extends GetxController {
 
       if (valueEmail.isEmpty) {
         validateEmail.value = false;
-        msgEmail.value = "login_input_email_validation_2".tr;
+        msgEmail.value = "email_validation_2".tr;
       } else {
         if (!MyHelpers.validateEmail(valueEmail)) {
           validateEmail.value = false;
-          msgEmail.value = "login_input_email_validation".tr;
+          msgEmail.value = "email_validation".tr;
         } else {
           validateEmail.value = true;
           msgEmail.value = "";
@@ -50,7 +50,7 @@ class LoginController extends GetxController {
 
       if (valuePassword.isEmpty) {
         validatePassword.value = false;
-        msgPassword.value = "login_input_password_validation_2".tr;
+        msgPassword.value = "password_validation_2".tr;
       } else {
         validatePassword.value = true;
         msgPassword.value = "";

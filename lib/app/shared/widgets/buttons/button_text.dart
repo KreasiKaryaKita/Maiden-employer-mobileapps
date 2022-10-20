@@ -16,7 +16,12 @@ class ButtonText extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: onPressed,
+      onTap: onPressed != null
+          ? () {
+              FocusScope.of(context).requestFocus(FocusNode());
+              onPressed!();
+            }
+          : null,
       child: text is Widget
           ? text
           : Text(
