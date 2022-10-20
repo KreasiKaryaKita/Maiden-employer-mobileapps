@@ -36,7 +36,7 @@ class RegisterLanguages {
         'Masukkan email & kata sandi Anda untuk memulai. Atau Anda dapat terhubung dengan akun media sosial Anda.',
     'password_validation': 'Kata sandi minimal 8 karakter',
     'conf_password_validation': 'Konfirmasi kata sandi tidak sesuai',
-    'conf_password_validation_2': 'Konfirmasi kata sandi tidak boleh kosond',
+    'conf_password_validation_2': 'Konfirmasi kata sandi tidak boleh kosong',
     'conf_password': 'Konfirmasi Kata Sandi',
     'i_agree': 'Saya setuju dengan ',
     'terms_of_service': 'Syarat Ketentuan ',
