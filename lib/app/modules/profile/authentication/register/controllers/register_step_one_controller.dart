@@ -96,7 +96,7 @@ class RegisterStepOneController extends GetxController {
       }
     }
 
-    return validateEmail.value && validatePassword.value;
+    return validateEmail.value && validatePassword.value && validateConfPassword.value;
   }
 
   Future doContinue() async {

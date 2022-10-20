@@ -2,18 +2,15 @@
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:maiden_employer/app/routes/app_pages.dart';
 import 'package:maiden_employer/app/shared/utils/my_helper.dart';
 
-class LoginController extends GetxController {
+class ForgotPasswordController extends GetxController {
   RxBool isValidateFirst = false.obs;
 
   TextEditingController inputEmail = TextEditingController();
   RxBool validateEmail = true.obs;
   RxString msgEmail = "".obs;
-
-  TextEditingController inputPassword = TextEditingController();
-  RxBool validatePassword = true.obs, obscurePasswordText = true.obs;
-  RxString msgPassword = "".obs;
 
   @override
   void onInit() {
@@ -33,7 +30,6 @@ class LoginController extends GetxController {
   onValidationFormInput(String? val) {
     if (isValidateFirst.value) {
       String valueEmail = inputEmail.text.toString().trim();
-      String valuePassword = inputPassword.text.toString().trim();
 
       if (valueEmail.isEmpty) {
         validateEmail.value = false;
@@ -47,34 +43,16 @@ class LoginController extends GetxController {
           msgEmail.value = "";
         }
       }
-
-      if (valuePassword.isEmpty) {
-        validatePassword.value = false;
-        msgPassword.value = "password_validation_2".tr;
-      } else {
-        validatePassword.value = true;
-        msgPassword.value = "";
-      }
     }
 
-    return validateEmail.value && validatePassword.value;
+    return validateEmail.value;
   }
 
-  Future doLogin() async {
+  Future doForgotPassword() async {
     isValidateFirst.value = true;
     bool validation = onValidationFormInput(null);
-    if (validation) {}
-  }
-
-  void onGoToSignup() {}
-
-  void onGoToForgetPassword() {}
-
-  void onFacebookPressed() {}
-
-  void onGooglePressed() {}
-
-  void onChangeObscurePasswordText() {
-    obscurePasswordText.value = !obscurePasswordText.value;
+    if (validation) {
+      Get.offNamed(Routes.CREATE_PASSWORD);
+    }
   }
 }

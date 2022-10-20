@@ -1,11 +1,17 @@
 import 'package:get/get.dart';
-import 'package:maiden_employer/app/modules/register/bindings/register_step_one_binding.dart';
-import 'package:maiden_employer/app/modules/register/views/register_step_one_view.dart';
 
-import '../modules/login/bindings/login_binding.dart';
-import '../modules/login/views/login_view.dart';
-import '../modules/register/bindings/register_step_two_binding.dart';
-import '../modules/register/views/register_step_two_view.dart';
+import '../modules/profile/authentication/forgot_password/bindings/create_password_success_binding.dart';
+import '../modules/profile/authentication/forgot_password/views/create_password_success_view.dart';
+import '../modules/profile/authentication/forgot_password/bindings/create_password_binding.dart';
+import '../modules/profile/authentication/forgot_password/bindings/forgot_password_binding.dart';
+import '../modules/profile/authentication/forgot_password/views/create_password_view.dart';
+import '../modules/profile/authentication/forgot_password/views/forgot_password_view.dart';
+import '../modules/profile/authentication/login/bindings/login_binding.dart';
+import '../modules/profile/authentication/login/views/login_view.dart';
+import '../modules/profile/authentication/register/bindings/register_step_one_binding.dart';
+import '../modules/profile/authentication/register/bindings/register_step_two_binding.dart';
+import '../modules/profile/authentication/register/views/register_step_one_view.dart';
+import '../modules/profile/authentication/register/views/register_step_two_view.dart';
 import '../modules/splash/bindings/splash_binding.dart';
 import '../modules/splash/views/splash_view.dart';
 
@@ -38,6 +44,21 @@ class AppPages {
       name: _Paths.LOGIN,
       page: () => const LoginView(),
       binding: LoginBinding(),
+    ),
+    GetPage(
+      name: _Paths.FORGOT_PASSWORD,
+      page: () => const ForgotPasswordView(),
+      binding: ForgotPasswordBinding(),
+    ),
+    GetPage(
+      name: _Paths.CREATE_PASSWORD,
+      page: () => const CreatePasswordView(),
+      binding: CreatePasswordBinding(),
+    ),
+    GetPage(
+      name: _Paths.CREATE_PASSWORD_SUCCESS,
+      page: () => const CreatePasswordSuccessView(),
+      binding: CreatePasswordSuccessBinding(),
     ),
   ];
 }

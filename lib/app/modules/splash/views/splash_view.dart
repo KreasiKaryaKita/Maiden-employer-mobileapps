@@ -53,7 +53,7 @@ class SplashView extends GetView<SplashController> {
                         ButtonText(
                           onPressed: controller.onLoginPressed,
                           text: Text(
-                            'login'.tr,
+                            'new_password_created_log_in'.tr,
                             style: TextStyle(
                               fontWeight: FontWeight.w700,
                               fontSize: 16,
