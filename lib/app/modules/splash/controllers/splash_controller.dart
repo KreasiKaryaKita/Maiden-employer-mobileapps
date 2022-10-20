@@ -1,3 +1,4 @@
+// ignore_for_file: unnecessary_overrides
 import 'package:get/get.dart';
 import 'package:maiden_employer/app/routes/app_pages.dart';
 
@@ -28,5 +29,7 @@ class SplashController extends GetxController {
     Get.toNamed(Routes.REGISTER_STEP_ONE);
   }
 
-  onLoginPressed() {}
+  onLoginPressed() {
+    Get.toNamed(Routes.LOGIN);
+  }
 }

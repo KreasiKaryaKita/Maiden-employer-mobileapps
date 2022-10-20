@@ -21,12 +21,27 @@ if (flutterVersionName == null) {
     flutterVersionName = '1.0'
 }
 
+def flutterMinSdk = localProperties.getProperty('flutter.minSdkVersion')
+if (flutterMinSdk == null) {
+    flutterMinSdk = 21
+}
+
+def flutterCompileSdk = localProperties.getProperty('flutter.compileSdkVersion')
+if (flutterCompileSdk == null) {
+    flutterCompileSdk = 32
+}
+
+def flutterTargeSdk = localProperties.getProperty('flutter.targetSdkVersion')
+if (flutterTargeSdk == null) {
+    flutterTargeSdk = 31
+}
+
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply from: "$flutterRoot/packages/flutter_tools/gradle/flutter.gradle"
 
 android {
-    compileSdkVersion flutter.compileSdkVersion
+    compileSdkVersion flutterCompileSdk.toInteger()
     ndkVersion flutter.ndkVersion
 
     compileOptions {
@@ -47,8 +62,8 @@ android {
         applicationId "ytc.maiden.maiden_employer"
         // You can update the following values to match your application needs.
         // For more information, see: https://docs.flutter.dev/deployment/android#reviewing-the-build-configuration.
-        minSdkVersion flutter.minSdkVersion
-        targetSdkVersion flutter.targetSdkVersion
+        minSdkVersion flutterMinSdk.toInteger()
+        targetSdkVersion flutterTargeSdk
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
     }

@@ -6,7 +6,12 @@ class ButtonText extends StatelessWidget {
   final TextStyle? textStyle;
 
   ///text can provide string for text only, or widget
-  const ButtonText({Key? key, required this.onPressed, required this.text, this.textStyle}) : super(key: key);
+  const ButtonText({
+    Key? key,
+    required this.onPressed,
+    required this.text,
+    this.textStyle,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -14,13 +19,16 @@ class ButtonText extends StatelessWidget {
       onTap: onPressed,
       child: text is Widget
           ? text
-          : Text(text,
+          : Text(
+              text,
               style: textStyle ??
                   TextStyle(
-                      color: Theme.of(context).colorScheme.secondary,
-                      fontSize: 15,
-                      fontWeight: FontWeight.w700,
-                      letterSpacing: 1.2)),
+                    color: Theme.of(context).colorScheme.secondary,
+                    fontSize: 15,
+                    fontWeight: FontWeight.w700,
+                    letterSpacing: 1.2,
+                  ),
+            ),
     );
   }
 }

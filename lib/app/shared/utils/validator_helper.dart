@@ -28,25 +28,11 @@ class ValidatorHelper {
     }
   }
 
-  static String? nisn(String value) {
-    if (isHappyFlow) return null;
-
-    if (value.isEmpty || value.trim().isEmpty) {
-      return 'Masukkan nisn';
-    } else {
-      if (value.length == 10) {
-        return numeric(value);
-      } else {
-        return 'Masukkan panjang nisn yang benar';
-      }
-    }
-  }
-
   static String? name(String value) {
     if (isHappyFlow) return null;
 
     if (value.isEmpty || value.trim().isEmpty) {
-      return 'Masukkan nama yang benar';
+      return 'name_validation'.tr;
     } else {
       String _pattern = r'\d|[^\s\w]';
       RegExp regex = RegExp(_pattern);
@@ -73,8 +59,7 @@ class ValidatorHelper {
   static String? password(String value) {
     if (isHappyFlow) return null;
 
-    String _pattern = r'^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{7,}$';
-    // String _pattern = r'^([a-zA-Z0-9]{4,})';
+    String _pattern = r'^([a-zA-Z0-9]{8,})';
     RegExp _regex = RegExp(_pattern);
     if (value.isEmpty || !_regex.hasMatch(value)) {
       return 'password_validation'.tr;
@@ -86,15 +71,10 @@ class ValidatorHelper {
   static String? passwordRepeat(String value, String firstPass) {
     if (isHappyFlow) return null;
 
-    String? _temp = password(value);
-    if (_temp == null) {
-      if (value == firstPass) {
-        return null;
-      } else {
-        return 'confirm_password_validation'.tr;
-      }
+    if (value == firstPass) {
+      return null;
     } else {
-      return _temp;
+      return 'confirm_password_validation'.tr;
     }
   }
 

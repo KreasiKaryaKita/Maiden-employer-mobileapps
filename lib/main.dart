@@ -1,25 +1,33 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 
 import 'package:get/get.dart';
+import 'package:maiden_employer/app/shared/utils/my_behavior.dart';
+import 'package:maiden_employer/app/shared/utils/preference_helper.dart';
 
 import 'app/config/languages/app_languages.dart';
 import 'app/config/themes/app_themes.dart';
 import 'app/routes/app_pages.dart';
-import 'app/shared/common/common_controller.dart';
-import 'app/shared/utils/preference_helper.dart';
-
-final CommonController commonController = Get.put(CommonController(), permanent: true);
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await PreferenceHelper.initializePref();
-  commonController.onInit();
+  await PreferenceHelper().initializePref();
   await dotenv.load(fileName: ".env");
 
-  runApp(
-    GetMaterialApp(
+  runApp(MyApp());
+}
+
+class MyApp extends StatelessWidget {
+  const MyApp({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.portraitUp,
+    ]);
+    return GetMaterialApp(
       title: "Maiden Employer",
       theme: AppThemes.lightTheme(),
       darkTheme: AppThemes.darkTheme(),
@@ -27,8 +35,8 @@ void main() async {
       initialRoute: AppPages.INITIAL,
       getPages: AppPages.routes,
       debugShowCheckedModeBanner: false,
-      locale: const Locale('id', 'ID'),
-      fallbackLocale: const Locale('en', 'US'),
+      locale: const Locale('en', 'US'),
+      fallbackLocale: const Locale('id', 'ID'),
       localizationsDelegates: const [
         GlobalMaterialLocalizations.delegate,
         GlobalCupertinoLocalizations.delegate,
@@ -39,6 +47,12 @@ void main() async {
         Locale('id', 'ID'),
       ],
       translations: AppLanguages(),
-    ),
-  );
+      builder: (context, child) {
+        return ScrollConfiguration(
+          behavior: MyBehavior(),
+          child: child!,
+        );
+      },
+    );
+  }
 }

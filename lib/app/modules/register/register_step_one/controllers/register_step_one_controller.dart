@@ -1,3 +1,5 @@
+// ignore_for_file: unnecessary_overrides
+
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:maiden_employer/app/routes/app_pages.dart';
@@ -11,6 +13,10 @@ class RegisterStepOneController extends GetxController {
   var isPassSecure = true.obs;
   var isPassConfirmSecure = true.obs;
   var isAgree = false.obs;
+
+  TextEditingController inputEmail = TextEditingController();
+  RxBool validateEmail = true.obs;
+  RxString msgEmail = "".obs;
 
   @override
   void onInit() {

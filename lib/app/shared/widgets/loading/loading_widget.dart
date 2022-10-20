@@ -34,14 +34,22 @@ class LoadingWidget extends StatelessWidget {
 
     Widget _loading = Center(
       child: Container(
-          padding: EdgeInsets.all(24),
-          decoration: !isWithDecor
-              ? BoxDecoration()
-              : BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.all(Radius.circular(8)),
-                  boxShadow: [BoxShadow(color: Colors.black.withOpacity(0.3), blurRadius: 4, spreadRadius: 2)]),
-          child: CircularProgressIndicator()),
+        padding: EdgeInsets.all(24),
+        decoration: !isWithDecor
+            ? BoxDecoration()
+            : BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.all(Radius.circular(8)),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black.withOpacity(0.3),
+                    blurRadius: 4,
+                    spreadRadius: 2,
+                  ),
+                ],
+              ),
+        child: CircularProgressIndicator(),
+      ),
     );
 
     if (isLoading) {
