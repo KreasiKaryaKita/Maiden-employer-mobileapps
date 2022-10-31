@@ -103,7 +103,13 @@ class RegisterStepOneController extends GetxController {
     isValidateFirst.value = true;
     bool validation = onValidationFormInput(null);
     if (validation) {
-      Get.toNamed(Routes.REGISTER_STEP_TWO);
+      Get.toNamed(
+        Routes.REGISTER_STEP_TWO,
+        arguments: {
+          "email": inputEmail.text.toString().trim(),
+          "password": inputPassword.text.toString().trim(),
+        },
+      );
     }
   }
 }

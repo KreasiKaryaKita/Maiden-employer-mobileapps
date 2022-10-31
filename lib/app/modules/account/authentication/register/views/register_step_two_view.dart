@@ -4,6 +4,8 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:maiden_employer/app/config/constants/app_constant.dart';
 import 'package:maiden_employer/app/config/themes/app_colors.dart';
+import 'package:maiden_employer/app/modules/account/authentication/register/models/option_month.dart';
+import 'package:maiden_employer/app/modules/account/authentication/register/models/phone_prefix.dart';
 import 'package:maiden_employer/app/shared/widgets/buttons/button_fill.dart';
 import 'package:maiden_employer/app/shared/widgets/text_field/default_input_text_field.dart';
 import 'package:maiden_employer/app/shared/widgets/text_field/custom_error_input_text_field.dart';
@@ -81,7 +83,7 @@ class RegisterStepTwoView extends GetView<RegisterStepTwoController> {
                     obscureText: false,
                     suffixIcon: null,
                     keyboardType: TextInputType.text,
-                    textCapitalization: TextCapitalization.none,
+                    textCapitalization: TextCapitalization.words,
                     label: 'email'.tr,
                     maxLines: 1,
                     onChangeValue: controller.onValidationFormInput,
@@ -116,7 +118,7 @@ class RegisterStepTwoView extends GetView<RegisterStepTwoController> {
                                 ),
                               ),
                               child: DropdownButtonHideUnderline(
-                                child: DropdownButton<PhonePrefixModel>(
+                                child: DropdownButton<PhonePrefix>(
                                   items: List.generate(controller.phonePrefixes.length, (index) {
                                     var item = controller.phonePrefixes[index];
                                     return DropdownMenuItem(
@@ -139,9 +141,7 @@ class RegisterStepTwoView extends GetView<RegisterStepTwoController> {
                                   ),
                                   isDense: true,
                                   isExpanded: true,
-                                  value: controller.selectedPhonePrefix.name == null
-                                      ? null
-                                      : controller.selectedPhonePrefix,
+                                  value: controller.selectedPhonePrefix.value,
                                   onChanged: (value) => controller.onPhonePrefixChanged(value!),
                                 ),
                               ),
@@ -223,13 +223,13 @@ class RegisterStepTwoView extends GetView<RegisterStepTwoController> {
                             ),
                           ),
                           child: DropdownButtonHideUnderline(
-                            child: DropdownButton<String>(
+                            child: DropdownButton<OptionMonth>(
                               items: List.generate(
                                 controller.months.length,
                                 (index) {
-                                  var item = controller.months[index];
+                                  OptionMonth item = controller.months[index];
                                   return DropdownMenuItem(
-                                    child: Text(item),
+                                    child: Text(item.label!),
                                     value: item,
                                   );
                                 },
@@ -242,7 +242,7 @@ class RegisterStepTwoView extends GetView<RegisterStepTwoController> {
                                   color: Color(0xFFB4B4B4),
                                 ),
                               ),
-                              value: controller.selectedMonth.value.isEmpty ? null : controller.selectedMonth.value,
+                              value: controller.selectedMonth.value,
                               onChanged: (value) => controller.onMonthChanged(value!),
                             ),
                           ),
@@ -297,7 +297,7 @@ class RegisterStepTwoView extends GetView<RegisterStepTwoController> {
                 ],
               ),
               child: ButtonFill(
-                onPressed: controller.doContinue,
+                onPressed: controller.doAccountInfo,
                 backgroundColor: AppColors.primary_60,
                 text: Text(
                   'continue'.tr,

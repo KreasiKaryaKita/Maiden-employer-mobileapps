@@ -6,7 +6,7 @@ class RegisterLanguages {
     'of': 'of',
     'register_one_info':
         'Enter your email & password to get started. Or you can connect with your social media accounts.',
-    'password_validation': 'Password must be at least 8 characters',
+    'password_validation': 'Password minimum 8 characters, lowercase letters, digits(0-9), symbols',
     'conf_password_validation': 'Confirm password does not match',
     'conf_password_validation_2': 'Confirm password is required',
     'conf_password': 'Confirm Password',
@@ -34,7 +34,7 @@ class RegisterLanguages {
     'of': 'dari',
     'register_one_info':
         'Masukkan email & kata sandi Anda untuk memulai. Atau Anda dapat terhubung dengan akun media sosial Anda.',
-    'password_validation': 'Kata sandi minimal 8 karakter',
+    'password_validation': 'Kata sandi minimal 8 karakter, huruf besar kecil, digit(0-9), simbol',
     'conf_password_validation': 'Konfirmasi kata sandi tidak sesuai',
     'conf_password_validation_2': 'Konfirmasi kata sandi tidak boleh kosong',
     'conf_password': 'Konfirmasi Kata Sandi',
