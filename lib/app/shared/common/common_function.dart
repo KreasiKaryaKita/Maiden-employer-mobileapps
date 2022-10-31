@@ -1,5 +1,7 @@
 // ignore_for_file: no_leading_underscores_for_local_identifiers
 
+import 'package:maiden_employer/app/config/themes/app_colors.dart';
+
 import '/app/shared/widgets/images/cached_network_image_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -21,7 +23,9 @@ class CommonFunction {
               ),
             ],
           ),
-          child: const CircularProgressIndicator(),
+          child: const CircularProgressIndicator(
+            color: AppColors.primary_60,
+          ),
         ),
       ),
     );

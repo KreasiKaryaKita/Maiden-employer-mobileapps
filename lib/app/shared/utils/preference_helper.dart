@@ -13,7 +13,7 @@ class PreferenceHelper {
 
   Future<void> set({
     required String key,
-    required value,
+    required String value,
   }) async {
     await _storage.write(
       key: key,
