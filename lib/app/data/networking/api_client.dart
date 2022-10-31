@@ -25,7 +25,7 @@ class ApiClient {
       var token = await PreferenceHelper().get(
         key: PreferenceConstant.USER_TOKEN,
       );
-      dio.options.headers['x-access-token'] = token;
+      dio.options.headers['Authorization'] = "Bearer $token";
     }
     dio.options.connectTimeout = 25000;
     dio.options.sendTimeout = 25000;
@@ -95,7 +95,7 @@ class CustomInterceptors extends Interceptor {
           error: 'error_server'.tr,
           response: Response(
             requestOptions: err.requestOptions,
-            data: ResponseStandard(status: 500, data: false, message: "error_server".tr).toJson(),
+            data: ResponseStandard(data: {}, message: "error_server".tr, error: null).toJson(),
             statusCode: 500,
           ),
           requestOptions: err.requestOptions,

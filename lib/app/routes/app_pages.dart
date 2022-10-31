@@ -1,17 +1,17 @@
 import 'package:get/get.dart';
 
-import '../modules/profile/authentication/forgot_password/bindings/create_password_success_binding.dart';
-import '../modules/profile/authentication/forgot_password/views/create_password_success_view.dart';
-import '../modules/profile/authentication/forgot_password/bindings/create_password_binding.dart';
-import '../modules/profile/authentication/forgot_password/bindings/forgot_password_binding.dart';
-import '../modules/profile/authentication/forgot_password/views/create_password_view.dart';
-import '../modules/profile/authentication/forgot_password/views/forgot_password_view.dart';
-import '../modules/profile/authentication/login/bindings/login_binding.dart';
-import '../modules/profile/authentication/login/views/login_view.dart';
-import '../modules/profile/authentication/register/bindings/register_step_one_binding.dart';
-import '../modules/profile/authentication/register/bindings/register_step_two_binding.dart';
-import '../modules/profile/authentication/register/views/register_step_one_view.dart';
-import '../modules/profile/authentication/register/views/register_step_two_view.dart';
+import '../modules/account/authentication/forgot_password/bindings/create_password_success_binding.dart';
+import '../modules/account/authentication/forgot_password/views/create_password_success_view.dart';
+import '../modules/account/authentication/forgot_password/bindings/create_password_binding.dart';
+import '../modules/account/authentication/forgot_password/bindings/forgot_password_binding.dart';
+import '../modules/account/authentication/forgot_password/views/create_password_view.dart';
+import '../modules/account/authentication/forgot_password/views/forgot_password_view.dart';
+import '../modules/account/authentication/login/bindings/login_binding.dart';
+import '../modules/account/authentication/login/views/login_view.dart';
+import '../modules/account/authentication/register/bindings/register_step_one_binding.dart';
+import '../modules/account/authentication/register/bindings/register_step_two_binding.dart';
+import '../modules/account/authentication/register/views/register_step_one_view.dart';
+import '../modules/account/authentication/register/views/register_step_two_view.dart';
 import '../modules/splash/bindings/splash_binding.dart';
 import '../modules/splash/views/splash_view.dart';
 
