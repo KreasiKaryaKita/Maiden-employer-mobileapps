@@ -1,4 +1,4 @@
-package ytc.maiden.maiden_employer
+package com.maiden.asia.employer
 
 import io.flutter.embedding.android.FlutterActivity
 
