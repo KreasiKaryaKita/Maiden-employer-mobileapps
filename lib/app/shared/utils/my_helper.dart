@@ -35,7 +35,7 @@ class MyHelpers {
   }
 
   static bool validateInputPassword(String value) {
-    String pattern = r'^([a-zA-Z0-9]{8,})';
+    String pattern = r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#$%^&*()_+-,.]).{7,}$';
     RegExp regExp = RegExp(pattern);
     if (value.isEmpty) {
       return false;
