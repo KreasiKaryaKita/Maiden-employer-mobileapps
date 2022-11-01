@@ -2,8 +2,13 @@
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:maiden_employer/app/config/constants/preference_constant.dart';
+import 'package:maiden_employer/app/data/repository/api_repositories.dart';
+import 'package:maiden_employer/app/models/response_forgot_password.dart';
 import 'package:maiden_employer/app/routes/app_pages.dart';
+import 'package:maiden_employer/app/shared/common/common_function.dart';
 import 'package:maiden_employer/app/shared/utils/my_helper.dart';
+import 'package:maiden_employer/app/shared/utils/preference_helper.dart';
 
 class ForgotPasswordController extends GetxController {
   RxBool isValidateFirst = false.obs;
@@ -52,7 +57,25 @@ class ForgotPasswordController extends GetxController {
     isValidateFirst.value = true;
     bool validation = onValidationFormInput(null);
     if (validation) {
-      Get.offNamed(Routes.CREATE_PASSWORD);
+      CommonFunction.loadingShow();
+      ApiRepositories.forgotPassword(
+        email: inputEmail.text.toString().trim(),
+      ).then((value) {
+        CommonFunction.loadingHide();
+        if (value is ResponseForgotPassword) {
+          CommonFunction.snackbarHelper(message: value.message!, isSuccess: true);
+          Get.offNamed(Routes.CREATE_PASSWORD);
+          PreferenceHelper().set(
+            key: PreferenceConstant.USER_EMAIL,
+            value: value.data!.email!,
+          );
+        } else {
+          CommonFunction.snackbarHelper(message: value!.message!, isSuccess: false);
+        }
+      }, onError: (e) {
+        CommonFunction.loadingHide();
+        CommonFunction.snackbarHelper(message: e.toString(), isSuccess: false);
+      });
     }
   }
 }
