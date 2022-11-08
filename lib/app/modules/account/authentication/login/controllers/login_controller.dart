@@ -10,7 +10,6 @@ import 'package:maiden_employer/app/routes/app_pages.dart';
 import 'package:maiden_employer/app/shared/common/common_function.dart';
 import 'package:maiden_employer/app/shared/utils/my_helper.dart';
 import 'package:maiden_employer/app/shared/utils/preference_helper.dart';
-import 'package:maiden_employer/app/shared/widgets/loading/loading_widget.dart';
 
 class LoginController extends GetxController {
   RxBool isValidateFirst = false.obs;
