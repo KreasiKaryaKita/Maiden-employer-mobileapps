@@ -297,7 +297,7 @@ class RegisterStepTwoView extends GetView<RegisterStepTwoController> {
                 ],
               ),
               child: ButtonFill(
-                onPressed: controller.doAccountInfo,
+                onPressed: controller.doContinue,
                 backgroundColor: AppColors.primary_60,
                 text: Text(
                   'continue'.tr,
