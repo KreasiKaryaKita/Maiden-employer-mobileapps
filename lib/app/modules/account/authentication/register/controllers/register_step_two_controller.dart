@@ -175,14 +175,13 @@ class RegisterStepTwoController extends GetxController {
     String birthOfDate =
         "${yearCt.text.toString().trim().padLeft(4, '0')}-${selectedMonth.value.value}-${dateCt.text.toString().trim().padLeft(2, '0')}";
     String fullName = inputName.text.toString().trim();
-    String firstName = fullName.substring(0, fullName.indexOf(" "));
-    String lastName = fullName.substring(fullName.indexOf(" ") + 1);
+    var splitName = MyHelpers.getLastNameCommaFirstName(fullName);
     String phone = "${selectedPhonePrefix.value.name}${inputPhone.text.toString().trim()}";
 
     ApiRepositories.accountInfo(
       birthOfDate: birthOfDate,
-      firstName: firstName,
-      lastName: lastName,
+      firstName: splitName['first_name'],
+      lastName: splitName['last_name'],
       phone: phone,
     ).then((value) {
       CommonFunction.loadingHide();

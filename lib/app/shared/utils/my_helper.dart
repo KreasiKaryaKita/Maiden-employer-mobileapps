@@ -117,4 +117,19 @@ class MyHelpers {
     };
     return result;
   }
+
+  static getLastNameCommaFirstName(String fullName) {
+    List<String> names = fullName.split(' ').toList();
+    String firstName = names.first;
+    String lastName = "";
+    names.removeAt(0);
+    if (names.isNotEmpty) {
+      lastName = names.join(" ");
+    }
+
+    return {
+      "first_name": firstName,
+      "last_name": lastName,
+    };
+  }
 }
