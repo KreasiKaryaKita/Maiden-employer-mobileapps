@@ -1,9 +1,9 @@
 import 'package:get/get.dart';
 
-import '../modules/account/authentication/forgot_password/bindings/create_password_success_binding.dart';
-import '../modules/account/authentication/forgot_password/views/create_password_success_view.dart';
 import '../modules/account/authentication/forgot_password/bindings/create_password_binding.dart';
+import '../modules/account/authentication/forgot_password/bindings/create_password_success_binding.dart';
 import '../modules/account/authentication/forgot_password/bindings/forgot_password_binding.dart';
+import '../modules/account/authentication/forgot_password/views/create_password_success_view.dart';
 import '../modules/account/authentication/forgot_password/views/create_password_view.dart';
 import '../modules/account/authentication/forgot_password/views/forgot_password_view.dart';
 import '../modules/account/authentication/login/bindings/login_binding.dart';
@@ -12,6 +12,10 @@ import '../modules/account/authentication/register/bindings/register_step_one_bi
 import '../modules/account/authentication/register/bindings/register_step_two_binding.dart';
 import '../modules/account/authentication/register/views/register_step_one_view.dart';
 import '../modules/account/authentication/register/views/register_step_two_view.dart';
+import '../modules/helper_listing/bindings/helper_listing_binding.dart';
+import '../modules/helper_listing/views/helper_listing_view.dart';
+import '../modules/main/bindings/main_binding.dart';
+import '../modules/main/views/main_view.dart';
 import '../modules/splash/bindings/splash_binding.dart';
 import '../modules/splash/views/splash_view.dart';
 
@@ -59,6 +63,16 @@ class AppPages {
       name: _Paths.CREATE_PASSWORD_SUCCESS,
       page: () => const CreatePasswordSuccessView(),
       binding: CreatePasswordSuccessBinding(),
+    ),
+    GetPage(
+      name: _Paths.MAIN,
+      page: () => const MainView(),
+      binding: MainBinding(),
+    ),
+    GetPage(
+      name: _Paths.HELPER_LISTING,
+      page: () => const HelperListingView(),
+      binding: HelperListingBinding(),
     ),
   ];
 }
