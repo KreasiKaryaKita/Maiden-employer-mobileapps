@@ -1,5 +1,7 @@
 // ignore_for_file: unnecessary_null_comparison
 
+import 'package:maiden_employer/app/config/constants/app_constant.dart';
+
 import '/app/data/networking/api_client.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
@@ -20,7 +22,7 @@ class CachedNetworkImageWidget extends StatelessWidget {
       this.alignment = Alignment.center,
       this.isNeedBaseUrl = true,
       this.isHaveDefault = false,
-      this.defaultUrl = '/assets/images/users/default.png'})
+      this.defaultUrl = AppConstant.DEFAULT_AVATAR})
       : super(key: key);
 
   @override

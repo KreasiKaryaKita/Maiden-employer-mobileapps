@@ -1,5 +1,6 @@
 import 'package:get/get.dart';
 import 'package:maiden_employer/app/config/languages/forgot_password_languages.dart';
+import 'package:maiden_employer/app/config/languages/helper_listing_languages.dart';
 import 'package:maiden_employer/app/config/languages/login_languages.dart';
 import 'package:maiden_employer/app/config/languages/main_languages.dart';
 import 'package:maiden_employer/app/config/languages/register_languages.dart';
@@ -14,6 +15,7 @@ class AppLanguages extends Translations {
           ...LoginLanguages.EN,
           ...ForgotPasswordLanguages.EN,
           ...MainLanguages.EN,
+          ...HelperListingLanguages.EN,
         },
         'id_ID': {
           ...SplashLanguages.ID,
@@ -21,6 +23,7 @@ class AppLanguages extends Translations {
           ...LoginLanguages.ID,
           ...ForgotPasswordLanguages.ID,
           ...MainLanguages.ID,
+          ...HelperListingLanguages.ID,
         },
       };
 }
