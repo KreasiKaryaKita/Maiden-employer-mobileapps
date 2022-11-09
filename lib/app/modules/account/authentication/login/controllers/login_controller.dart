@@ -79,6 +79,7 @@ class LoginController extends GetxController {
         CommonFunction.loadingHide();
         if (value is ResponseLogin) {
           CommonFunction.snackbarHelper(message: value.message!, isSuccess: true);
+          Get.offAllNamed(Routes.MAIN);
           PreferenceHelper().set(
             key: PreferenceConstant.USER_TOKEN,
             value: value.data!.token ?? "",
