@@ -9,18 +9,18 @@ class ResponseRegister implements ResponseModel {
     this.message,
   });
 
-  Error? error;
+  int? error;
   RegisterData? data;
-  String? message;
+  List<String>? message;
 
   factory ResponseRegister.fromJson(Map<String, dynamic> json) => ResponseRegister(
-        error: Error.fromJson(json["error"]),
+        error: json["error"],
         data: RegisterData.fromJson(json["data"]),
         message: json["message"],
       );
 
   Map<String, dynamic> toJson() => {
-        "error": error!.toJson(),
+        "error": error,
         "data": data!.toJson(),
         "message": message,
       };

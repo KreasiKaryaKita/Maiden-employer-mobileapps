@@ -9,20 +9,20 @@ class ResponseLogin implements ResponseModel {
     this.message,
   });
 
-  Error? error;
+  int? error;
   LoginData? data;
-  String? message;
+  List<String>? message;
 
   factory ResponseLogin.fromJson(Map<String, dynamic> json) => ResponseLogin(
-        error: Error.fromJson(json["error"]),
+        error: json["error"],
         data: LoginData.fromJson(json["data"]),
-        message: json["message"],
+        message: List<String>.from(json["message"].map((x) => x)),
       );
 
   Map<String, dynamic> toJson() => {
-        "error": error!.toJson(),
+        "error": error,
         "data": data!.toJson(),
-        "message": message,
+        "message": List<dynamic>.from(message!.map((x) => x)),
       };
 }
 
@@ -53,7 +53,7 @@ class LoginData {
         email: json["email"],
         firstName: json["first_name"],
         lastName: json["last_name"],
-        birthDate: (json["birth_date"] == null) ? null : DateTime.parse(json["birth_date"]),
+        birthDate: json["birth_date"] == null ? null : DateTime.parse(json["birth_date"]),
         userType: json["user_type"],
         userTypeLabel: json["user_type_label"],
       );
