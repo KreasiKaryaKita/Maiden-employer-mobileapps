@@ -12,6 +12,8 @@ import '../modules/account/authentication/register/bindings/register_step_one_bi
 import '../modules/account/authentication/register/bindings/register_step_two_binding.dart';
 import '../modules/account/authentication/register/views/register_step_one_view.dart';
 import '../modules/account/authentication/register/views/register_step_two_view.dart';
+import '../modules/detail_helper/bindings/detail_helper_binding.dart';
+import '../modules/detail_helper/views/detail_helper_view.dart';
 import '../modules/helper_listing/bindings/helper_listing_binding.dart';
 import '../modules/helper_listing/views/helper_listing_view.dart';
 import '../modules/main/bindings/main_binding.dart';
@@ -73,6 +75,11 @@ class AppPages {
       name: _Paths.HELPER_LISTING,
       page: () => const HelperListingView(),
       binding: HelperListingBinding(),
+    ),
+    GetPage(
+      name: _Paths.DETAIL_HELPER,
+      page: () => const DetailHelperView(),
+      binding: DetailHelperBinding(),
     ),
   ];
 }

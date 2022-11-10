@@ -14,6 +14,7 @@ abstract class Routes {
   static const CREATE_PASSWORD_SUCCESS = _Paths.CREATE_PASSWORD_SUCCESS;
   static const MAIN = _Paths.MAIN;
   static const HELPER_LISTING = _Paths.HELPER_LISTING;
+  static const DETAIL_HELPER = _Paths.DETAIL_HELPER;
 }
 
 abstract class _Paths {
@@ -26,4 +27,5 @@ abstract class _Paths {
   static const CREATE_PASSWORD_SUCCESS = '/create-password-success';
   static const MAIN = '/main';
   static const HELPER_LISTING = '/helper-listing';
+  static const DETAIL_HELPER = '/detail-helper';
 }

@@ -51,8 +51,21 @@ class CachedNetworkImageWidget extends StatelessWidget {
         alignment: alignment,
         width: double.infinity,
         height: double.infinity,
-        placeholder: (ctx, url) => isHavePlacehodler ? Center(child: CircularProgressIndicator()) : Container(),
-        errorWidget: (ctx, url, child) => Center(child: Icon(Icons.error_outline, color: Theme.of(context).focusColor)),
+        placeholder: (ctx, url) => isHavePlacehodler
+            ? SizedBox(
+                height: 30,
+                width: 30,
+                child: Center(
+                  child: CircularProgressIndicator(
+                    color: Color(0xFFC9283E),
+                    strokeWidth: 3,
+                  ),
+                ),
+              )
+            : Container(),
+        errorWidget: (ctx, url, child) => Center(
+          child: Icon(Icons.error_outline, color: Theme.of(context).focusColor),
+        ),
       ),
     );
   }
