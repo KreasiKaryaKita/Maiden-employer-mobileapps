@@ -161,6 +161,7 @@ class RegisterStepTwoView extends GetView<RegisterStepTwoController> {
                               textCapitalization: TextCapitalization.none,
                               label: 'email'.tr,
                               maxLines: 1,
+                              maxLength: 15,
                               onChangeValue: controller.onValidationFormInput,
                               action: TextInputAction.done,
                               onSubmited: null,
