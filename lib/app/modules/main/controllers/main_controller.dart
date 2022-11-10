@@ -11,6 +11,9 @@ class MainController extends GetxController {
 
   DateTime? currentBackPressTime;
 
+  RxBool showSearchPage = false.obs;
+  RxDouble heightSearchPage = 0.0.obs;
+
   @override
   void onInit() {
     super.onInit();
@@ -38,6 +41,15 @@ class MainController extends GetxController {
 
       default:
         tabPage.value = Container(child: HelperListingView());
+    }
+  }
+
+  onChangeShowSearchPage() {
+    showSearchPage.value = !showSearchPage.value;
+    if (showSearchPage.value) {
+      heightSearchPage.value = Get.height;
+    } else {
+      heightSearchPage.value = Get.height;
     }
   }
 }

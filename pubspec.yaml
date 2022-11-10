@@ -1,5 +1,5 @@
 name: maiden_employer
-version: 1.0.0+4
+version: 1.0.0+5
 publish_to: none
 description: A new Flutter project.
 environment: 
@@ -16,6 +16,8 @@ dependencies:
   pull_to_refresh: ^2.0.0
   flutter_secure_storage: ^6.0.0
   fluttertoast: ^8.1.1
+  flutter_typeahead: ^4.1.1
+  flutter_rating_bar: ^4.0.1
 
   flutter: 
     sdk: flutter

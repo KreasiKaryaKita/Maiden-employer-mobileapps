@@ -6,6 +6,8 @@ import 'package:intl/intl.dart';
 import 'package:maiden_employer/app/config/constants/app_constant.dart';
 import 'package:maiden_employer/app/models/entity/helpers_model.dart';
 import 'package:maiden_employer/app/models/entity/option_country_helpers_model.dart';
+import 'package:maiden_employer/app/modules/main/controllers/main_controller.dart';
+import 'package:maiden_employer/app/routes/app_pages.dart';
 import 'package:maiden_employer/app/shared/widgets/images/cached_network_image_widget.dart';
 
 import '../controllers/helper_listing_controller.dart';
@@ -52,57 +54,63 @@ class HelperListingView extends GetView<HelperListingController> {
                   ).paddingOnly(left: 20, right: 125, top: 20),
                 ],
               ),
-              TextField(
-                controller: controller.inputSearch,
-                style: const TextStyle(
-                  fontWeight: FontWeight.w400,
-                  fontSize: 14,
-                  fontFamily: AppConstant.SF_PRO_FONT,
-                ),
-                enabled: true,
-                textInputAction: TextInputAction.search,
-                textAlignVertical: TextAlignVertical.center,
-                decoration: InputDecoration(
-                  counterText: '',
-                  contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
-                  enabledBorder: OutlineInputBorder(
-                    borderSide: const BorderSide(
-                      color: Color(0xFFE1464A),
-                    ),
-                    borderRadius: BorderRadius.circular(50),
-                  ),
-                  disabledBorder: OutlineInputBorder(
-                    borderSide: const BorderSide(
-                      color: Color(0xFFE1464A),
-                    ),
-                    borderRadius: BorderRadius.circular(50),
-                  ),
-                  filled: true,
-                  fillColor: Color(0xFFFBFBFB),
-                  hintText: "search".tr,
-                  hintStyle: const TextStyle(
-                    color: Color(0xFF6A7178),
+              InkWell(
+                onTap: () {
+                  final c = Get.find<MainController>();
+                  c.onChangeShowSearchPage();
+                },
+                child: TextField(
+                  controller: controller.inputSearch,
+                  style: const TextStyle(
                     fontWeight: FontWeight.w400,
                     fontSize: 14,
+                    fontFamily: AppConstant.SF_PRO_FONT,
                   ),
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(50),
-                    borderSide: const BorderSide(
+                  enabled: false,
+                  textInputAction: TextInputAction.search,
+                  textAlignVertical: TextAlignVertical.center,
+                  decoration: InputDecoration(
+                    counterText: '',
+                    contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+                    enabledBorder: OutlineInputBorder(
+                      borderSide: const BorderSide(
+                        color: Color(0xFFE1464A),
+                      ),
+                      borderRadius: BorderRadius.circular(50),
+                    ),
+                    disabledBorder: OutlineInputBorder(
+                      borderSide: const BorderSide(
+                        color: Color(0xFFE1464A),
+                      ),
+                      borderRadius: BorderRadius.circular(50),
+                    ),
+                    filled: true,
+                    fillColor: Color(0xFFFBFBFB),
+                    hintText: "search".tr,
+                    hintStyle: const TextStyle(
+                      color: Color(0xFF6A7178),
+                      fontWeight: FontWeight.w400,
+                      fontSize: 14,
+                    ),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(50),
+                      borderSide: const BorderSide(
+                        color: Color(0xFFE1464A),
+                      ),
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(50),
+                      borderSide: const BorderSide(
+                        color: Color(0xFFE1464A),
+                      ),
+                    ),
+                    prefixIcon: Icon(
+                      Icons.search_rounded,
                       color: Color(0xFFE1464A),
                     ),
                   ),
-                  focusedBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(50),
-                    borderSide: const BorderSide(
-                      color: Color(0xFFE1464A),
-                    ),
-                  ),
-                  prefixIcon: Icon(
-                    Icons.search_rounded,
-                    color: Color(0xFFE1464A),
-                  ),
-                ),
-              ).marginOnly(right: 20, left: 20),
+                ).marginOnly(right: 20, left: 20),
+              ),
               SizedBox(
                 height: 47,
                 child: ListView.builder(
@@ -151,109 +159,114 @@ class HelperListingView extends GetView<HelperListingController> {
                 itemCount: controller.helpers.length,
                 itemBuilder: (BuildContext ctx, index) {
                   HelpersModel item = controller.helpers[index];
-                  return ClipRRect(
-                    borderRadius: BorderRadius.all(Radius.circular(8)),
-                    child: Container(
-                      color: Colors.white,
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          SizedBox(
-                            height: 150,
-                            child: CachedNetworkImageWidget(
-                              url: item.image ?? AppConstant.DEFAULT_AVATAR,
-                              fit: BoxFit.cover,
+                  return InkWell(
+                    onTap: () {
+                      Get.toNamed(Routes.DETAIL_HELPER);
+                    },
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.all(Radius.circular(8)),
+                      child: Container(
+                        color: Colors.white,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            SizedBox(
+                              height: 150,
+                              child: CachedNetworkImageWidget(
+                                url: item.image ?? AppConstant.DEFAULT_AVATAR,
+                                fit: BoxFit.cover,
+                              ),
                             ),
-                          ),
-                          Row(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            children: [
-                              Expanded(
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  mainAxisAlignment: MainAxisAlignment.start,
+                            Row(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: [
+                                Expanded(
+                                  child: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        item.name ?? "n/a",
+                                        overflow: TextOverflow.ellipsis,
+                                        style: TextStyle(
+                                          color: Color(0xFF272B30),
+                                          fontFamily: AppConstant.CENTURY_GOTHIC_FONT,
+                                          fontWeight: FontWeight.w700,
+                                          fontSize: 13,
+                                        ),
+                                      ).marginOnly(bottom: 4),
+                                      Text(
+                                        "${item.age ?? "0"} ${'years_old'.tr}",
+                                        style: TextStyle(
+                                          color: Color(0xFF272B30),
+                                          fontFamily: AppConstant.SF_PRO_FONT,
+                                          fontWeight: FontWeight.w400,
+                                          fontSize: 11,
+                                        ),
+                                      )
+                                    ],
+                                  ),
+                                ),
+                                SvgPicture.asset(
+                                  "assets/images/icon-country-${item.country}.svg",
+                                  height: 20,
+                                )
+                              ],
+                            ).paddingSymmetric(horizontal: 16, vertical: 10),
+                            Divider(
+                              thickness: 1,
+                              height: 0,
+                              color: Color(0xFFDEE2E6),
+                            ).paddingSymmetric(horizontal: 16),
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: [
+                                Text(
+                                  "${item.experience ?? "0"} ${'years_experience'.tr}",
+                                  overflow: TextOverflow.ellipsis,
+                                  style: TextStyle(
+                                    color: Color(0xFF272B30),
+                                    fontFamily: AppConstant.SF_PRO_FONT,
+                                    fontWeight: FontWeight.w700,
+                                    fontSize: 13,
+                                  ),
+                                ).marginOnly(bottom: 6),
+                                Row(
                                   children: [
                                     Text(
-                                      item.name ?? "n/a",
-                                      overflow: TextOverflow.ellipsis,
-                                      style: TextStyle(
-                                        color: Color(0xFF272B30),
-                                        fontFamily: AppConstant.CENTURY_GOTHIC_FONT,
-                                        fontWeight: FontWeight.w700,
-                                        fontSize: 13,
-                                      ),
-                                    ).marginOnly(bottom: 4),
-                                    Text(
-                                      "${item.age ?? "0"} ${'years_old'.tr}",
-                                      style: TextStyle(
-                                        color: Color(0xFF272B30),
-                                        fontFamily: AppConstant.SF_PRO_FONT,
-                                        fontWeight: FontWeight.w400,
-                                        fontSize: 11,
-                                      ),
-                                    )
-                                  ],
-                                ),
-                              ),
-                              SvgPicture.asset(
-                                "assets/images/icon-country-${item.country}.svg",
-                                height: 20,
-                              )
-                            ],
-                          ).paddingSymmetric(horizontal: 16, vertical: 10),
-                          Divider(
-                            thickness: 1,
-                            height: 0,
-                            color: Color(0xFFDEE2E6),
-                          ).paddingSymmetric(horizontal: 16),
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            children: [
-                              Text(
-                                "${item.experience ?? "0"} ${'years_experience'.tr}",
-                                overflow: TextOverflow.ellipsis,
-                                style: TextStyle(
-                                  color: Color(0xFF272B30),
-                                  fontFamily: AppConstant.SF_PRO_FONT,
-                                  fontWeight: FontWeight.w700,
-                                  fontSize: 13,
-                                ),
-                              ).marginOnly(bottom: 6),
-                              Row(
-                                children: [
-                                  Text(
-                                    'ready_from'.tr,
-                                    overflow: TextOverflow.ellipsis,
-                                    style: TextStyle(
-                                      color: Color(0xFFADB5BD),
-                                      fontFamily: AppConstant.SF_PRO_FONT,
-                                      fontWeight: FontWeight.w400,
-                                      fontSize: 11,
-                                    ),
-                                  ),
-                                  Expanded(
-                                    child: Text(
-                                      DateFormat('dd MMM yyyy', Get.locale.toString()).format(
-                                        item.readyDate ?? DateTime.now(),
-                                      ),
-                                      textAlign: TextAlign.right,
+                                      'ready_from'.tr,
                                       overflow: TextOverflow.ellipsis,
                                       style: TextStyle(
                                         color: Color(0xFFADB5BD),
                                         fontFamily: AppConstant.SF_PRO_FONT,
-                                        fontWeight: FontWeight.w700,
+                                        fontWeight: FontWeight.w400,
                                         fontSize: 11,
                                       ),
                                     ),
-                                  )
-                                ],
-                              )
-                            ],
-                          ).paddingSymmetric(horizontal: 16, vertical: 10),
-                        ],
+                                    Expanded(
+                                      child: Text(
+                                        DateFormat('dd MMM yyyy', Get.locale.toString()).format(
+                                          item.readyDate ?? DateTime.now(),
+                                        ),
+                                        textAlign: TextAlign.right,
+                                        overflow: TextOverflow.ellipsis,
+                                        style: TextStyle(
+                                          color: Color(0xFFADB5BD),
+                                          fontFamily: AppConstant.SF_PRO_FONT,
+                                          fontWeight: FontWeight.w700,
+                                          fontSize: 11,
+                                        ),
+                                      ),
+                                    )
+                                  ],
+                                )
+                              ],
+                            ).paddingSymmetric(horizontal: 16, vertical: 10),
+                          ],
+                        ),
                       ),
                     ),
                   );
