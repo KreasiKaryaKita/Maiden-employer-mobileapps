@@ -73,7 +73,7 @@ class RegisterStepOneController extends GetxController {
         validatePassword.value = false;
         msgPassword.value = "password_validation_2".tr;
       } else {
-        if (MyHelpers.validateInputPassword(valuePassword)) {
+        if (!MyHelpers.validateInputPassword(valuePassword)) {
           validatePassword.value = false;
           msgPassword.value = "password_validation".tr;
         } else {
