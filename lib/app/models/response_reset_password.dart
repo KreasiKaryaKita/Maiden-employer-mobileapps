@@ -9,18 +9,18 @@ class ResponseResetPassword implements ResponseModel {
     this.message,
   });
 
-  Error? error;
+  int? error;
   ResetPasswordData? data;
-  String? message;
+  List<String>? message;
 
   factory ResponseResetPassword.fromJson(Map<String, dynamic> json) => ResponseResetPassword(
-        error: Error.fromJson(json["error"]),
+        error: json["error"],
         data: ResetPasswordData.fromJson(json["data"]),
         message: json["message"],
       );
 
   Map<String, dynamic> toJson() => {
-        "error": error!.toJson(),
+        "error": error,
         "data": data!.toJson(),
         "message": message,
       };

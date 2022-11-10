@@ -95,7 +95,10 @@ class CustomInterceptors extends Interceptor {
           error: 'error_server'.tr,
           response: Response(
             requestOptions: err.requestOptions,
-            data: ResponseStandard(data: {}, message: "error_server".tr, error: null).toJson(),
+            data: ResponseStandard(
+              data: {},
+              error: 500,
+            ).toJson(),
             statusCode: 500,
           ),
           requestOptions: err.requestOptions,

@@ -37,7 +37,7 @@ class CommonFunction {
 
   static snackbarHelper({
     String? title,
-    String? message,
+    dynamic message,
     bool isSuccess = true,
     void Function()? mainButtonOnPressed,
     Widget? mainButton,
@@ -45,7 +45,11 @@ class CommonFunction {
   }) {
     return Get.snackbar(
       title ?? (isSuccess ? 'Success' : 'Error'),
-      message != null ? (message.length > 100 ? message.substring(0, 100) : message) : '',
+      message != null
+          ? (message is List)
+              ? message.join("\n")
+              : (message.length > 100 ? message.substring(0, 100) : message)
+          : '',
       backgroundColor: isSuccess ? Colors.green.withOpacity(0.7) : Colors.red.withOpacity(0.7),
       duration: duration,
       barBlur: 8.0,

@@ -7,9 +7,9 @@ abstract class ResponseModel {
     this.message,
   });
 
-  final Error? error;
-  final dynamic? data;
-  final String? message;
+  final int? error;
+  final dynamic data;
+  final List<String>? message;
 }
 
 class ResponseStandard implements ResponseModel {
@@ -19,39 +19,19 @@ class ResponseStandard implements ResponseModel {
     this.message,
   });
 
-  Error? error;
+  int? error;
   dynamic data;
-  String? message;
+  List<String>? message;
 
   factory ResponseStandard.fromJson(Map<String, dynamic> json) => ResponseStandard(
-        error: Error.fromJson(json["error"]),
-        data: json["message"],
-        message: json["message"],
+        error: json["error"],
+        data: json["data"],
+        message: List<String>.from(json["message"].map((x) => x)),
       );
 
   Map<String, dynamic> toJson() => {
-        "error": error!.toJson(),
+        "error": error,
         "data": data.toJson(),
-        "message": message,
-      };
-}
-
-class Error {
-  Error({
-    this.code,
-    this.message,
-  });
-
-  int? code;
-  dynamic message;
-
-  factory Error.fromJson(Map<String, dynamic> json) => Error(
-        code: json["code"],
-        message: json["message"],
-      );
-
-  Map<String, dynamic> toJson() => {
-        "code": code,
-        "message": List<dynamic>.from(message.map((x) => x)),
+        "message": List<dynamic>.from(message!.map((x) => x)),
       };
 }

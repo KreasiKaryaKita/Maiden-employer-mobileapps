@@ -9,18 +9,18 @@ class ResponseForgotPassword implements ResponseModel {
     this.message,
   });
 
-  Error? error;
+  int? error;
   ForgotPasswordData? data;
-  String? message;
+  List<String>? message;
 
   factory ResponseForgotPassword.fromJson(Map<String, dynamic> json) => ResponseForgotPassword(
-        error: Error.fromJson(json["error"]),
+        error: json["error"],
         data: ForgotPasswordData.fromJson(json["data"]),
         message: json["message"],
       );
 
   Map<String, dynamic> toJson() => {
-        "error": error!.toJson(),
+        "error": error,
         "data": data!.toJson(),
         "message": message,
       };
