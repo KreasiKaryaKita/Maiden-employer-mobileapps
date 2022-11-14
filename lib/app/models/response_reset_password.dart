@@ -16,13 +16,13 @@ class ResponseResetPassword implements ResponseModel {
   factory ResponseResetPassword.fromJson(Map<String, dynamic> json) => ResponseResetPassword(
         error: json["error"],
         data: ResetPasswordData.fromJson(json["data"]),
-        message: json["message"],
+        message: List<String>.from(json["message"].map((x) => x)),
       );
 
   Map<String, dynamic> toJson() => {
         "error": error,
         "data": data!.toJson(),
-        "message": message,
+        "message": List<dynamic>.from(message!.map((x) => x)),
       };
 }
 
@@ -53,7 +53,7 @@ class ResetPasswordData {
         email: json["email"],
         firstName: json["first_name"],
         lastName: json["last_name"],
-        birthDate: (json["birth_date"] == null) ? null : DateTime.parse(json["birth_date"]),
+        birthDate: json["birth_date"] == null ? null : DateTime.parse(json["birth_date"]),
         userType: json["user_type"],
         userTypeLabel: json["user_type_label"],
       );
