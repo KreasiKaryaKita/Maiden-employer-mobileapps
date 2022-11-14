@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:maiden_employer/app/config/constants/app_constant.dart';
 import 'package:maiden_employer/app/models/entity/helpers_model.dart';
 import 'package:maiden_employer/app/models/entity/option_country_helpers_model.dart';
-import 'package:maiden_employer/app/modules/main/controllers/main_controller.dart';
 import 'package:maiden_employer/app/routes/app_pages.dart';
+import 'package:maiden_employer/app/shared/widgets/bottom_sheet/search_helper.dart';
 import 'package:maiden_employer/app/shared/widgets/images/cached_network_image_widget.dart';
 
 import '../controllers/helper_listing_controller.dart';
@@ -56,11 +55,14 @@ class HelperListingView extends GetView<HelperListingController> {
               ),
               InkWell(
                 onTap: () {
-                  final c = Get.find<MainController>();
-                  c.onChangeShowSearchPage();
+                  Get.bottomSheet(
+                    SearchHelper(),
+                    isScrollControlled: true,
+                    isDismissible: false,
+                    barrierColor: Colors.transparent,
+                  );
                 },
                 child: TextField(
-                  controller: controller.inputSearch,
                   style: const TextStyle(
                     fontWeight: FontWeight.w400,
                     fontSize: 14,
