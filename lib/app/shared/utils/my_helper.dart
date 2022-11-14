@@ -45,7 +45,7 @@ class MyHelpers {
   }
 
   static bool validateInputPhoneNumber(String value) {
-    String patttern = r'(^(?:[+0]9)?[0-9]{10,20}$)';
+    String patttern = r'(^(?:[+0]9)?[0-9]{8,15}$)';
     RegExp regExp = RegExp(patttern);
     if (value.isEmpty) {
       return false;
