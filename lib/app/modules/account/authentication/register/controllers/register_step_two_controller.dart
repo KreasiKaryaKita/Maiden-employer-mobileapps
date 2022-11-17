@@ -9,6 +9,7 @@ import 'package:maiden_employer/app/models/response_account_info.dart';
 import 'package:maiden_employer/app/models/response_register.dart';
 import 'package:maiden_employer/app/modules/account/authentication/register/models/option_month.dart';
 import 'package:maiden_employer/app/modules/account/authentication/register/models/phone_prefix.dart';
+import 'package:maiden_employer/app/routes/app_pages.dart';
 import 'package:maiden_employer/app/shared/common/common_function.dart';
 import 'package:maiden_employer/app/shared/utils/my_helper.dart';
 import 'package:maiden_employer/app/shared/utils/preference_helper.dart';
@@ -187,6 +188,7 @@ class RegisterStepTwoController extends GetxController {
       CommonFunction.loadingHide();
       if (value is ResponseAccountInfo) {
         CommonFunction.snackbarHelper(message: value.message!, isSuccess: true);
+        Get.offAllNamed(Routes.MAIN);
         PreferenceHelper().set(
           key: PreferenceConstant.USER_ID,
           value: value.data!.userId.toString(),
