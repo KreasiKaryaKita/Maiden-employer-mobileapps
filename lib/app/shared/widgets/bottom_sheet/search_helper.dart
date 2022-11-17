@@ -9,14 +9,17 @@ import 'package:maiden_employer/app/modules/account/authentication/register/mode
 import 'package:maiden_employer/app/modules/account/authentication/register/models/option_year.dart';
 import 'package:maiden_employer/app/modules/helper_listing/controllers/helper_listing_controller.dart';
 import 'package:maiden_employer/app/shared/widgets/buttons/button_fill.dart';
+import 'package:maiden_employer/app/shared/widgets/buttons/button_text.dart';
 
 class SearchHelper extends StatelessWidget {
-  SearchHelper({Key? key}) : super(key: key);
+  SearchHelper({Key? key, required this.statusBar}) : super(key: key);
 
   final HelperListingController controller = Get.find<HelperListingController>();
+  final double statusBar;
 
   @override
   Widget build(BuildContext context) {
+    controller.onChangeIsExpanded(0);
     return Obx(
       () => WillPopScope(
         onWillPop: () async {
@@ -26,7 +29,6 @@ class SearchHelper extends StatelessWidget {
           filter: ImageFilter.blur(sigmaX: 5.0, sigmaY: 5.0),
           child: Container(
             height: Get.height,
-            margin: EdgeInsets.only(top: 24),
             decoration: BoxDecoration(
               gradient: LinearGradient(
                 colors: [
@@ -39,38 +41,29 @@ class SearchHelper extends StatelessWidget {
             ),
             child: Column(
               children: [
-                Row(
-                  children: [
-                    IconButton(
-                      onPressed: () => Get.back(),
-                      icon: Icon(
-                        Icons.close_rounded,
-                        color: Colors.white,
-                        size: 24,
-                      ),
+                AppBar(
+                  backgroundColor: Colors.transparent,
+                  elevation: 0,
+                  centerTitle: true,
+                  leading: IconButton(
+                    onPressed: () => Get.back(),
+                    icon: Icon(
+                      Icons.close_rounded,
+                      color: Colors.white,
+                      size: 24,
                     ),
-                    Expanded(
-                      child: Text(
-                        "search_title".tr.toUpperCase(),
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                          fontFamily: AppConstant.SF_PRO_FONT,
-                          color: Colors.white,
-                          fontWeight: FontWeight.w700,
-                          fontSize: 13,
-                        ),
-                      ),
+                  ),
+                  title: Text(
+                    "search_title".tr.toUpperCase(),
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      fontFamily: AppConstant.SF_PRO_FONT,
+                      color: Colors.white,
+                      fontWeight: FontWeight.w700,
+                      fontSize: 13,
                     ),
-                    IconButton(
-                      onPressed: null,
-                      icon: Icon(
-                        Icons.close_rounded,
-                        color: Colors.transparent,
-                        size: 24,
-                      ),
-                    ),
-                  ],
-                ).marginOnly(top: 8, bottom: 8),
+                  ),
+                ).marginOnly(top: statusBar),
                 Expanded(
                   child: ListView(
                     padding: EdgeInsets.all(20),
@@ -80,7 +73,6 @@ class SearchHelper extends StatelessWidget {
                           color: Colors.white,
                           borderRadius: BorderRadius.all(Radius.circular(16)),
                         ),
-                        // padding: EdgeInsets.symmetric(horizontal: 20, vertical: 20),
                         child: ExpandableTheme(
                           data: ExpandableThemeData(hasIcon: false),
                           child: ExpandablePanel(
@@ -595,20 +587,28 @@ class SearchHelper extends StatelessWidget {
                   child: Row(
                     children: [
                       Expanded(
-                        child: Text(
-                          "clear_all".tr,
-                          overflow: TextOverflow.ellipsis,
-                          style: TextStyle(
-                            color: Color(0xFFFFFFFF),
-                            fontFamily: AppConstant.SF_PRO_FONT,
-                            fontWeight: FontWeight.w700,
-                            fontSize: 16,
+                        child: ButtonText(
+                          onPressed: () {
+                            controller.onClearSearch();
+                          },
+                          text: Text(
+                            "clear_all".tr,
+                            overflow: TextOverflow.ellipsis,
+                            style: TextStyle(
+                              color: Color(0xFFFFFFFF),
+                              fontFamily: AppConstant.SF_PRO_FONT,
+                              fontWeight: FontWeight.w700,
+                              fontSize: 16,
+                            ),
                           ),
                         ).marginOnly(right: 20),
                       ),
                       Expanded(
                         child: ButtonFill(
-                          onPressed: () {},
+                          onPressed: () {
+                            Get.back();
+                            controller.onSubmitSearch();
+                          },
                           backgroundColor: Colors.white,
                           height: 48,
                           text: Text(
