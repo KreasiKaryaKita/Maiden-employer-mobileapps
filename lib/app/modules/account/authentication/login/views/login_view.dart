@@ -5,7 +5,6 @@ import 'package:get/get.dart';
 import 'package:maiden_employer/app/config/constants/app_constant.dart';
 import 'package:maiden_employer/app/config/themes/app_colors.dart';
 import 'package:maiden_employer/app/shared/widgets/buttons/button_fill.dart';
-import 'package:maiden_employer/app/shared/widgets/buttons/button_outline.dart';
 import 'package:maiden_employer/app/shared/widgets/buttons/button_text.dart';
 import 'package:maiden_employer/app/shared/widgets/text_field/default_input_text_field.dart';
 
@@ -16,7 +15,6 @@ class LoginView extends GetView<LoginController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      resizeToAvoidBottomInset: false,
       appBar: AppBar(
         centerTitle: true,
         title: Text(
@@ -120,85 +118,85 @@ class LoginView extends GetView<LoginController> {
                         ),
                       )
                     ],
-                  ),
-                  Row(
-                    children: [
-                      Expanded(
-                        child: Divider(
-                          height: 1,
-                          thickness: 1,
-                          color: Color(0xFFE8E8E8),
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 12),
-                        child: Text(
-                          'or'.tr,
-                          style: TextStyle(
-                            fontWeight: FontWeight.w700,
-                            fontSize: 12,
-                            color: Color(0xFFB4B4B4),
-                          ),
-                        ),
-                      ),
-                      Expanded(
-                        child: Divider(
-                          height: 1,
-                          thickness: 1,
-                          color: Color(0xFFE8E8E8),
-                        ),
-                      ),
-                    ],
-                  ).marginSymmetric(vertical: 20),
-                  Row(
-                    children: [
-                      Expanded(
-                        child: ButtonOutline(
-                          radius: 4,
-                          backgroundColor: Color(0xFFE1464A),
-                          onPressed: controller.onFacebookPressed,
-                          text: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              SvgPicture.asset('assets/images/icon-facebook.svg'),
-                              SizedBox(width: 10),
-                              Text(
-                                'Facebook',
-                                style: TextStyle(
-                                  color: Color(0xFFE1464A),
-                                  fontWeight: FontWeight.w400,
-                                  fontSize: 12,
-                                ),
-                              )
-                            ],
-                          ),
-                        ),
-                      ),
-                      SizedBox(width: 20),
-                      Expanded(
-                        child: ButtonOutline(
-                          radius: 4,
-                          backgroundColor: Color(0xFFE1464A),
-                          onPressed: controller.onGooglePressed,
-                          text: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              SvgPicture.asset('assets/images/icon-google.svg'),
-                              SizedBox(width: 10),
-                              Text(
-                                'Google',
-                                style: TextStyle(
-                                  color: Color(0xFFE1464A),
-                                  fontWeight: FontWeight.w400,
-                                  fontSize: 12,
-                                ),
-                              )
-                            ],
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
+                  ).marginOnly(bottom: 50),
+                  // Row(
+                  //   children: [
+                  //     Expanded(
+                  //       child: Divider(
+                  //         height: 1,
+                  //         thickness: 1,
+                  //         color: Color(0xFFE8E8E8),
+                  //       ),
+                  //     ),
+                  //     Padding(
+                  //       padding: const EdgeInsets.symmetric(horizontal: 12),
+                  //       child: Text(
+                  //         'or'.tr,
+                  //         style: TextStyle(
+                  //           fontWeight: FontWeight.w700,
+                  //           fontSize: 12,
+                  //           color: Color(0xFFB4B4B4),
+                  //         ),
+                  //       ),
+                  //     ),
+                  //     Expanded(
+                  //       child: Divider(
+                  //         height: 1,
+                  //         thickness: 1,
+                  //         color: Color(0xFFE8E8E8),
+                  //       ),
+                  //     ),
+                  //   ],
+                  // ).marginSymmetric(vertical: 20),
+                  // Row(
+                  //   children: [
+                  //     Expanded(
+                  //       child: ButtonOutline(
+                  //         radius: 4,
+                  //         backgroundColor: Color(0xFFE1464A),
+                  //         onPressed: controller.onFacebookPressed,
+                  //         text: Row(
+                  //           mainAxisAlignment: MainAxisAlignment.center,
+                  //           children: [
+                  //             SvgPicture.asset('assets/images/icon-facebook.svg'),
+                  //             SizedBox(width: 10),
+                  //             Text(
+                  //               'Facebook',
+                  //               style: TextStyle(
+                  //                 color: Color(0xFFE1464A),
+                  //                 fontWeight: FontWeight.w400,
+                  //                 fontSize: 12,
+                  //               ),
+                  //             )
+                  //           ],
+                  //         ),
+                  //       ),
+                  //     ),
+                  //     SizedBox(width: 20),
+                  //     Expanded(
+                  //       child: ButtonOutline(
+                  //         radius: 4,
+                  //         backgroundColor: Color(0xFFE1464A),
+                  //         onPressed: controller.onGooglePressed,
+                  //         text: Row(
+                  //           mainAxisAlignment: MainAxisAlignment.center,
+                  //           children: [
+                  //             SvgPicture.asset('assets/images/icon-google.svg'),
+                  //             SizedBox(width: 10),
+                  //             Text(
+                  //               'Google',
+                  //               style: TextStyle(
+                  //                 color: Color(0xFFE1464A),
+                  //                 fontWeight: FontWeight.w400,
+                  //                 fontSize: 12,
+                  //               ),
+                  //             )
+                  //           ],
+                  //         ),
+                  //       ),
+                  //     ),
+                  //   ],
+                  // ),
                 ],
               ),
             ),
