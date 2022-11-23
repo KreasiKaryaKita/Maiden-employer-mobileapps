@@ -6,6 +6,7 @@ import 'package:intl/intl.dart';
 import 'package:maiden_employer/app/config/constants/preference_constant.dart';
 import 'package:maiden_employer/app/data/repository/api_repositories.dart';
 import 'package:maiden_employer/app/models/response_account_info.dart';
+import 'package:maiden_employer/app/models/response_countries.dart';
 import 'package:maiden_employer/app/models/response_register.dart';
 import 'package:maiden_employer/app/modules/account/authentication/register/models/option_month.dart';
 import 'package:maiden_employer/app/modules/account/authentication/register/models/phone_prefix.dart';
@@ -51,11 +52,7 @@ class RegisterStepTwoController extends GetxController {
   void onClose() {}
 
   init() {
-    phonePrefixes.assignAll([
-      PhonePrefix(icon: 'assets/images/icon-country-indonesia.svg', name: '+62'),
-      PhonePrefix(icon: 'assets/images/icon-country-singapore.svg', name: '+65'),
-    ]);
-    onPhonePrefixChanged(phonePrefixes[0]);
+    getCountries();
 
     months.assignAll([
       OptionMonth(label: "Jan", value: "01"),
@@ -124,6 +121,31 @@ class RegisterStepTwoController extends GetxController {
     }
 
     return validateName.value && validatePhone.value;
+  }
+
+  getCountries() {
+    ApiRepositories.countries().then((value) {
+      if (value is ResponseCountries) {
+        phonePrefixes.assignAll(value.data!.list!.map((e) {
+          var icon = 'assets/images/icon-country-indonesia.svg';
+          if (e.code!.toLowerCase().contains('sg')) icon = 'assets/images/icon-country-singapore.svg';
+          return PhonePrefix(icon: icon, name: e.phoneCode);
+        }));
+        onPhonePrefixChanged(phonePrefixes[0]);
+      } else {
+        phonePrefixes.assignAll([
+          PhonePrefix(icon: 'assets/images/icon-country-indonesia.svg', name: '+62'),
+          PhonePrefix(icon: 'assets/images/icon-country-singapore.svg', name: '+65'),
+        ]);
+        onPhonePrefixChanged(phonePrefixes[0]);
+      }
+    }, onError: (e) {
+      phonePrefixes.assignAll([
+        PhonePrefix(icon: 'assets/images/icon-country-indonesia.svg', name: '+62'),
+        PhonePrefix(icon: 'assets/images/icon-country-singapore.svg', name: '+65'),
+      ]);
+      onPhonePrefixChanged(phonePrefixes[0]);
+    });
   }
 
   Future doContinue() async {

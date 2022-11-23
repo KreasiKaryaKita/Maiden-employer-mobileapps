@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_typeahead/flutter_typeahead.dart';
 import 'package:get/get.dart';
 import 'package:maiden_employer/app/config/constants/app_constant.dart';
+import 'package:maiden_employer/app/models/entity/option_work_skill_helpers_model.dart';
 import 'package:maiden_employer/app/modules/account/authentication/register/models/option_month.dart';
 import 'package:maiden_employer/app/modules/account/authentication/register/models/option_year.dart';
 import 'package:maiden_employer/app/modules/helper_listing/controllers/helper_listing_controller.dart';
@@ -93,16 +94,24 @@ class SearchHelper extends StatelessWidget {
                                     ),
                                   ),
                                   Expanded(
-                                    child: Text(
-                                      "add_helper_skills".tr,
-                                      textAlign: TextAlign.right,
-                                      style: TextStyle(
-                                        color: Color(0xFF8C1D20),
-                                        fontWeight: FontWeight.w500,
-                                        fontSize: 14,
-                                        fontFamily: AppConstant.SF_PRO_FONT,
-                                      ),
-                                    ),
+                                    child: Builder(builder: (context) {
+                                      var selecteds =
+                                          controller.helpersWorkSkill.where((p) => p.selected ?? false).toList();
+                                      return Text(
+                                        selecteds.isEmpty
+                                            ? "add_helper_skills".tr
+                                            : selecteds.length > 1
+                                                ? '${selecteds[0].label!},+${selecteds.length - 1}'
+                                                : selecteds[0].label!,
+                                        textAlign: TextAlign.right,
+                                        style: TextStyle(
+                                          color: Color(0xFF8C1D20),
+                                          fontWeight: FontWeight.w500,
+                                          fontSize: 14,
+                                          fontFamily: AppConstant.SF_PRO_FONT,
+                                        ),
+                                      );
+                                    }),
                                   ),
                                 ],
                               ).paddingAll(20),
@@ -120,7 +129,7 @@ class SearchHelper extends StatelessWidget {
                                     fontFamily: AppConstant.CENTURY_GOTHIC_FONT,
                                   ),
                                 ).marginOnly(bottom: 20),
-                                TypeAheadField(
+                                TypeAheadField<OptionWorkSkillHelpersModel>(
                                   suggestionsBoxDecoration: SuggestionsBoxDecoration(
                                     borderRadius: BorderRadius.all(
                                       Radius.circular(8),
@@ -129,6 +138,7 @@ class SearchHelper extends StatelessWidget {
                                   animationStart: 0,
                                   textFieldConfiguration: TextFieldConfiguration(
                                     autofocus: false,
+                                    controller: controller.helperSkillsTextCt,
                                     style: const TextStyle(
                                       fontWeight: FontWeight.w400,
                                       fontSize: 14,
@@ -176,15 +186,15 @@ class SearchHelper extends StatelessWidget {
                                     ),
                                   ),
                                   suggestionsCallback: (pattern) async {
-                                    return [];
+                                    return controller.helpersWorkSkill
+                                        .where((p) => p.label?.toLowerCase().contains(pattern.toLowerCase()) ?? false);
                                   },
                                   itemBuilder: (context, suggestion) {
                                     return ListTile(
-                                      leading: Icon(Icons.shopping_cart),
-                                      title: Text(""),
+                                      title: Text(suggestion.label ?? ''),
                                     );
                                   },
-                                  onSuggestionSelected: (suggestion) {},
+                                  onSuggestionSelected: (suggestion) => controller.onSkillSearchSelected(suggestion),
                                   noItemsFoundBuilder: (context) {
                                     return Text(
                                       "No Skills Found",
@@ -197,6 +207,38 @@ class SearchHelper extends StatelessWidget {
                                     ).paddingAll(8);
                                   },
                                 ),
+                                if (controller.helpersWorkSkill.where((p) => p.selected ?? false).toList().isNotEmpty)
+                                  SizedBox(height: 20),
+                                if (controller.helpersWorkSkill.where((p) => p.selected ?? false).toList().isNotEmpty)
+                                  SizedBox(
+                                    width: double.infinity,
+                                    child: Wrap(
+                                      runSpacing: 8,
+                                      spacing: 8,
+                                      children: List.generate(
+                                          controller.helpersWorkSkill.where((p) => p.selected ?? false).toList().length,
+                                          (index) {
+                                        var sel =
+                                            controller.helpersWorkSkill.where((p) => p.selected ?? false).toList();
+                                        return GestureDetector(
+                                          onTap: () => controller.onSkillSearchRemoveSelected(sel[index].value!),
+                                          child: Container(
+                                            padding: EdgeInsets.symmetric(horizontal: 8, vertical: 8.5),
+                                            decoration: BoxDecoration(
+                                              borderRadius: BorderRadius.all(Radius.circular(4)),
+                                              gradient: LinearGradient(colors: [Color(0xFF2E112D), Color(0xFF540032)]),
+                                            ),
+                                            child: Row(mainAxisSize: MainAxisSize.min, children: [
+                                              Text(sel[index].label ?? '',
+                                                  style: TextStyle(fontSize: 10, color: Colors.white)),
+                                              SizedBox(width: 12),
+                                              Icon(Icons.close, color: Colors.white, size: 16)
+                                            ]),
+                                          ),
+                                        );
+                                      }),
+                                    ),
+                                  )
                               ],
                             ).paddingAll(20),
                           ),
@@ -229,7 +271,9 @@ class SearchHelper extends StatelessWidget {
                                   ),
                                   Expanded(
                                     child: Text(
-                                      "add_ready_from".tr,
+                                      !controller.isMonthYearFiltered.value
+                                          ? "add_ready_from".tr
+                                          : '${controller.selectedMonth.value.label} ${controller.selectedYear.value.label}',
                                       textAlign: TextAlign.right,
                                       style: TextStyle(
                                         color: Color(0xFF8C1D20),
@@ -259,85 +303,87 @@ class SearchHelper extends StatelessWidget {
                                   children: [
                                     Expanded(
                                       child: PopupMenuButton<OptionMonth>(
-                                        itemBuilder: (context) => controller.months
-                                            .map(
-                                              (element) => PopupMenuItem(
-                                                value: element,
-                                                child: Text(
-                                                  element.label!,
-                                                  style: const TextStyle(
-                                                    fontSize: 14,
-                                                    color: Color(0xFF001833),
-                                                    fontFamily: AppConstant.CENTURY_GOTHIC_FONT,
-                                                    fontWeight: FontWeight.w600,
+                                          itemBuilder: (context) => controller.months
+                                              .map(
+                                                (element) => PopupMenuItem(
+                                                  value: element,
+                                                  child: Text(
+                                                    element.label!,
+                                                    style: const TextStyle(
+                                                      fontSize: 14,
+                                                      color: Color(0xFF001833),
+                                                      fontFamily: AppConstant.CENTURY_GOTHIC_FONT,
+                                                      fontWeight: FontWeight.w600,
+                                                    ),
                                                   ),
                                                 ),
-                                              ),
-                                            )
-                                            .toList(),
-                                        shape: const RoundedRectangleBorder(
-                                          borderRadius: BorderRadius.all(
-                                            Radius.circular(6),
-                                          ),
-                                        ),
-                                        constraints: BoxConstraints(maxHeight: 200),
-                                        position: PopupMenuPosition.under,
-                                        color: Colors.white,
-                                        padding: const EdgeInsets.all(0),
-                                        iconSize: 80,
-                                        icon: Container(
-                                          padding: EdgeInsets.symmetric(horizontal: 9, vertical: 12),
-                                          decoration: BoxDecoration(
-                                            border: Border.all(
-                                              color: Color(0xFF8C1D20),
-                                            ),
+                                              )
+                                              .toList(),
+                                          shape: const RoundedRectangleBorder(
                                             borderRadius: BorderRadius.all(
-                                              Radius.circular(8),
+                                              Radius.circular(6),
                                             ),
                                           ),
-                                          child: Row(
-                                            crossAxisAlignment: CrossAxisAlignment.center,
-                                            mainAxisAlignment: MainAxisAlignment.center,
-                                            children: [
-                                              Expanded(
-                                                child: Column(
-                                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                                  mainAxisAlignment: MainAxisAlignment.center,
-                                                  children: [
-                                                    Text(
-                                                      controller.selectedMonth.value.label!,
-                                                      style: TextStyle(
-                                                        color: Color(0xFF8C1D20),
-                                                        fontWeight: FontWeight.w700,
-                                                        fontSize: 16,
-                                                      ),
-                                                    ),
-                                                    Divider(
-                                                      color: Color(0xFFADB5BD),
-                                                      thickness: 1,
-                                                    ),
-                                                    Text(
-                                                      "search_ready_month".tr,
-                                                      style: TextStyle(
-                                                        color: Color(0xFF8C1D20),
-                                                        fontWeight: FontWeight.w400,
-                                                        fontSize: 12,
-                                                      ),
-                                                    ),
-                                                  ],
-                                                ),
-                                              ),
-                                              Icon(
-                                                Icons.keyboard_arrow_down_rounded,
+                                          constraints: BoxConstraints(maxHeight: 200),
+                                          position: PopupMenuPosition.under,
+                                          color: Colors.white,
+                                          padding: const EdgeInsets.all(0),
+                                          iconSize: 80,
+                                          icon: Container(
+                                            padding: EdgeInsets.symmetric(horizontal: 9, vertical: 12),
+                                            decoration: BoxDecoration(
+                                              border: Border.all(
                                                 color: Color(0xFF8C1D20),
-                                                size: 24,
-                                              ).marginOnly(top: 4, left: 20),
-                                            ],
+                                              ),
+                                              borderRadius: BorderRadius.all(
+                                                Radius.circular(8),
+                                              ),
+                                            ),
+                                            child: Row(
+                                              crossAxisAlignment: CrossAxisAlignment.center,
+                                              mainAxisAlignment: MainAxisAlignment.center,
+                                              children: [
+                                                Expanded(
+                                                  child: Column(
+                                                    crossAxisAlignment: CrossAxisAlignment.center,
+                                                    mainAxisAlignment: MainAxisAlignment.center,
+                                                    children: [
+                                                      Text(
+                                                        controller.selectedMonth.value.label!,
+                                                        style: TextStyle(
+                                                          color: Color(0xFF8C1D20),
+                                                          fontWeight: FontWeight.w700,
+                                                          fontSize: 16,
+                                                        ),
+                                                      ),
+                                                      Divider(
+                                                        color: Color(0xFFADB5BD),
+                                                        thickness: 1,
+                                                      ),
+                                                      Text(
+                                                        "search_ready_month".tr,
+                                                        style: TextStyle(
+                                                          color: Color(0xFF8C1D20),
+                                                          fontWeight: FontWeight.w400,
+                                                          fontSize: 12,
+                                                        ),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                ),
+                                                Icon(
+                                                  Icons.keyboard_arrow_down_rounded,
+                                                  color: Color(0xFF8C1D20),
+                                                  size: 24,
+                                                ).marginOnly(top: 4, left: 20),
+                                              ],
+                                            ),
                                           ),
-                                        ),
-                                        elevation: 2,
-                                        onSelected: controller.selectedMonth,
-                                      ),
+                                          elevation: 2,
+                                          onSelected: (month) {
+                                            controller.isMonthYearFiltered.value = true;
+                                            controller.selectedMonth.value = month;
+                                          }),
                                     ),
                                     SizedBox(width: 10),
                                     Expanded(
@@ -419,7 +465,10 @@ class SearchHelper extends StatelessWidget {
                                           ),
                                         ),
                                         elevation: 2,
-                                        onSelected: controller.selectedYear,
+                                        onSelected: (year) {
+                                          controller.isMonthYearFiltered.value = true;
+                                          controller.selectedYear.value = year;
+                                        },
                                       ),
                                     ),
                                   ],
@@ -456,7 +505,9 @@ class SearchHelper extends StatelessWidget {
                                   ),
                                   Expanded(
                                     child: Text(
-                                      "add_age".tr,
+                                      !controller.isAgeFiltered.value
+                                          ? "add_age".tr
+                                          : '${controller.currentRangeValues.value.start.toStringAsFixed(0)}-${controller.currentRangeValues.value.end.toStringAsFixed(0)} years old',
                                       textAlign: TextAlign.right,
                                       style: TextStyle(
                                         color: Color(0xFF8C1D20),
@@ -606,7 +657,6 @@ class SearchHelper extends StatelessWidget {
                       Expanded(
                         child: ButtonFill(
                           onPressed: () {
-                            Get.back();
                             controller.onSubmitSearch();
                           },
                           backgroundColor: Colors.white,

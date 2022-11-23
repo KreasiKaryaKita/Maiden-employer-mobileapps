@@ -126,18 +126,31 @@ class RegisterStepTwoView extends GetView<RegisterStepTwoController> {
                                         mainAxisSize: MainAxisSize.min,
                                         mainAxisAlignment: MainAxisAlignment.start,
                                         children: [
-                                          SvgPicture.asset(item.icon ?? ''),
+                                          SvgPicture.asset(item.icon ?? '', width: 30, height: 30, fit: BoxFit.contain),
+                                          SizedBox(width: 8),
                                           Text(item.name ?? ''),
                                         ],
                                       ),
                                       value: item,
                                     );
                                   }),
-                                  hint: Text(
-                                    '+65',
-                                    style: TextStyle(
-                                      color: Color(0xFFB4B4B4),
-                                    ),
+                                  hint: Row(
+                                    mainAxisSize: MainAxisSize.min,
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    children: [
+                                      Opacity(
+                                        opacity: 0.3,
+                                        child: SvgPicture.asset('assets/images/icon-country-singapore.svg',
+                                            width: 30, height: 30, fit: BoxFit.contain),
+                                      ),
+                                      SizedBox(width: 8),
+                                      Text(
+                                        '+65',
+                                        style: TextStyle(
+                                          color: Color(0xFFB4B4B4),
+                                        ),
+                                      ),
+                                    ],
                                   ),
                                   isDense: true,
                                   isExpanded: true,

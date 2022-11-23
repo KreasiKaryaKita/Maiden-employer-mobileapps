@@ -4,6 +4,7 @@ import 'package:expandable/expandable.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:maiden_employer/app/config/constants/app_constant.dart';
+import 'package:maiden_employer/app/data/repository/api_repositories.dart';
 import 'package:maiden_employer/app/models/entity/helpers_model.dart';
 import 'package:maiden_employer/app/models/entity/option_country_helpers_model.dart';
 import 'package:maiden_employer/app/models/entity/option_education_helpers_model.dart';
@@ -15,8 +16,10 @@ import 'package:maiden_employer/app/models/entity/option_sort_helpers_model.dart
 import 'package:maiden_employer/app/models/entity/option_status_helpers_model.dart';
 import 'package:maiden_employer/app/models/entity/option_work_experience_helpers_model.dart';
 import 'package:maiden_employer/app/models/entity/option_work_skill_helpers_model.dart';
+import 'package:maiden_employer/app/models/response_skills.dart';
 import 'package:maiden_employer/app/modules/account/authentication/register/models/option_month.dart';
 import 'package:maiden_employer/app/modules/account/authentication/register/models/option_year.dart';
+import 'package:maiden_employer/app/shared/common/common_function.dart';
 
 class HelperListingController extends GetxController {
   TextEditingController inputSearch = TextEditingController();
@@ -30,8 +33,10 @@ class HelperListingController extends GetxController {
   var year = <OptionYear>[].obs;
   var selectedYear = OptionYear().obs;
   var now = DateTime.now();
+  var isMonthYearFiltered = false.obs;
 
   Rx<RangeValues> currentRangeValues = RangeValues(21, 50).obs;
+  var isAgeFiltered = false.obs;
 
   ExpandableController skillsIsExpanded = ExpandableController(initialExpanded: true);
   ExpandableController readyIsExpanded = ExpandableController(initialExpanded: false);
@@ -57,6 +62,7 @@ class HelperListingController extends GetxController {
   var helpersMaritalStatus = <OptionMaritalStatusHelpersModel>[].obs;
   var helpersMaritalStatusSelected = <OptionMaritalStatusHelpersModel>[].obs;
 
+  var helperSkillsTextCt = TextEditingController();
   var helpersWorkSkill = <OptionWorkSkillHelpersModel>[].obs;
   var helpersWorkSkillSelected = <OptionWorkSkillHelpersModel>[].obs;
 
@@ -354,40 +360,7 @@ class HelperListingController extends GetxController {
       ),
     ]);
 
-    helpersWorkSkill.assignAll([
-      OptionWorkSkillHelpersModel(
-        label: "filters_work_skills_infant_care".tr,
-        value: "filters_work_skills_infant_care".tr,
-      ),
-      OptionWorkSkillHelpersModel(
-        label: "filters_work_skills_child_care".tr,
-        value: "filters_work_skills_child_care".tr,
-      ),
-      OptionWorkSkillHelpersModel(
-        label: "filters_work_skills_elderly_care".tr,
-        value: "filters_work_skills_elderly_care".tr,
-      ),
-      OptionWorkSkillHelpersModel(
-        label: "filters_work_skills_disabled_special_needs_care".tr,
-        value: "filters_work_skills_disabled_special_needs_care".tr,
-      ),
-      OptionWorkSkillHelpersModel(
-        label: "filters_work_skills_general_housekeeping".tr,
-        value: "filters_work_skills_general_housekeeping".tr,
-      ),
-      OptionWorkSkillHelpersModel(
-        label: "filters_work_skills_laundry".tr,
-        value: "filters_work_skills_laundry".tr,
-      ),
-      OptionWorkSkillHelpersModel(
-        label: "filters_work_skills_cooking".tr,
-        value: "filters_work_skills_cooking".tr,
-      ),
-      OptionWorkSkillHelpersModel(
-        label: "filters_work_skills_pet_care".tr,
-        value: "filters_work_skills_pet_care".tr,
-      ),
-    ]);
+    getSkills();
 
     helpersWorkExperience.assignAll([
       OptionWorkExperienceHelpersModel(
@@ -427,6 +400,74 @@ class HelperListingController extends GetxController {
     super.onClose();
   }
 
+  getSkills() {
+    var temp = [
+      OptionWorkSkillHelpersModel(
+        label: "filters_work_skills_infant_care".tr,
+        value: "filters_work_skills_infant_care".tr,
+      ),
+      OptionWorkSkillHelpersModel(
+        label: "filters_work_skills_child_care".tr,
+        value: "filters_work_skills_child_care".tr,
+      ),
+      OptionWorkSkillHelpersModel(
+        label: "filters_work_skills_elderly_care".tr,
+        value: "filters_work_skills_elderly_care".tr,
+      ),
+      OptionWorkSkillHelpersModel(
+        label: "filters_work_skills_disabled_special_needs_care".tr,
+        value: "filters_work_skills_disabled_special_needs_care".tr,
+      ),
+      OptionWorkSkillHelpersModel(
+        label: "filters_work_skills_general_housekeeping".tr,
+        value: "filters_work_skills_general_housekeeping".tr,
+      ),
+      OptionWorkSkillHelpersModel(
+        label: "filters_work_skills_laundry".tr,
+        value: "filters_work_skills_laundry".tr,
+      ),
+      OptionWorkSkillHelpersModel(
+        label: "filters_work_skills_cooking".tr,
+        value: "filters_work_skills_cooking".tr,
+      ),
+      OptionWorkSkillHelpersModel(
+        label: "filters_work_skills_pet_care".tr,
+        value: "filters_work_skills_pet_care".tr,
+      ),
+    ];
+
+    ApiRepositories.skills().then((value) {
+      if (value is ResponseSkills) {
+        helpersWorkSkill
+            .assignAll(value.data!.list!.map((e) => OptionWorkSkillHelpersModel(label: e.label, value: e.value)));
+      } else {
+        helpersWorkSkill.assignAll(temp);
+      }
+    }, onError: (e) {
+      helpersWorkSkill.assignAll(temp);
+    });
+  }
+
+  onSkillSearchRemoveSelected(String value) {
+    for (var i = 0; i < helpersWorkSkill.length; i++) {
+      if (helpersWorkSkill[i].value == value) {
+        helpersWorkSkill[i].selected = false;
+      }
+    }
+    helpersWorkSkill.refresh();
+  }
+
+  onSkillSearchSelected(OptionWorkSkillHelpersModel suggestion) {
+    for (var i = 0; i < helpersWorkSkill.length; i++) {
+      if (helpersWorkSkill[i].value!.toLowerCase().contains(suggestion.value!.toLowerCase())) {
+        helpersWorkSkill[i].selected = true;
+      }
+    }
+
+    helperSkillsTextCt.text = '';
+    helpersWorkSkill.refresh();
+  }
+
   onSelectCountryFilter(int index) {
     helpersCountrySelected.value = helpersCountry[index].value!;
     helpersCountry.refresh();
@@ -441,6 +482,7 @@ class HelperListingController extends GetxController {
   }
 
   onChangeRangeAge(RangeValues values) {
+    isAgeFiltered.value = true;
     currentRangeValues.value = values;
   }
 
@@ -468,11 +510,33 @@ class HelperListingController extends GetxController {
   }
 
   onSubmitSearch() {
-    isFiltered.value = true;
+    int emptyCount = 0;
+    if (helpersWorkSkill.where((p) => p.selected ?? false).toList().isEmpty) emptyCount += 1;
+    if (!isMonthYearFiltered.value) emptyCount += 1;
+    if (!isAgeFiltered.value) emptyCount += 1;
+
+    if (emptyCount > 0) {
+      CommonFunction.snackbarHelper(
+          isSuccess: false, title: 'Warning', message: 'please at least select one of the search conditions');
+    } else {
+      Get.back();
+      isFiltered.value = true;
+    }
   }
 
   onClearSearch() {
     isFiltered.value = false;
+
+    for (var i = 0; i < helpersWorkSkill.length; i++) {
+      helpersWorkSkill[i].selected = false;
+    }
+
+    selectedMonth.value = months[0];
+    selectedYear.value = year[0];
+    isMonthYearFiltered.value = false;
+
+    currentRangeValues.value = RangeValues(21, 50);
+    isAgeFiltered.value = false;
   }
 
   onSelectSortBy(int index) {
