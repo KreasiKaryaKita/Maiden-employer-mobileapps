@@ -239,6 +239,7 @@ class DetailHelperView extends GetView<DetailHelperController> {
                                 color: Color(0xFFAF4447),
                                 borderRadius: BorderRadius.all(Radius.circular(5)),
                               ),
+                              width: 150,
                               padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 6),
                               margin: const EdgeInsets.only(left: 8, right: 8),
                               child: Column(
@@ -255,33 +256,17 @@ class DetailHelperView extends GetView<DetailHelperController> {
                                       fontSize: 14,
                                     ),
                                   ).marginOnly(bottom: 10),
-                                  RatingBar(
-                                    initialRating: item['rating'],
-                                    direction: Axis.horizontal,
-                                    itemCount: 5,
-                                    itemPadding: EdgeInsets.symmetric(horizontal: 4.0),
-                                    ratingWidget: RatingWidget(
-                                      full: Icon(
-                                        Icons.star_rounded,
-                                        size: 10,
-                                        color: Color(0xFFF8BC4C),
-                                      ),
-                                      half: Icon(
-                                        Icons.star_half_rounded,
-                                        size: 10,
-                                        color: Color(0xFFF8BC4C),
-                                      ),
-                                      empty: Icon(
-                                        Icons.star_rounded,
-                                        size: 10,
-                                        color: Color(0xFFFFFFFF),
-                                      ),
+                                  Text(
+                                    "Full understanding and able to speak",
+                                    textAlign: TextAlign.center,
+                                    overflow: TextOverflow.ellipsis,
+                                    maxLines: 2,
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                      fontFamily: AppConstant.SF_PRO_FONT,
+                                      fontWeight: FontWeight.w400,
+                                      fontSize: 12,
                                     ),
-                                    onRatingUpdate: (rating) {
-                                      print(rating);
-                                    },
-                                    ignoreGestures: true,
-                                    itemSize: 20,
                                   )
                                 ],
                               ),
