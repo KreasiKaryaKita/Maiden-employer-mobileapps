@@ -164,7 +164,7 @@ class RegisterStepTwoController extends GetxController {
         await doAccountInfo();
       } else {
         CommonFunction.loadingHide();
-        CommonFunction.snackbarHelper(message: value!.message?.first ?? 'Failed', isSuccess: false);
+        CommonFunction.snackbarHelper(message: value!.message ?? 'Failed', isSuccess: false);
       }
     }, onError: (e) {
       CommonFunction.loadingHide();
@@ -220,10 +220,10 @@ class RegisterStepTwoController extends GetxController {
           key: PreferenceConstant.USER_TYPE_LABEL,
           value: value.data!.userTypeLabel.toString(),
         );
-        CommonFunction.snackbarHelper(message: value.message?.first ?? 'Success', isSuccess: true);
+        CommonFunction.snackbarHelper(message: value.message ?? 'Success', isSuccess: true);
         Get.offAllNamed(Routes.MAIN);
       } else {
-        CommonFunction.snackbarHelper(message: value!.message?.first ?? 'Failed', isSuccess: false);
+        CommonFunction.snackbarHelper(message: value!.message ?? 'Failed', isSuccess: false);
       }
     }, onError: (e) {
       printError(info: e.toString());
