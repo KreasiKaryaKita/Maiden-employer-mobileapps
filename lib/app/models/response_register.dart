@@ -16,13 +16,13 @@ class ResponseRegister implements ResponseModel {
   factory ResponseRegister.fromJson(Map<String, dynamic> json) => ResponseRegister(
         error: json["error"],
         data: RegisterData.fromJson(json["data"]),
-        message: json["message"],
+        message: [json["message"]],
       );
 
   Map<String, dynamic> toJson() => {
         "error": error,
         "data": data!.toJson(),
-        "message": message,
+        "message": [message],
       };
 }
 

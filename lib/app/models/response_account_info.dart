@@ -16,13 +16,13 @@ class ResponseAccountInfo implements ResponseModel {
   factory ResponseAccountInfo.fromJson(Map<String, dynamic> json) => ResponseAccountInfo(
         error: json["error"],
         data: AccountInfoData.fromJson(json["data"]),
-        message: json["message"],
+        message: List<String>.from(json["message"].map((x) => x)),
       );
 
   Map<String, dynamic> toJson() => {
         "error": error,
         "data": data!.toJson(),
-        "message": message,
+        "message": List<dynamic>.from(message!.map((x) => x)),
       };
 }
 
