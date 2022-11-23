@@ -139,9 +139,8 @@ class RegisterStepTwoController extends GetxController {
     ApiRepositories.register(
       email: arguments['email'],
       password: arguments['password'],
-    ).then((value) {
+    ).then((value) async {
       if (value is ResponseRegister) {
-        doAccountInfo();
         PreferenceHelper().set(
           key: PreferenceConstant.USER_TOKEN,
           value: value.data!.token ?? "",
@@ -162,9 +161,10 @@ class RegisterStepTwoController extends GetxController {
           key: PreferenceConstant.USER_TYPE_LABEL,
           value: value.data!.userTypeLabel.toString(),
         );
+        await doAccountInfo();
       } else {
         CommonFunction.loadingHide();
-        CommonFunction.snackbarHelper(message: value!.message!, isSuccess: false);
+        CommonFunction.snackbarHelper(message: value!.message?.first ?? 'Failed', isSuccess: false);
       }
     }, onError: (e) {
       CommonFunction.loadingHide();
@@ -187,8 +187,6 @@ class RegisterStepTwoController extends GetxController {
     ).then((value) {
       CommonFunction.loadingHide();
       if (value is ResponseAccountInfo) {
-        CommonFunction.snackbarHelper(message: value.message!, isSuccess: true);
-        Get.offAllNamed(Routes.MAIN);
         PreferenceHelper().set(
           key: PreferenceConstant.USER_ID,
           value: value.data!.userId.toString(),
@@ -222,8 +220,10 @@ class RegisterStepTwoController extends GetxController {
           key: PreferenceConstant.USER_TYPE_LABEL,
           value: value.data!.userTypeLabel.toString(),
         );
+        CommonFunction.snackbarHelper(message: value.message?.first ?? 'Success', isSuccess: true);
+        Get.offAllNamed(Routes.MAIN);
       } else {
-        CommonFunction.snackbarHelper(message: value!.message!, isSuccess: false);
+        CommonFunction.snackbarHelper(message: value!.message?.first ?? 'Failed', isSuccess: false);
       }
     }, onError: (e) {
       printError(info: e.toString());
