@@ -69,7 +69,7 @@ class FilterHelper extends StatelessWidget {
                     alignment: Alignment.center,
                     child: GestureDetector(
                       onTap: () {
-                        // Get.back();
+                        Get.back();
                         controller.onClearSearch();
                       },
                       child: Text(
@@ -210,7 +210,7 @@ class FilterHelper extends StatelessWidget {
                                             fontSize: 14,
                                           ),
                                         ),
-                                        if (item.selected!)
+                                        if (item.value == controller.helpersStatusSelected.value.value)
                                           Icon(
                                             Icons.check_rounded,
                                             color: Colors.white,

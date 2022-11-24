@@ -123,7 +123,7 @@ class HelperListingView extends GetView<HelperListingController> {
                                                 ),
                                               ),
                                               SvgPicture.asset(
-                                                "assets/images/icon-country-${item.country == null || (item.country != null && item.country!.isEmpty) ? 'indonesia' : item.country!.toLowerCase()}.svg",
+                                                controller.helperCountryImage(country: item.country ?? ''),
                                                 height: 20,
                                               )
                                             ],

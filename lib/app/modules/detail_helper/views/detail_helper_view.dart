@@ -4,6 +4,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:maiden_employer/app/config/constants/app_constant.dart';
+import 'package:maiden_employer/app/models/response_helper_detail.dart';
 import 'package:maiden_employer/app/shared/widgets/bottom_sheet/detail_work_experience.dart';
 import 'package:maiden_employer/app/shared/widgets/buttons/button_fill.dart';
 import 'package:maiden_employer/app/shared/widgets/images/cached_network_image_widget.dart';
@@ -68,8 +69,7 @@ class DetailHelperView extends GetView<DetailHelperController> {
                                       ? 1.0
                                       : 0.0,
                                   child: Text(
-                                    '${controller.helperDetail.value.firstname ?? ''} ${controller.helperDetail.value.lastname ?? ''}'
-                                        .toUpperCase(),
+                                    controller.helperDetail.value.fullName ?? ''.toUpperCase(),
                                     style: TextStyle(
                                       fontSize: 14,
                                       color: Colors.white,
@@ -111,11 +111,11 @@ class DetailHelperView extends GetView<DetailHelperController> {
                                     mainAxisSize: MainAxisSize.min,
                                     children: [
                                       SvgPicture.asset(
-                                        "assets/images/icon-country-indonesia.svg",
+                                        controller.helperCountryImage(),
                                         height: 20,
                                       ),
                                       Text(
-                                        controller.helperDetail.value.countryName ?? '',
+                                        controller.helperDetail.value.country ?? '',
                                         textAlign: TextAlign.center,
                                         style: TextStyle(
                                           color: Color(0xFF272B30),
@@ -142,7 +142,7 @@ class DetailHelperView extends GetView<DetailHelperController> {
                       padding: EdgeInsets.only(bottom: 20),
                       children: [
                         Text(
-                          "${controller.helperDetail.value.firstname}, ${controller.helperDetail.value.age}",
+                          controller.helperDetail.value.fullName ?? '',
                           style: TextStyle(
                             color: Colors.white,
                             fontWeight: FontWeight.w500,
@@ -157,6 +157,7 @@ class DetailHelperView extends GetView<DetailHelperController> {
                                   color: Color(0xFF017AAD),
                                   borderRadius: BorderRadius.all(Radius.circular(100)),
                                 ),
+                                margin: EdgeInsets.only(right: 10),
                                 padding: EdgeInsets.symmetric(horizontal: 12, vertical: 6),
                                 child: Text(
                                   "${'in'.tr} Singapore",
@@ -173,9 +174,14 @@ class DetailHelperView extends GetView<DetailHelperController> {
                                 borderRadius: BorderRadius.all(Radius.circular(100)),
                               ),
                               padding: EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-                              margin: EdgeInsets.only(left: 10),
                               child: Text(
-                                "available".tr,
+                                controller.helperDetail.value.availabilityInterviewedEmployer
+                                            ?.firstWhere((e) => e.question == 'Not available for interview',
+                                                orElse: () => AvailabilityInterviewedEmployer(answer: false))
+                                            .answer ==
+                                        true
+                                    ? "available".tr
+                                    : "Not Available",
                                 style: TextStyle(
                                   color: Colors.white,
                                   fontWeight: FontWeight.w500,
@@ -185,14 +191,15 @@ class DetailHelperView extends GetView<DetailHelperController> {
                             ),
                           ],
                         ).paddingSymmetric(horizontal: 20).marginOnly(top: 20),
-                        Text(
-                          "She is very experienced with children. She has 2 children of her own and has taken care of 4 children by herself when working in Malaysia. She can cook chinese and Indonesian food. She was with her last employer for 3 years and finished her contract. She is willing to learn new skills, to take care of pets or elderly. She will work hard for your family and do her best.",
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontWeight: FontWeight.w400,
-                            fontSize: 14,
-                          ),
-                        ).paddingSymmetric(horizontal: 20).marginOnly(top: 16),
+                        if (controller.helperDetail.value.description?.isNotEmpty ?? false)
+                          Text(
+                            controller.helperDetail.value.description ?? '',
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontWeight: FontWeight.w400,
+                              fontSize: 14,
+                            ),
+                          ).paddingSymmetric(horizontal: 20).marginOnly(top: 16),
                         Divider(
                           thickness: 1,
                           height: 0,
@@ -335,6 +342,7 @@ class DetailHelperView extends GetView<DetailHelperController> {
                                         fontWeight: FontWeight.w400,
                                         fontSize: 14,
                                       ),
+                                      textAlign: TextAlign.center,
                                     ).marginOnly(top: 10),
                                   ],
                                 ),
@@ -389,6 +397,7 @@ class DetailHelperView extends GetView<DetailHelperController> {
                                         fontWeight: FontWeight.w400,
                                         fontSize: 14,
                                       ),
+                                      textAlign: TextAlign.center,
                                     ).marginOnly(top: 10),
                                   ],
                                 ),
@@ -434,7 +443,7 @@ class DetailHelperView extends GetView<DetailHelperController> {
                                       mainAxisAlignment: MainAxisAlignment.start,
                                       children: [
                                         Text(
-                                          item['year'],
+                                          '${item['from']} - ${item['to']}',
                                           overflow: TextOverflow.ellipsis,
                                           style: TextStyle(
                                             color: Colors.white,
@@ -444,7 +453,7 @@ class DetailHelperView extends GetView<DetailHelperController> {
                                           ),
                                         ),
                                         Text(
-                                          item['label'],
+                                          item['country'],
                                           overflow: TextOverflow.ellipsis,
                                           style: TextStyle(
                                             color: Color(0xFFF39497),
@@ -547,32 +556,45 @@ class DetailHelperView extends GetView<DetailHelperController> {
                     color: Color(0xFF820333),
                     padding: EdgeInsets.symmetric(horizontal: 20, vertical: 20),
                     child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Text(
-                          "download_pdf".tr,
-                          overflow: TextOverflow.ellipsis,
-                          style: TextStyle(
-                            color: Color(0xFFFFFFFF),
-                            fontFamily: AppConstant.SF_PRO_FONT,
-                            fontWeight: FontWeight.w700,
-                            fontSize: 16,
-                          ),
-                        ).marginOnly(right: 20),
                         Expanded(
-                          child: ButtonFill(
-                            onPressed: () {},
-                            backgroundColor: Colors.white,
-                            height: 48,
-                            text: Text(
-                              'request_for_interview'.tr,
+                          flex: 1,
+                          child: GestureDetector(
+                            onTap: controller.onDownloadPdfPressed,
+                            child: Text(
+                              "download_pdf".tr,
+                              overflow: TextOverflow.ellipsis,
                               style: TextStyle(
-                                color: Color(0xFFE1464A),
+                                color: Color(0xFFFFFFFF),
+                                fontFamily: AppConstant.SF_PRO_FONT,
                                 fontWeight: FontWeight.w700,
                                 fontSize: 16,
                               ),
-                            ),
+                            ).marginOnly(right: 20),
                           ),
-                        )
+                        ),
+                        if (controller.helperDetail.value.availabilityInterviewedEmployer
+                                ?.firstWhere((e) => e.question == 'Not available for interview',
+                                    orElse: () => AvailabilityInterviewedEmployer(answer: false))
+                                .answer ==
+                            true)
+                          Expanded(
+                            flex: 2,
+                            child: ButtonFill(
+                              onPressed: () {},
+                              backgroundColor: Colors.white,
+                              height: 48,
+                              text: Text(
+                                'request_for_interview'.tr,
+                                style: TextStyle(
+                                  color: Color(0xFFE1464A),
+                                  fontWeight: FontWeight.w700,
+                                  fontSize: 16,
+                                ),
+                              ),
+                            ),
+                          )
                       ],
                     ),
                   )

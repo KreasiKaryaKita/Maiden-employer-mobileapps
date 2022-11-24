@@ -1,9 +1,13 @@
 // ignore_for_file: unnecessary_overrides
 
+import 'dart:io';
+
+import 'package:flutter_downloader/flutter_downloader.dart';
 import 'package:get/get.dart';
 import 'package:maiden_employer/app/data/repository/api_repositories.dart';
 import 'package:maiden_employer/app/models/response_helper_detail.dart';
 import 'package:maiden_employer/app/shared/common/common_function.dart';
+import 'package:path_provider/path_provider.dart';
 
 class DetailHelperController extends GetxController {
   var isLoading = true.obs;
@@ -74,7 +78,7 @@ class DetailHelperController extends GetxController {
 
         if (value.data!.language != null && value.data!.language!.isNotEmpty) {
           languageSkills.assignAll(value.data!.language!.map((e) => {
-                "value": e.answer,
+                "value": e.level,
                 "label": e.question,
               }));
         }
@@ -96,8 +100,8 @@ class DetailHelperController extends GetxController {
             "assets/images/Boy.svg",
             "assets/images/Elderly-Person.svg",
             "assets/images/Elderly-Person.svg",
-            "assets/images/Fiat-500.svg",
             "assets/images/Lawn-Mower.svg",
+            "assets/images/Fiat-500.svg",
             "assets/images/Lawn-Mower.svg",
             "assets/images/Corgi.svg"
           ];
@@ -161,8 +165,8 @@ class DetailHelperController extends GetxController {
               "assets/images/Elderly-Person.svg",
               "assets/images/Elderly-Person.svg",
               "assets/images/Fiat-500.svg",
-              "assets/images/Corgi.svg"
-                  "assets/images/Lawn-Mower.svg",
+              "assets/images/Corgi.svg",
+              "assets/images/Lawn-Mower.svg",
               "assets/images/Lawn-Mower.svg",
               "assets/images/Elderly-Person.svg",
               "assets/images/Elderly-Person.svg",
@@ -172,28 +176,53 @@ class DetailHelperController extends GetxController {
             for (var i = 0; i < value.data!.willingAbleTo!.length; i++) {
               var searchwil = tempAble.indexWhere((e) => e == value.data!.willingAbleTo![i].question);
               willing.add({
-                "icon": searchwil == -1 ? tempImgAble[0] : tempImgSkills[searchwil],
+                "icon": searchwil == -1 ? tempImgAble[0] : tempImgAble[searchwil],
                 "label": value.data!.willingAbleTo![i].question,
               });
             }
           }
 
-          workExperience.assignAll(value.data!.experience!.map((e) => {
-                "year": '${e.from} - ${e.to}',
-                "label": e.country,
+          if (value.data!.experience != null && value.data!.experience!.isNotEmpty) {
+            var tempDuties = [
+              'Infant Care',
+              'Child Care',
+              'Elderly Care',
+              'Disabled/Special Needs Care',
+              'General Housekeeping',
+              'Other Work Duties',
+              'Cooking',
+              'Pet Care'
+            ];
+
+            var tempImgDuties = [
+              "assets/images/Baby.svg",
+              "assets/images/Boy.svg",
+              "assets/images/Elderly-Person.svg",
+              "assets/images/Elderly-Person.svg",
+              "assets/images/Lawn-Mower.svg",
+              "assets/images/Fiat-500.svg",
+              "assets/images/Lawn-Mower.svg",
+              "assets/images/Corgi.svg"
+            ];
+
+            workExperience.assignAll(value.data!.experience!.map((e) {
+              var duties = e.workDuties!.where((e) => e.answer != null && e.answer!).map((e) {
+                var searchwil = tempDuties.indexWhere((x) => x == e.question!);
+                return {'icon': searchwil == -1 ? tempImgDuties[0] : tempImgDuties[searchwil], 'label': e.question};
+              }).toList();
+              return {
+                "from": e.from,
+                "to": e.to,
+                "country": e.country,
                 "name": e.name,
                 "ethnicity": e.ethnicity,
                 "no_of_pax": e.noOfPax,
                 "house_type": e.houseType,
-                "work_duties": e.workDuties!.map((e) => e.question).toList(),
+                "work_duties": duties,
                 "reason_termination": e.reasonTermination
-              }));
-
-          vaccination.assignAll(value.data!.vaccination!.map((e) => {
-                "step": "3rd Dose - Booster",
-                "label": "27 February 2021",
-                "type": "Sinovac",
-              }));
+              };
+            }));
+          }
 
           if (value.data!.vaccination != null &&
               value.data!.vaccination!.isNotEmpty &&
@@ -228,5 +257,47 @@ class DetailHelperController extends GetxController {
   updateCount(value) {
     count.value = value;
     printInfo(info: count.toString());
+  }
+
+  String helperCountryImage() {
+    var tempCountry = [
+      'indonesia',
+      'singapore',
+      'philippines',
+      'myanmar',
+      'indian',
+      'sri-lanka',
+    ];
+
+    var tempCountryImg = [
+      "assets/images/icon-country-indonesia.svg",
+      "assets/images/icon-country-singapore.svg",
+      "assets/images/icon-country-philippines.svg",
+      "assets/images/icon-country-myanmar.svg",
+      "assets/images/icon-country-indian.svg",
+      "assets/images/icon-country-sri-lanka.svg",
+    ];
+
+    var search = tempCountry.indexWhere((e) => e.contains(helperDetail.value.country?.toLowerCase() ?? ''));
+
+    return tempCountryImg[search < 0 ? 0 : search];
+  }
+
+  onDownloadPdfPressed() async {
+    var url = 'https://cms.maiden.yurekadev.com/helper/v2/helper/export/${helperDetail.value.id}/pdf';
+
+    Directory? directory;
+    directory = Directory('/storage/emulated/0/Download');
+    // Put file in global download folder, if for an unknown reason it didn't exist, we fallback
+    // ignore: avoid_slow_async_io
+    if (!await directory.exists()) directory = await getExternalStorageDirectory();
+
+    final taskId = await FlutterDownloader.enqueue(
+      url: url,
+      headers: {}, // optional: header send with url (auth token etc)
+      savedDir: directory!.path,
+      showNotification: true, // show download progress in status bar (for Android)
+      openFileFromNotification: true, // click on notification to open downloaded file (for Android)
+    );
   }
 }

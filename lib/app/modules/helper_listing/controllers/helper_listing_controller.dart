@@ -137,7 +137,6 @@ class HelperListingController extends GetxController {
       OptionStatusHelpersModel(
         label: "filters_in_singapore".tr,
         value: 'SG',
-        selected: true,
       ),
       OptionStatusHelpersModel(
         label: "filters_overseas".tr,
@@ -145,11 +144,11 @@ class HelperListingController extends GetxController {
       ),
     ]);
 
-    helpersStatusSelected.value = OptionStatusHelpersModel(
-      label: "filters_in_singapore".tr,
-      value: 'SG',
-      selected: true,
-    );
+    // helpersStatusSelected.value = OptionStatusHelpersModel(
+    //   label: "filters_in_singapore".tr,
+    //   value: 'SG',
+    //   selected: true,
+    // );
 
     getNationalities();
 
@@ -601,7 +600,6 @@ class HelperListingController extends GetxController {
       OptionStatusHelpersModel(
         label: "filters_in_singapore".tr,
         value: 'SG',
-        selected: true,
       ),
       OptionStatusHelpersModel(
         label: "filters_overseas".tr,
@@ -609,7 +607,7 @@ class HelperListingController extends GetxController {
       ),
     ]);
 
-    helpersStatusSelected.value = helpersStatus[0];
+    helpersStatusSelected.value = OptionStatusHelpersModel();
 
     helpersCountrySelected.value = 'all';
 
@@ -669,18 +667,12 @@ class HelperListingController extends GetxController {
   }
 
   onSelectStatusFilter(int index) {
-    for (var i = 0; i < helpersStatus.length; i++) {
-      if (helpersStatus[index].value == helpersStatus[i].value) {
-        helpersStatus[index].selected = !helpersStatus[index].selected!;
-      } else {
-        helpersStatus[i].selected = !helpersStatus[i].selected!;
-      }
-
-      if (helpersStatus[i].selected == true) {
-        helpersStatusSelected.value = helpersStatus[i];
-      }
+    if (helpersStatus[index].selected ?? false) {
+      helpersStatusSelected.value = OptionStatusHelpersModel();
+    } else {
+      helpersStatusSelected.value = helpersStatus[index];
     }
-    // helpersStatus[index].selected = !helpersStatus[index].selected!;
+    helpersStatus[index].selected = !helpersStatus[index].selected!;
     helpersStatus.refresh();
 
     getHelpersCount();
@@ -910,6 +902,31 @@ class HelperListingController extends GetxController {
     getHelpersCount();
   }
 
+  String helperCountryImage({required String country}) {
+    print('===? ${country}');
+    var tempCountry = [
+      'indonesia',
+      'singapore',
+      'philippines',
+      'myanmar',
+      'indian',
+      'sri-lanka',
+    ];
+
+    var tempCountryImg = [
+      "assets/images/icon-country-indonesia.svg",
+      "assets/images/icon-country-singapore.svg",
+      "assets/images/icon-country-philippines.svg",
+      "assets/images/icon-country-myanmar.svg",
+      "assets/images/icon-country-indian.svg",
+      "assets/images/icon-country-sri-lanka.svg",
+    ];
+
+    var search = tempCountry.indexWhere((e) => e.contains(country.toLowerCase()));
+
+    return tempCountryImg[search < 0 ? 0 : search];
+  }
+
   getHelpers() {
     isLoading.value = true;
     helpers.clear();
@@ -943,14 +960,14 @@ class HelperListingController extends GetxController {
     ).then((value) {
       isLoading.value = false;
       if (value is ResponseHelpers) {
-        helpers.assignAll(value.data!.list!.map(
+        helpers.assignAll(value!.data!.list!.map(
           (e) => HelpersModel(
             id: e.id,
             image: e.photo != null && e.photo!.isNotEmpty
                 ? 'https://api.maiden.yurekadev.com/${e.photo}'.replaceAll('public/', 'helper/')
                 : AppConstant.DEFAULT_AVATAR,
             age: int.tryParse(e.age ?? '0'),
-            country: e.countryName,
+            country: e.country,
             experience: int.tryParse(e.experienceYears ?? '0'),
             name: e.fullName,
             readyDate: (e.readyForHireDate?.isEmpty ?? true) ? null : DateTime.parse(e.readyForHireDate!),
@@ -994,8 +1011,7 @@ class HelperListingController extends GetxController {
           : helpersWorkExperienceSelected.map((e) => e.value).toList().join(','),
     ).then((value) {
       if (value is ResponseHelpersCount) {
-        var temp = (value.data?.totalData ?? 0);
-        helpersCountSearch.value = temp > 0 ? temp - 1 : 0;
+        helpersCountSearch.value = value.data?.totalData ?? 0;
       } else {}
     }, onError: (e) {});
   }
