@@ -1,7 +1,4 @@
-// To parse this JSON data, do
-//
-//     final responseReligions = responseReligionsFromJson(jsonString);
-
+// ignore_for_file: overridden_fields, annotate_overrides
 import 'dart:convert';
 
 import 'response_standard.dart';
@@ -22,13 +19,13 @@ class ResponseReligions extends ResponseModel {
   String toRawJson() => json.encode(toJson());
 
   factory ResponseReligions.fromJson(Map<String, dynamic> json) => ResponseReligions(
-        error: json["error"] == null ? null : json["error"],
+        error: json["error"],
         data: json["data"] == null ? null : Data.fromJson(json["data"]),
         message: json["message"] == null ? null : List<String>.from(json["message"].map((x) => x)),
       );
 
   Map<String, dynamic> toJson() => {
-        "error": error == null ? null : error,
+        "error": error,
         "data": data == null ? null : data!.toJson(),
         "message": message == null ? null : List<dynamic>.from(message!.map((x) => x)),
       };
@@ -69,12 +66,12 @@ class ReligionModel {
   String toRawJson() => json.encode(toJson());
 
   factory ReligionModel.fromJson(Map<String, dynamic> json) => ReligionModel(
-        label: json["label"] == null ? null : json["label"],
-        value: json["value"] == null ? null : json["value"],
+        label: json["label"],
+        value: json["value"],
       );
 
   Map<String, dynamic> toJson() => {
-        "label": label == null ? null : label,
-        "value": value == null ? null : value,
+        "label": label,
+        "value": value,
       };
 }

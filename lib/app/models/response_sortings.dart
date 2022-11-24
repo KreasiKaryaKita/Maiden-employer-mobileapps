@@ -1,6 +1,4 @@
-// To parse this JSON data, do
-//
-//     final responseSortings = responseSortingsFromJson(jsonString);
+// ignore_for_file: overridden_fields, annotate_overrides
 
 import 'dart:convert';
 
@@ -22,13 +20,13 @@ class ResponseSortings extends ResponseModel {
   String toRawJson() => json.encode(toJson());
 
   factory ResponseSortings.fromJson(Map<String, dynamic> json) => ResponseSortings(
-        error: json["error"] == null ? null : json["error"],
+        error: json["error"],
         data: json["data"] == null ? null : Data.fromJson(json["data"]),
         message: json["message"] == null ? null : List<String>.from(json["message"].map((x) => x)),
       );
 
   Map<String, dynamic> toJson() => {
-        "error": error == null ? null : error,
+        "error": error,
         "data": data == null ? null : data!.toJson(),
         "message": message == null ? null : List<dynamic>.from(message!.map((x) => x)),
       };
@@ -68,12 +66,12 @@ class ListElement {
   String toRawJson() => json.encode(toJson());
 
   factory ListElement.fromJson(Map<String, dynamic> json) => ListElement(
-        label: json["label"] == null ? null : json["label"],
-        value: json["value"] == null ? null : json["value"],
+        label: json["label"],
+        value: json["value"],
       );
 
   Map<String, dynamic> toJson() => {
-        "label": label == null ? null : label,
-        "value": value == null ? null : value,
+        "label": label,
+        "value": value,
       };
 }

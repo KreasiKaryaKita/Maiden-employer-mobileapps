@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:flutter_svg/svg.dart';
 
 import 'package:get/get.dart';
@@ -152,7 +151,7 @@ class DetailHelperView extends GetView<DetailHelperController> {
                         ).paddingSymmetric(horizontal: 20).marginOnly(top: 20),
                         Row(
                           children: [
-                            if (controller.helperDetail.value.country?.toLowerCase()?.contains('singapore') ?? false)
+                            if (controller.helperDetail.value.country?.toLowerCase().contains('singapore') ?? false)
                               Container(
                                 decoration: BoxDecoration(
                                   color: Color(0xFF017AAD),

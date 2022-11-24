@@ -1,7 +1,4 @@
-// To parse this JSON data, do
-//
-//     final responseMaritalStatus = responseMaritalStatusFromJson(jsonString);
-
+// ignore_for_file: overridden_fields, annotate_overrides
 import 'dart:convert';
 
 import 'package:maiden_employer/app/models/response_standard.dart';
@@ -22,13 +19,13 @@ class ResponseMaritalStatus extends ResponseModel {
   String toRawJson() => json.encode(toJson());
 
   factory ResponseMaritalStatus.fromJson(Map<String, dynamic> json) => ResponseMaritalStatus(
-        error: json["error"] == null ? null : json["error"],
+        error: json["error"],
         data: json["data"] == null ? null : Data.fromJson(json["data"]),
         message: json["message"] == null ? null : List<String>.from(json["message"].map((x) => x)),
       );
 
   Map<String, dynamic> toJson() => {
-        "error": error == null ? null : error,
+        "error": error,
         "data": data == null ? null : data!.toJson(),
         "message": message == null ? null : List<dynamic>.from(message!.map((x) => x)),
       };
@@ -70,12 +67,12 @@ class MaritalStatusModel {
   String toRawJson() => json.encode(toJson());
 
   factory MaritalStatusModel.fromJson(Map<String, dynamic> json) => MaritalStatusModel(
-        label: json["label"] == null ? null : json["label"],
-        value: json["value"] == null ? null : json["value"],
+        label: json["label"],
+        value: json["value"],
       );
 
   Map<String, dynamic> toJson() => {
-        "label": label == null ? null : label,
-        "value": value == null ? null : value,
+        "label": label,
+        "value": value,
       };
 }
