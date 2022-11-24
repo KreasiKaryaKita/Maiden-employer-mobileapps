@@ -137,7 +137,6 @@ class HelperListingController extends GetxController {
       OptionStatusHelpersModel(
         label: "filters_in_singapore".tr,
         value: 'SG',
-        selected: true,
       ),
       OptionStatusHelpersModel(
         label: "filters_overseas".tr,
@@ -145,11 +144,11 @@ class HelperListingController extends GetxController {
       ),
     ]);
 
-    helpersStatusSelected.value = OptionStatusHelpersModel(
-      label: "filters_in_singapore".tr,
-      value: 'SG',
-      selected: true,
-    );
+    // helpersStatusSelected.value = OptionStatusHelpersModel(
+    //   label: "filters_in_singapore".tr,
+    //   value: 'SG',
+    //   selected: true,
+    // );
 
     getNationalities();
 
@@ -601,7 +600,6 @@ class HelperListingController extends GetxController {
       OptionStatusHelpersModel(
         label: "filters_in_singapore".tr,
         value: 'SG',
-        selected: true,
       ),
       OptionStatusHelpersModel(
         label: "filters_overseas".tr,
@@ -609,7 +607,7 @@ class HelperListingController extends GetxController {
       ),
     ]);
 
-    helpersStatusSelected.value = helpersStatus[0];
+    helpersStatusSelected.value = OptionStatusHelpersModel();
 
     helpersCountrySelected.value = 'all';
 
@@ -669,17 +667,17 @@ class HelperListingController extends GetxController {
   }
 
   onSelectStatusFilter(int index) {
-    for (var i = 0; i < helpersStatus.length; i++) {
-      if (helpersStatus[index].value == helpersStatus[i].value) {
-        helpersStatus[index].selected = !helpersStatus[index].selected!;
-      } else {
-        helpersStatus[i].selected = !helpersStatus[i].selected!;
-      }
+    // for (var i = 0; i < helpersStatus.length; i++) {
+    //   if (helpersStatus[index].value == helpersStatus[i].value) {
+    //     helpersStatus[index].selected = !helpersStatus[index].selected!;
+    //   } else {
+    //     helpersStatus[i].selected = !helpersStatus[i].selected!;
+    //   }
 
-      if (helpersStatus[i].selected == true) {
-        helpersStatusSelected.value = helpersStatus[i];
-      }
-    }
+    //   if (helpersStatus[i].selected == true) {
+    helpersStatusSelected.value = helpersStatus[index];
+    //   }
+    // }
     // helpersStatus[index].selected = !helpersStatus[index].selected!;
     helpersStatus.refresh();
 
