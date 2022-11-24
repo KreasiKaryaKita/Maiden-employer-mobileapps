@@ -67,7 +67,7 @@ class DetailHelperController extends GetxController {
 
   getDetail() {
     isLoading.value = true;
-    ApiRepositories.helperDetail(id: arguments.value['id']).then((value) {
+    ApiRepositories.helperDetail(id: arguments['id']).then((value) {
       isLoading.value = false;
       if (value is ResponseHelperDetail) {
         helperDetail.value = value.data!;

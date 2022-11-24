@@ -16,7 +16,6 @@ import 'package:maiden_employer/app/models/entity/option_sort_helpers_model.dart
 import 'package:maiden_employer/app/models/entity/option_status_helpers_model.dart';
 import 'package:maiden_employer/app/models/entity/option_work_experience_helpers_model.dart';
 import 'package:maiden_employer/app/models/entity/option_work_skill_helpers_model.dart';
-import 'package:maiden_employer/app/models/response_countries.dart';
 import 'package:maiden_employer/app/models/response_education_levels.dart';
 import 'package:maiden_employer/app/models/response_helpers.dart';
 import 'package:maiden_employer/app/models/response_helpers_count.dart';
@@ -917,7 +916,7 @@ class HelperListingController extends GetxController {
     ApiRepositories.helperList(
       ageMin: isAgeFiltered.value ? currentRangeValues.value.start.toInt() : null,
       ageMax: isAgeFiltered.value ? currentRangeValues.value.end.toInt() : null,
-      status: helpersStatusSelected.value.value == null ? null : helpersStatusSelected.value.value,
+      status: helpersStatusSelected.value.value,
       nationality: !isFiltered.value
           ? helpersCountrySelected.value == 'all'
               ? null
@@ -971,7 +970,7 @@ class HelperListingController extends GetxController {
     ApiRepositories.helperCount(
       ageMin: isAgeFiltered.value ? currentRangeValues.value.start.toInt() : null,
       ageMax: isAgeFiltered.value ? currentRangeValues.value.end.toInt() : null,
-      status: helpersStatusSelected.value.value == null ? null : helpersStatusSelected.value.value,
+      status: helpersStatusSelected.value.value,
       nationality: !isFiltered.value
           ? helpersCountrySelected.value == 'all'
               ? null

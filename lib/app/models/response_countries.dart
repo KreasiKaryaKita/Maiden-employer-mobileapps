@@ -1,6 +1,4 @@
-// To parse this JSON data, do
-//
-//     final responseCountries = responseCountriesFromJson(jsonString);
+// ignore_for_file: overridden_fields, annotate_overrides
 
 import 'dart:convert';
 
@@ -22,13 +20,13 @@ class ResponseCountries extends ResponseModel {
   String toRawJson() => json.encode(toJson());
 
   factory ResponseCountries.fromJson(Map<String, dynamic> json) => ResponseCountries(
-        error: json["error"] == null ? null : json["error"],
+        error: json["error"],
         data: json["data"] == null ? null : Data.fromJson(json["data"]),
         message: json["message"] == null ? null : List<String>.from(json["message"].map((x) => x)),
       );
 
   Map<String, dynamic> toJson() => {
-        "error": error == null ? null : error,
+        "error": error,
         "data": data == null ? null : data!.toJson(),
         "message": message == null ? null : List<dynamic>.from(message!.map((x) => x)),
       };
@@ -51,14 +49,14 @@ class Data {
 
   factory Data.fromJson(Map<String, dynamic> json) => Data(
         list: json["list"] == null ? null : List<CountryModel>.from(json["list"].map((x) => CountryModel.fromJson(x))),
-        limit: json["limit"] == null ? null : json["limit"],
-        page: json["page"] == null ? null : json["page"],
+        limit: json["limit"],
+        page: json["page"],
       );
 
   Map<String, dynamic> toJson() => {
         "list": list == null ? null : List<dynamic>.from(list!.map((x) => x.toJson())),
-        "limit": limit == null ? null : limit,
-        "page": page == null ? null : page,
+        "limit": limit,
+        "page": page,
       };
 }
 
@@ -82,18 +80,18 @@ class CountryModel {
   String toRawJson() => json.encode(toJson());
 
   factory CountryModel.fromJson(Map<String, dynamic> json) => CountryModel(
-        id: json["id"] == null ? null : json["id"],
-        name: json["name"] == null ? null : json["name"],
-        code: json["code"] == null ? null : json["code"],
-        phoneCode: json["phone_code"] == null ? null : json["phone_code"],
-        image: json["image"] == null ? null : json["image"],
+        id: json["id"],
+        name: json["name"],
+        code: json["code"],
+        phoneCode: json["phone_code"],
+        image: json["image"],
       );
 
   Map<String, dynamic> toJson() => {
-        "id": id == null ? null : id,
-        "name": name == null ? null : name,
-        "code": code == null ? null : code,
-        "phone_code": phoneCode == null ? null : phoneCode,
-        "image": image == null ? null : image,
+        "id": id,
+        "name": name,
+        "code": code,
+        "phone_code": phoneCode,
+        "image": image,
       };
 }

@@ -1,7 +1,4 @@
-// To parse this JSON data, do
-//
-//     final responseHelpersCount = responseHelpersCountFromJson(jsonString);
-
+// ignore_for_file: overridden_fields, annotate_overrides
 import 'dart:convert';
 
 import 'response_standard.dart';
@@ -22,7 +19,7 @@ class ResponseHelpersCount extends ResponseModel {
   String toRawJson() => json.encode(toJson());
 
   factory ResponseHelpersCount.fromJson(Map<String, dynamic> json) => ResponseHelpersCount(
-        error: json["error"] == null ? null : json["error"],
+        error: json["error"],
         data: json["data"] == null ? null : Data.fromJson(json["data"]),
         message: json["message"] == null
             ? null
@@ -32,7 +29,7 @@ class ResponseHelpersCount extends ResponseModel {
       );
 
   Map<String, dynamic> toJson() => {
-        "error": error == null ? null : error,
+        "error": error,
         "data": data == null ? null : data!.toJson(),
         "message": message == null
             ? null
@@ -54,10 +51,10 @@ class Data {
   String toRawJson() => json.encode(toJson());
 
   factory Data.fromJson(Map<String, dynamic> json) => Data(
-        totalData: json["total_data"] == null ? null : json["total_data"],
+        totalData: json["total_data"],
       );
 
   Map<String, dynamic> toJson() => {
-        "total_data": totalData == null ? null : totalData,
+        "total_data": totalData,
       };
 }
