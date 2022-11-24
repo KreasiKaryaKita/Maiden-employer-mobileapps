@@ -15,9 +15,12 @@ class EndpointConstant {
   static const String MARITAL_STATUS = 'options/marital-status';
   static const String SKILLS = 'options/skills';
   static const String EDUCATION_LEVELS = 'options/education-level';
+  static const String NATIONALITIES = 'options/nationality';
+  static const String WORK_EXPERIENCES = 'options/work-experience';
   static const String SORTINGS = 'options/sorting';
 
   ///HELPER
   static const String HELPERS = 'helper/list';
   static const String HELPER_DETAIL = 'helper/detail';
+  static const String HELPERS_COUNT = 'helper/count';
 }

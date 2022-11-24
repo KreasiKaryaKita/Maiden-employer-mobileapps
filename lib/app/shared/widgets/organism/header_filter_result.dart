@@ -51,23 +51,50 @@ class HeaderFilterResult extends StatelessWidget {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(
-                          "Infact Care, Elderly Care +2",
-                          overflow: TextOverflow.ellipsis,
-                          style: TextStyle(
-                            color: Color(0xFF6A7178),
-                            fontWeight: FontWeight.w700,
-                            fontSize: 14,
-                          ),
-                        ),
-                        Text(
-                          "Jan 2023, 23-40 y.o",
-                          overflow: TextOverflow.ellipsis,
-                          style: TextStyle(
-                            color: Color(0xFF6A7178),
-                            fontWeight: FontWeight.w400,
-                            fontSize: 12,
-                          ),
+                        Builder(builder: (context) {
+                          var selecteds = controller.helpersWorkSkill.where((p) => p.selected ?? false).toList();
+                          if (selecteds.isEmpty) {
+                            return SizedBox();
+                          } else {
+                            return Text(
+                              selecteds.length > 1
+                                  ? '${selecteds[0].label!},+${selecteds.length - 1}'
+                                  : selecteds[0].label!,
+                              overflow: TextOverflow.ellipsis,
+                              style: TextStyle(
+                                color: Color(0xFF6A7178),
+                                fontWeight: FontWeight.w700,
+                                fontSize: 14,
+                              ),
+                            );
+                          }
+                        }),
+                        Row(
+                          children: [
+                            if (controller.isMonthYearFiltered.value)
+                              Text(
+                                '${controller.selectedMonth.value.label} ${controller.selectedYear.value.label}',
+                                overflow: TextOverflow.ellipsis,
+                                style: TextStyle(
+                                  color: Color(0xFF6A7178),
+                                  fontWeight: FontWeight.w400,
+                                  fontSize: 12,
+                                ),
+                              ),
+                            controller.isMonthYearFiltered.value && controller.isAgeFiltered.value
+                                ? SizedBox(width: 4, child: Text(','))
+                                : SizedBox(width: 4),
+                            if (controller.isAgeFiltered.value)
+                              Text(
+                                '${controller.currentRangeValues.value.start.toStringAsFixed(0)}-${controller.currentRangeValues.value.end.toStringAsFixed(0)} y.o',
+                                overflow: TextOverflow.ellipsis,
+                                style: TextStyle(
+                                  color: Color(0xFF6A7178),
+                                  fontWeight: FontWeight.w400,
+                                  fontSize: 12,
+                                ),
+                              ),
+                          ],
                         ),
                       ],
                     ).paddingSymmetric(horizontal: 8),

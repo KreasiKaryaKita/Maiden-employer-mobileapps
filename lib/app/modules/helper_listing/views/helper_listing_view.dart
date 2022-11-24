@@ -40,7 +40,7 @@ class HelperListingView extends GetView<HelperListingController> {
                   children: [
                     if (controller.isFiltered.value && controller.helpers.isNotEmpty)
                       Text(
-                        "${'filter_browsing'.tr.toUpperCase()} 300 ${'filter_results'.tr.toUpperCase()}",
+                        "${'filter_browsing'.tr.toUpperCase()} ${controller.helpers.length} ${'filter_results'.tr.toUpperCase()}",
                         textAlign: TextAlign.center,
                         style: TextStyle(
                           color: Colors.white,
@@ -50,7 +50,7 @@ class HelperListingView extends GetView<HelperListingController> {
                       ).marginOnly(top: 4),
                     if (!controller.isFiltered.value) HeaderHelperListings(),
                     LoadingWidget(
-                      isLoading: false,
+                      isLoading: controller.isLoading.value,
                       data: controller.helpers,
                       emptyChild: HelperListingEmpty().paddingSymmetric(horizontal: 20),
                       child: GridView.builder(
@@ -68,7 +68,8 @@ class HelperListingView extends GetView<HelperListingController> {
                           HelpersModel item = controller.helpers[index];
                           return InkWell(
                             onTap: () {
-                              Get.toNamed(Routes.DETAIL_HELPER);
+                              Get.toNamed(Routes.DETAIL_HELPER,
+                                  arguments: {'id': item.id, 'ready_from': item.readyDate});
                             },
                             child: ClipRRect(
                               borderRadius: BorderRadius.all(Radius.circular(8)),
@@ -122,7 +123,7 @@ class HelperListingView extends GetView<HelperListingController> {
                                                 ),
                                               ),
                                               SvgPicture.asset(
-                                                "assets/images/icon-country-${item.country}.svg",
+                                                "assets/images/icon-country-${item.country == null || (item.country != null && item.country!.isEmpty) ? 'indonesia' : item.country!.toLowerCase()}.svg",
                                                 height: 20,
                                               )
                                             ],

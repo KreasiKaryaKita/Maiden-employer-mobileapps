@@ -383,6 +383,8 @@ class SearchHelper extends StatelessWidget {
                                           onSelected: (month) {
                                             controller.isMonthYearFiltered.value = true;
                                             controller.selectedMonth.value = month;
+
+                                            controller.getHelpersCount();
                                           }),
                                     ),
                                     SizedBox(width: 10),
@@ -468,6 +470,8 @@ class SearchHelper extends StatelessWidget {
                                         onSelected: (year) {
                                           controller.isMonthYearFiltered.value = true;
                                           controller.selectedYear.value = year;
+
+                                          controller.getHelpersCount();
                                         },
                                       ),
                                     ),
@@ -662,7 +666,7 @@ class SearchHelper extends StatelessWidget {
                           backgroundColor: Colors.white,
                           height: 48,
                           text: Text(
-                            "${'search_title'.tr} (300)",
+                            "${'search_title'.tr} (${controller.helpersCountSearch.value})",
                             style: TextStyle(
                               color: Color(0xFF333333),
                               fontWeight: FontWeight.w700,

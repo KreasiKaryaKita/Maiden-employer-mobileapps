@@ -4,7 +4,7 @@
 
 import 'dart:convert';
 
-import 'response_standard.dart';
+import 'package:maiden_employer/app/models/response_standard.dart';
 
 class ResponseHelpers extends ResponseModel {
   ResponseHelpers({
@@ -24,13 +24,21 @@ class ResponseHelpers extends ResponseModel {
   factory ResponseHelpers.fromJson(Map<String, dynamic> json) => ResponseHelpers(
         error: json["error"] == null ? null : json["error"],
         data: json["data"] == null ? null : Data.fromJson(json["data"]),
-        message: json["message"] == null ? null : List<String>.from(json["message"].map((x) => x)),
+        message: json["message"] == null
+            ? null
+            : json["message"] is String
+                ? [json["message"]]
+                : List<String>.from(json["message"].map((x) => x)),
       );
 
   Map<String, dynamic> toJson() => {
         "error": error == null ? null : error,
         "data": data == null ? null : data!.toJson(),
-        "message": message == null ? null : List<dynamic>.from(message!.map((x) => x)),
+        "message": message == null
+            ? null
+            : message is String
+                ? [message]
+                : List<dynamic>.from(message!.map((x) => x)),
       };
 }
 
@@ -39,11 +47,13 @@ class Data {
     this.list,
     this.limit,
     this.page,
+    this.totalData,
   });
 
   final List<ListElement>? list;
   final int? limit;
   final int? page;
+  final int? totalData;
 
   factory Data.fromRawJson(String str) => Data.fromJson(json.decode(str));
 
@@ -53,12 +63,14 @@ class Data {
         list: json["list"] == null ? null : List<ListElement>.from(json["list"].map((x) => ListElement.fromJson(x))),
         limit: json["limit"] == null ? null : json["limit"],
         page: json["page"] == null ? null : json["page"],
+        totalData: json["total_data"] == null ? null : json["total_data"],
       );
 
   Map<String, dynamic> toJson() => {
         "list": list == null ? null : List<dynamic>.from(list!.map((x) => x.toJson())),
         "limit": limit == null ? null : limit,
         "page": page == null ? null : page,
+        "total_data": totalData == null ? null : totalData,
       };
 }
 
@@ -82,6 +94,7 @@ class ListElement {
     this.experienceYears,
     this.experienceMonths,
     this.sallary,
+    this.location,
   });
 
   final int? id;
@@ -93,7 +106,7 @@ class ListElement {
   final String? country;
   final String? countryName;
   final String? countryImage;
-  final Skills? skills;
+  final dynamic? skills;
   final List<Language>? language;
   final String? religion;
   final String? educationLevel;
@@ -102,6 +115,7 @@ class ListElement {
   final String? experienceYears;
   final String? experienceMonths;
   final String? sallary;
+  final String? location;
 
   factory ListElement.fromRawJson(String str) => ListElement.fromJson(json.decode(str));
 
@@ -117,7 +131,11 @@ class ListElement {
         country: json["country"] == null ? null : json["country"],
         countryName: json["country_name"] == null ? null : json["country_name"],
         countryImage: json["country_image"] == null ? null : json["country_image"],
-        skills: json["skills"] == null ? null : Skills.fromJson(json["skills"]),
+        skills: json["skills"] == null
+            ? null
+            : json["skills"] is String
+                ? json["skills"]
+                : Skills.fromJson(json["skills"]),
         language:
             json["language"] == null ? null : List<Language>.from(json["language"].map((x) => Language.fromJson(x))),
         religion: json["religion"] == null ? null : json["religion"],
@@ -127,6 +145,7 @@ class ListElement {
         experienceYears: json["experience_years"] == null ? null : json["experience_years"],
         experienceMonths: json["experience_months"] == null ? null : json["experience_months"],
         sallary: json["sallary"] == null ? null : json["sallary"],
+        location: json["location"] == null ? null : json["location"],
       );
 
   Map<String, dynamic> toJson() => {
@@ -139,7 +158,11 @@ class ListElement {
         "country": country == null ? null : country,
         "country_name": countryName == null ? null : countryName,
         "country_image": countryImage == null ? null : countryImage,
-        "skills": skills == null ? null : skills!.toJson(),
+        "skills": skills == null
+            ? null
+            : skills is String
+                ? skills
+                : skills.toJson(),
         "language": language == null ? null : List<dynamic>.from(language!.map((x) => x.toJson())),
         "religion": religion == null ? null : religion,
         "education_level": educationLevel == null ? null : educationLevel,
@@ -148,6 +171,43 @@ class ListElement {
         "experience_years": experienceYears == null ? null : experienceYears,
         "experience_months": experienceMonths == null ? null : experienceMonths,
         "sallary": sallary == null ? null : sallary,
+        "location": location == null ? null : location,
+      };
+}
+
+class Skills {
+  Skills({
+    this.skillPriority1,
+    this.skillPriority2,
+    this.skillPriority3,
+    this.skillPriority4,
+    this.skillPriority5,
+  });
+
+  final dynamic skillPriority1;
+  final dynamic skillPriority2;
+  final dynamic skillPriority3;
+  final dynamic skillPriority4;
+  final dynamic skillPriority5;
+
+  factory Skills.fromRawJson(String str) => Skills.fromJson(json.decode(str));
+
+  String toRawJson() => json.encode(toJson());
+
+  factory Skills.fromJson(Map<String, dynamic> json) => Skills(
+        skillPriority1: json["skill_priority_1"],
+        skillPriority2: json["skill_priority_2"],
+        skillPriority3: json["skill_priority_3"],
+        skillPriority4: json["skill_priority_4"],
+        skillPriority5: json["skill_priority_5"],
+      );
+
+  Map<String, dynamic> toJson() => {
+        "skill_priority_1": skillPriority1,
+        "skill_priority_2": skillPriority2,
+        "skill_priority_3": skillPriority3,
+        "skill_priority_4": skillPriority4,
+        "skill_priority_5": skillPriority5,
       };
 }
 
@@ -155,28 +215,32 @@ class Language {
   Language({
     this.question,
     this.answer,
+    this.level,
   });
 
-  final dynamic? question;
-  final String? answer;
+  final String? question;
+  final dynamic? answer;
+  final String? level;
 
   factory Language.fromRawJson(String str) => Language.fromJson(json.decode(str));
 
   String toRawJson() => json.encode(toJson());
 
   factory Language.fromJson(Map<String, dynamic> json) => Language(
-        question: json["question"],
-        answer: json["answer"] == null ? null : json["answer"],
+        question: json["question"] == null ? null : json["question"],
+        answer: json["answer"],
+        level: json["level"] == null ? null : json["level"],
       );
 
   Map<String, dynamic> toJson() => {
-        "question": question,
-        "answer": answer == null ? null : answer,
+        "question": question == null ? null : question,
+        "answer": answer,
+        "level": level == null ? null : level,
       };
 }
 
-class Skills {
-  Skills({
+class SkillsClass {
+  SkillsClass({
     this.skillPriority1,
     this.skillPriority2,
     this.skillPriority3,
@@ -190,11 +254,11 @@ class Skills {
   final String? skillPriority4;
   final String? skillPriority5;
 
-  factory Skills.fromRawJson(String str) => Skills.fromJson(json.decode(str));
+  factory SkillsClass.fromRawJson(String str) => SkillsClass.fromJson(json.decode(str));
 
   String toRawJson() => json.encode(toJson());
 
-  factory Skills.fromJson(Map<String, dynamic> json) => Skills(
+  factory SkillsClass.fromJson(Map<String, dynamic> json) => SkillsClass(
         skillPriority1: json["skill_priority_1"] == null ? null : json["skill_priority_1"],
         skillPriority2: json["skill_priority_2"] == null ? null : json["skill_priority_2"],
         skillPriority3: json["skill_priority_3"] == null ? null : json["skill_priority_3"],

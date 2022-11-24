@@ -67,16 +67,22 @@ class FilterHelper extends StatelessWidget {
                 actions: [
                   Align(
                     alignment: Alignment.center,
-                    child: Text(
-                      "clear_all".tr.toUpperCase(),
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                        fontFamily: AppConstant.SF_PRO_FONT,
-                        color: Colors.white,
-                        fontWeight: FontWeight.w700,
-                        fontSize: 13,
-                      ),
-                    ).paddingOnly(right: 20),
+                    child: GestureDetector(
+                      onTap: () {
+                        // Get.back();
+                        controller.onClearSearch();
+                      },
+                      child: Text(
+                        "clear_all".tr.toUpperCase(),
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          fontFamily: AppConstant.SF_PRO_FONT,
+                          color: Colors.white,
+                          fontWeight: FontWeight.w700,
+                          fontSize: 13,
+                        ),
+                      ).paddingOnly(right: 20),
+                    ),
                   ),
                 ],
               ).marginOnly(top: statusBar),
@@ -119,7 +125,7 @@ class FilterHelper extends StatelessWidget {
                                     ),
                                   ).marginOnly(bottom: 3),
                                   Text(
-                                    controller.selectedSortBy.value.value!,
+                                    controller.selectedSortBy.value.label!,
                                     style: TextStyle(
                                       fontFamily: AppConstant.SF_PRO_FONT,
                                       color: Colors.white,
@@ -440,7 +446,12 @@ class FilterHelper extends StatelessWidget {
                                     ),
                                   ),
                                   elevation: 2,
-                                  onSelected: controller.selectedMonth,
+                                  onSelected: (month) {
+                                    controller.isMonthYearFiltered.value = true;
+                                    controller.selectedMonth.value = month;
+
+                                    controller.getHelpersCount();
+                                  },
                                 ),
                               ),
                               SizedBox(width: 10),
@@ -523,7 +534,12 @@ class FilterHelper extends StatelessWidget {
                                     ),
                                   ),
                                   elevation: 2,
-                                  onSelected: controller.selectedYear,
+                                  onSelected: (year) {
+                                    controller.isMonthYearFiltered.value = true;
+                                    controller.selectedYear.value = year;
+
+                                    controller.getHelpersCount();
+                                  },
                                 ),
                               ),
                             ],
@@ -938,12 +954,12 @@ class FilterHelper extends StatelessWidget {
                 padding: EdgeInsets.symmetric(horizontal: 20, vertical: 20),
                 child: ButtonFill(
                   onPressed: () {
-                    Get.back();
+                    controller.onSubmitSearch();
                   },
                   backgroundColor: Colors.white,
                   height: 48,
                   text: Text(
-                    "${'filters_apply_all'.tr} (30)",
+                    "${'filters_apply_all'.tr} (${controller.helpersCountSearch.value})",
                     style: TextStyle(
                       color: Color(0xFFE1464A),
                       fontWeight: FontWeight.w700,

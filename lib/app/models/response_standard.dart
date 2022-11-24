@@ -24,14 +24,22 @@ class ResponseStandard implements ResponseModel {
   List<String>? message;
 
   factory ResponseStandard.fromJson(Map<String, dynamic> json) => ResponseStandard(
-        error: json["error"],
+        error: json["error"] is int ? json["error"] : 500,
         data: json["data"],
-        message: List<String>.from(json["message"].map((x) => x)),
+        message: json["message"] == null
+            ? null
+            : json["message"] is String
+                ? [json["message"]]
+                : List<String>.from(json["message"].map((x) => x)),
       );
 
   Map<String, dynamic> toJson() => {
-        "error": error,
+        "error": error is int ? error : 500,
         "data": data.toJson(),
-        "message": List<dynamic>.from(message!.map((x) => x)),
+        "message": message == null
+            ? null
+            : message is String
+                ? [message]
+                : List<dynamic>.from(message!.map((x) => x)),
       };
 }

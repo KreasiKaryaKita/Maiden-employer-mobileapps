@@ -16,14 +16,25 @@ import 'package:maiden_employer/app/models/entity/option_sort_helpers_model.dart
 import 'package:maiden_employer/app/models/entity/option_status_helpers_model.dart';
 import 'package:maiden_employer/app/models/entity/option_work_experience_helpers_model.dart';
 import 'package:maiden_employer/app/models/entity/option_work_skill_helpers_model.dart';
+import 'package:maiden_employer/app/models/response_countries.dart';
+import 'package:maiden_employer/app/models/response_education_levels.dart';
+import 'package:maiden_employer/app/models/response_helpers.dart';
+import 'package:maiden_employer/app/models/response_helpers_count.dart';
+import 'package:maiden_employer/app/models/response_languages.dart';
+import 'package:maiden_employer/app/models/response_marital_status.dart';
+import 'package:maiden_employer/app/models/response_nationalities.dart';
 import 'package:maiden_employer/app/models/response_skills.dart';
+import 'package:maiden_employer/app/models/response_work_experiences.dart';
 import 'package:maiden_employer/app/modules/account/authentication/register/models/option_month.dart';
 import 'package:maiden_employer/app/modules/account/authentication/register/models/option_year.dart';
 import 'package:maiden_employer/app/shared/common/common_function.dart';
 
 class HelperListingController extends GetxController {
   TextEditingController inputSearch = TextEditingController();
+  var isLoading = true.obs;
   var helpers = <HelpersModel>[].obs;
+  var helpersCountSearch = 1.obs;
+
   var helpersCountry = <OptionCountryHelpersModel>[].obs;
   RxString helpersCountrySelected = "".obs;
 
@@ -46,7 +57,7 @@ class HelperListingController extends GetxController {
   var selectedSortBy = OptionSortHelpersModel().obs;
   var selectedSortByTemp = OptionSortHelpersModel().obs;
   var helpersStatus = <OptionStatusHelpersModel>[].obs;
-  var helpersStatusSelected = <OptionStatusHelpersModel>[].obs;
+  var helpersStatusSelected = OptionStatusHelpersModel().obs;
   var helpersNationality = <OptionNasionalityHelpersModel>[].obs;
   var helpersNationalitySelected = <OptionNasionalityHelpersModel>[].obs;
 
@@ -74,6 +85,7 @@ class HelperListingController extends GetxController {
   @override
   void onInit() {
     super.onInit();
+    helpersCountSearch.value = 0;
     months.assignAll([
       OptionMonth(label: "Jan", value: "01"),
       OptionMonth(label: "Feb", value: "02"),
@@ -97,91 +109,26 @@ class HelperListingController extends GetxController {
     }
     selectedYear.value = year[0];
 
-    helpers.assignAll(
-      [
-        HelpersModel(
-          image: AppConstant.DEFAULT_AVATAR,
-          age: 28,
-          country: "indonesia",
-          experience: 3,
-          name: "Susilawati Riandy",
-          readyDate: DateTime.parse("2022-11-25"),
-        ),
-        HelpersModel(
-          image: AppConstant.DEFAULT_AVATAR,
-          age: 22,
-          country: "indonesia",
-          experience: 2,
-          name: "Maryani Frida",
-          readyDate: DateTime.parse("2022-11-28"),
-        ),
-        HelpersModel(
-          image: AppConstant.DEFAULT_AVATAR,
-          age: 25,
-          country: "singapore",
-          experience: 5,
-          name: "Herlina Gustiana",
-          readyDate: DateTime.parse("2022-11-29"),
-        ),
-        HelpersModel(
-          image: AppConstant.DEFAULT_AVATAR,
-          age: 25,
-          country: "myanmar",
-          experience: 5,
-          name: "Geovani Ega",
-          readyDate: DateTime.parse("2022-11-29"),
-        ),
-        HelpersModel(
-          image: AppConstant.DEFAULT_AVATAR,
-          age: 25,
-          country: "indian",
-          experience: 5,
-          name: "Fery Rahmad",
-          readyDate: DateTime.parse("2022-11-29"),
-        ),
-        HelpersModel(
-          image: AppConstant.DEFAULT_AVATAR,
-          age: 25,
-          country: "philippines",
-          experience: 5,
-          name: "Fatah Kumara",
-          readyDate: DateTime.parse("2022-11-29"),
-        ),
-        HelpersModel(
-          image: AppConstant.DEFAULT_AVATAR,
-          age: 25,
-          country: "sri-lanka",
-          experience: 5,
-          name: "Bruno Fandi",
-          readyDate: DateTime.parse("2022-11-29"),
-        ),
-      ],
-    );
+    getHelpers();
 
-    helpersCountry.assignAll([
-      OptionCountryHelpersModel(label: "all".tr, value: "all"),
-      OptionCountryHelpersModel(label: "Indonesian".tr, value: "Indonesian"),
-      OptionCountryHelpersModel(label: "Phillippines".tr, value: "Phillippines"),
-      OptionCountryHelpersModel(label: "Myanmar".tr, value: "Myanmar"),
-    ]);
-    helpersCountrySelected.value = helpersCountry[0].value!;
+    getHelpersCount();
 
     helpersSortBy.assignAll([
       OptionSortHelpersModel(
         label: "filters_sort_by_experience_desc".tr,
-        value: "filters_sort_by_experience_desc".tr,
+        value: '1',
       ),
       OptionSortHelpersModel(
         label: "filters_sort_by_experience_asc".tr,
-        value: "filters_sort_by_experience_asc".tr,
+        value: '2',
       ),
       OptionSortHelpersModel(
         label: "filters_sort_by_salary_desc".tr,
-        value: "filters_sort_by_salary_desc".tr,
+        value: '3',
       ),
       OptionSortHelpersModel(
         label: "filters_sort_by_salary_asc".tr,
-        value: "filters_sort_by_salary_asc".tr,
+        value: '4',
       ),
     ]);
     selectedSortBy.value = helpersSortBy[0];
@@ -190,204 +137,34 @@ class HelperListingController extends GetxController {
     helpersStatus.assignAll([
       OptionStatusHelpersModel(
         label: "filters_in_singapore".tr,
-        value: "filters_in_singapore".tr,
+        value: 'SG',
         selected: true,
       ),
       OptionStatusHelpersModel(
         label: "filters_overseas".tr,
-        value: "filters_overseas".tr,
-        selected: true,
-      ),
-    ]);
-    helpersStatusSelected.assignAll([
-      OptionStatusHelpersModel(
-        label: "filters_in_singapore".tr,
-        value: "filters_in_singapore".tr,
-        selected: true,
-      ),
-      OptionStatusHelpersModel(
-        label: "filters_overseas".tr,
-        value: "filters_overseas".tr,
-        selected: true,
+        value: 'OVERSEAS',
       ),
     ]);
 
-    helpersNationality.assignAll([
-      OptionNasionalityHelpersModel(
-        label: "filters_nationality_id".tr,
-        value: "filters_nationality_id".tr,
-        pathImg: "assets/images/icon-country-indonesia.svg",
-      ),
-      OptionNasionalityHelpersModel(
-        label: "filters_nationality_ph".tr,
-        value: "filters_nationality_ph".tr,
-        pathImg: "assets/images/icon-country-philippines.svg",
-      ),
-      OptionNasionalityHelpersModel(
-        label: "filters_nationality_mm".tr,
-        value: "filters_nationality_mm".tr,
-        pathImg: "assets/images/icon-country-myanmar.svg",
-      ),
-      OptionNasionalityHelpersModel(
-        label: "filters_nationality_in".tr,
-        value: "filters_nationality_in".tr,
-        pathImg: "assets/images/icon-country-indian.svg",
-      ),
-      OptionNasionalityHelpersModel(
-        label: "filters_nationality_lk".tr,
-        value: "filters_nationality_lk".tr,
-        pathImg: "assets/images/icon-country-sri-lanka.svg",
-      ),
-    ]);
+    helpersStatusSelected.value = OptionStatusHelpersModel(
+      label: "filters_in_singapore".tr,
+      value: 'SG',
+      selected: true,
+    );
 
-    helpersLanguage.assignAll([
-      OptionLanguageHelpersModel(
-        label: "filters_language_en".tr,
-        value: "filters_language_en".tr,
-      ),
-      OptionLanguageHelpersModel(
-        label: "filters_language_md".tr,
-        value: "filters_language_md".tr,
-      ),
-      OptionLanguageHelpersModel(
-        label: "filters_language_ml".tr,
-        value: "filters_language_ml".tr,
-      ),
-      OptionLanguageHelpersModel(
-        label: "filters_language_hk".tr,
-        value: "filters_language_hk".tr,
-      ),
-      OptionLanguageHelpersModel(
-        label: "filters_language_ct".tr,
-        value: "filters_language_ct".tr,
-      ),
-      OptionLanguageHelpersModel(
-        label: "filters_language_hd".tr,
-        value: "filters_language_hd".tr,
-      ),
-      OptionLanguageHelpersModel(
-        label: "filters_language_tm".tr,
-        value: "filters_language_tm".tr,
-      ),
-      OptionLanguageHelpersModel(
-        label: "filters_language_tc".tr,
-        value: "filters_language_tc".tr,
-      ),
-      OptionLanguageHelpersModel(
-        label: "filters_language_hkk".tr,
-        value: "filters_language_hkk".tr,
-      ),
-    ]);
+    getNationalities();
 
-    helpersReligion.assignAll([
-      OptionReligionHelpersModel(
-        label: "filters_religion_ms".tr,
-        value: "filters_religion_ms".tr,
-      ),
-      OptionReligionHelpersModel(
-        label: "filters_religion_cs".tr,
-        value: "filters_religion_cs".tr,
-      ),
-      OptionReligionHelpersModel(
-        label: "filters_religion_ch".tr,
-        value: "filters_religion_ch".tr,
-      ),
-      OptionReligionHelpersModel(
-        label: "filters_religion_bd".tr,
-        value: "filters_religion_bd".tr,
-      ),
-      OptionReligionHelpersModel(
-        label: "filters_religion_hd".tr,
-        value: "filters_religion_hd".tr,
-      ),
-      OptionReligionHelpersModel(
-        label: "filters_religion_cf".tr,
-        value: "filters_religion_cf".tr,
-      ),
-      OptionReligionHelpersModel(
-        label: "filters_religion_ot".tr,
-        value: "filters_religion_ot".tr,
-      ),
-    ]);
+    getLanguages();
 
-    helpersEducation.assignAll([
-      OptionEducationHelpersModel(
-        label: "filters_education_es".tr,
-        value: "filters_education_es".tr,
-      ),
-      OptionEducationHelpersModel(
-        label: "filters_education_ss".tr,
-        value: "filters_education_ss".tr,
-      ),
-      OptionEducationHelpersModel(
-        label: "filters_education_hs".tr,
-        value: "filters_education_hs".tr,
-      ),
-      OptionEducationHelpersModel(
-        label: "filters_education_cd".tr,
-        value: "filters_education_cd".tr,
-      ),
-      OptionEducationHelpersModel(
-        label: "filters_education_pg".tr,
-        value: "filters_education_pg".tr,
-      ),
-    ]);
+    getReligions();
 
-    helpersMaritalStatus.assignAll([
-      OptionMaritalStatusHelpersModel(
-        label: "filters_marital_single".tr,
-        value: "filters_marital_single".tr,
-      ),
-      OptionMaritalStatusHelpersModel(
-        label: "filters_marital_married".tr,
-        value: "filters_marital_married".tr,
-      ),
-      OptionMaritalStatusHelpersModel(
-        label: "filters_marital_divorced".tr,
-        value: "filters_marital_divorced".tr,
-      ),
-      OptionMaritalStatusHelpersModel(
-        label: "filters_marital_separated".tr,
-        value: "filters_marital_separated".tr,
-      ),
-      OptionMaritalStatusHelpersModel(
-        label: "filters_marital_widowed".tr,
-        value: "filters_marital_widowed".tr,
-      ),
-      OptionMaritalStatusHelpersModel(
-        label: "filters_marital_single_parent".tr,
-        value: "filters_marital_single_parent".tr,
-      ),
-    ]);
+    getEducations();
+
+    getMaritalStatus();
 
     getSkills();
 
-    helpersWorkExperience.assignAll([
-      OptionWorkExperienceHelpersModel(
-        label: "filters_work_experience_home_country".tr,
-        value: "filters_work_experience_home_country".tr,
-      ),
-      OptionWorkExperienceHelpersModel(
-        label: "filters_work_experience_malaysia".tr,
-        value: "filters_work_experience_malaysia".tr,
-      ),
-      OptionWorkExperienceHelpersModel(
-        label: "filters_work_experience_singapore".tr,
-        value: "filters_work_experience_singapore".tr,
-      ),
-      OptionWorkExperienceHelpersModel(
-        label: "filters_work_experience_hong_kong".tr,
-        value: "filters_work_experience_hong_kong".tr,
-      ),
-      OptionWorkExperienceHelpersModel(
-        label: "filters_work_experience_taiwan".tr,
-        value: "filters_work_experience_taiwan".tr,
-      ),
-      OptionWorkExperienceHelpersModel(
-        label: "filters_work_experience_middle_east".tr,
-        value: "filters_work_experience_middle_east".tr,
-      ),
-    ]);
+    getWorkExperiences();
   }
 
   @override
@@ -448,13 +225,277 @@ class HelperListingController extends GetxController {
     });
   }
 
+  getNationalities() {
+    var tempCountry = [
+      OptionCountryHelpersModel(label: "all".tr, value: "all"),
+    ];
+
+    var temp = [
+      OptionNasionalityHelpersModel(
+        label: "filters_nationality_id".tr,
+        value: "filters_nationality_id".tr,
+        pathImg: "assets/images/icon-country-indonesia.svg",
+      ),
+      OptionNasionalityHelpersModel(
+        label: "filters_nationality_ph".tr,
+        value: "filters_nationality_ph".tr,
+        pathImg: "assets/images/icon-country-philippines.svg",
+      ),
+      OptionNasionalityHelpersModel(
+        label: "filters_nationality_mm".tr,
+        value: "filters_nationality_mm".tr,
+        pathImg: "assets/images/icon-country-myanmar.svg",
+      ),
+      OptionNasionalityHelpersModel(
+        label: "filters_nationality_in".tr,
+        value: "filters_nationality_in".tr,
+        pathImg: "assets/images/icon-country-indian.svg",
+      ),
+      OptionNasionalityHelpersModel(
+        label: "filters_nationality_lk".tr,
+        value: "filters_nationality_lk".tr,
+        pathImg: "assets/images/icon-country-sri-lanka.svg",
+      ),
+    ];
+
+    ApiRepositories.nationalities().then((value) {
+      if (value is ResponseNationalities) {
+        helpersNationality.assignAll(value.data!.list!.map((e) {
+          var icon = 'assets/images/icon-country-indonesia.svg';
+          if (e.value!.toLowerCase().contains('filippino')) {
+            icon = 'assets/images/icon-country-philippines.svg';
+          } else if (e.value!.toLowerCase().contains('burmese')) {
+            icon = 'assets/images/icon-country-myanmar.svg';
+          } else if (e.value!.toLowerCase().contains('indian')) {
+            icon = 'assets/images/icon-country-indian.svg';
+          } else if (e.value!.toLowerCase().contains('lankan')) {
+            icon = 'assets/images/icon-country-sri-lanka.svg';
+          }
+
+          return OptionNasionalityHelpersModel(label: e.label, value: e.value, pathImg: icon);
+        }));
+
+        helpersCountry.assignAll(tempCountry);
+        helpersCountry.addAll(value.data!.list!.map((e) {
+          return OptionCountryHelpersModel(label: e.label, value: e.value);
+        }));
+
+        helpersCountrySelected.value = helpersCountry[0].value!;
+      } else {
+        helpersNationality.assignAll(temp);
+        helpersCountry.assignAll(tempCountry);
+
+        helpersCountrySelected.value = helpersCountry[0].value!;
+      }
+    }, onError: (e) {
+      helpersNationality.assignAll(temp);
+      helpersCountry.assignAll(tempCountry);
+
+      helpersCountrySelected.value = helpersCountry[0].value!;
+    });
+  }
+
+  getLanguages() {
+    var temp = [
+      OptionLanguageHelpersModel(
+        label: "filters_language_en".tr,
+        value: "filters_language_en".tr,
+      ),
+      OptionLanguageHelpersModel(
+        label: "filters_language_md".tr,
+        value: "filters_language_md".tr,
+      ),
+    ];
+
+    ApiRepositories.languages().then((value) {
+      if (value is ResponseLanguages) {
+        helpersLanguage.assignAll(value.data!.list!.map((e) {
+          return OptionLanguageHelpersModel(label: e.label, value: e.value);
+        }));
+      } else {
+        helpersLanguage.assignAll(temp);
+      }
+    }, onError: (e) {
+      helpersLanguage.assignAll(temp);
+    });
+  }
+
+  getReligions() {
+    var temp = [
+      OptionReligionHelpersModel(
+        label: "filters_religion_ms".tr,
+        value: "filters_religion_ms".tr,
+      ),
+      OptionReligionHelpersModel(
+        label: "filters_religion_cs".tr,
+        value: "filters_religion_cs".tr,
+      ),
+      OptionReligionHelpersModel(
+        label: "filters_religion_ch".tr,
+        value: "filters_religion_ch".tr,
+      ),
+      OptionReligionHelpersModel(
+        label: "filters_religion_bd".tr,
+        value: "filters_religion_bd".tr,
+      ),
+      OptionReligionHelpersModel(
+        label: "filters_religion_hd".tr,
+        value: "filters_religion_hd".tr,
+      ),
+      OptionReligionHelpersModel(
+        label: "filters_religion_cf".tr,
+        value: "filters_religion_cf".tr,
+      ),
+      OptionReligionHelpersModel(
+        label: "filters_religion_ot".tr,
+        value: "filters_religion_ot".tr,
+      ),
+    ];
+
+    ApiRepositories.religions().then((value) {
+      if (value is ResponseLanguages) {
+        helpersReligion.assignAll(value.data!.list!.map((e) {
+          return OptionReligionHelpersModel(label: e.label, value: e.value);
+        }));
+      } else {
+        helpersReligion.assignAll(temp);
+      }
+    }, onError: (e) {
+      helpersReligion.assignAll(temp);
+    });
+  }
+
+  getEducations() {
+    var temp = [
+      OptionEducationHelpersModel(
+        label: "filters_education_es".tr,
+        value: "filters_education_es".tr,
+      ),
+      OptionEducationHelpersModel(
+        label: "filters_education_ss".tr,
+        value: "filters_education_ss".tr,
+      ),
+      OptionEducationHelpersModel(
+        label: "filters_education_hs".tr,
+        value: "filters_education_hs".tr,
+      ),
+      OptionEducationHelpersModel(
+        label: "filters_education_cd".tr,
+        value: "filters_education_cd".tr,
+      ),
+      OptionEducationHelpersModel(
+        label: "filters_education_pg".tr,
+        value: "filters_education_pg".tr,
+      ),
+    ];
+
+    ApiRepositories.educationLevels().then((value) {
+      if (value is ResponseEducationLevels) {
+        helpersEducation.assignAll(value.data!.list!.map((e) {
+          return OptionEducationHelpersModel(label: e.label, value: e.value);
+        }));
+      } else {
+        helpersEducation.assignAll(temp);
+      }
+    }, onError: (e) {
+      helpersEducation.assignAll(temp);
+    });
+  }
+
+  getMaritalStatus() {
+    var temp = [
+      OptionMaritalStatusHelpersModel(
+        label: "filters_marital_single".tr,
+        value: "filters_marital_single".tr,
+      ),
+      OptionMaritalStatusHelpersModel(
+        label: "filters_marital_married".tr,
+        value: "filters_marital_married".tr,
+      ),
+      OptionMaritalStatusHelpersModel(
+        label: "filters_marital_divorced".tr,
+        value: "filters_marital_divorced".tr,
+      ),
+      OptionMaritalStatusHelpersModel(
+        label: "filters_marital_separated".tr,
+        value: "filters_marital_separated".tr,
+      ),
+      OptionMaritalStatusHelpersModel(
+        label: "filters_marital_widowed".tr,
+        value: "filters_marital_widowed".tr,
+      ),
+      OptionMaritalStatusHelpersModel(
+        label: "filters_marital_single_parent".tr,
+        value: "filters_marital_single_parent".tr,
+      ),
+    ];
+
+    ApiRepositories.maritalStatus().then((value) {
+      if (value is ResponseMaritalStatus) {
+        helpersMaritalStatus.assignAll(value.data!.list!.map((e) {
+          return OptionMaritalStatusHelpersModel(label: e.label, value: e.value);
+        }));
+      } else {
+        helpersMaritalStatus.assignAll(temp);
+      }
+    }, onError: (e) {
+      helpersMaritalStatus.assignAll(temp);
+    });
+  }
+
+  getWorkExperiences() {
+    var temp = [
+      OptionWorkExperienceHelpersModel(
+        label: "filters_work_experience_home_country".tr,
+        value: "filters_work_experience_home_country".tr,
+      ),
+      OptionWorkExperienceHelpersModel(
+        label: "filters_work_experience_malaysia".tr,
+        value: "filters_work_experience_malaysia".tr,
+      ),
+      OptionWorkExperienceHelpersModel(
+        label: "filters_work_experience_singapore".tr,
+        value: "filters_work_experience_singapore".tr,
+      ),
+      OptionWorkExperienceHelpersModel(
+        label: "filters_work_experience_hong_kong".tr,
+        value: "filters_work_experience_hong_kong".tr,
+      ),
+      OptionWorkExperienceHelpersModel(
+        label: "filters_work_experience_taiwan".tr,
+        value: "filters_work_experience_taiwan".tr,
+      ),
+      OptionWorkExperienceHelpersModel(
+        label: "filters_work_experience_middle_east".tr,
+        value: "filters_work_experience_middle_east".tr,
+      ),
+    ];
+
+    ApiRepositories.workExperiences().then((value) {
+      if (value is ResponseWorkExperiences) {
+        helpersWorkExperience.assignAll(value.data!.list!.map((e) {
+          return OptionWorkExperienceHelpersModel(label: e.label, value: e.value);
+        }));
+      } else {
+        helpersWorkExperience.assignAll(temp);
+      }
+    }, onError: (e) {
+      helpersWorkExperience.assignAll(temp);
+    });
+  }
+
   onSkillSearchRemoveSelected(String value) {
     for (var i = 0; i < helpersWorkSkill.length; i++) {
       if (helpersWorkSkill[i].value == value) {
         helpersWorkSkill[i].selected = false;
       }
     }
+
+    helpersWorkSkillSelected.assignAll(helpersWorkSkill.where((p) => p.selected ?? false).toList());
+
     helpersWorkSkill.refresh();
+
+    getHelpersCount();
   }
 
   onSkillSearchSelected(OptionWorkSkillHelpersModel suggestion) {
@@ -464,26 +505,39 @@ class HelperListingController extends GetxController {
       }
     }
 
+    helpersWorkSkillSelected.assignAll(helpersWorkSkill.where((p) => p.selected ?? false).toList());
+
     helperSkillsTextCt.text = '';
     helpersWorkSkill.refresh();
+
+    print('====> ${helpersWorkSkillSelected.toJson()}');
+    getHelpersCount();
   }
 
   onSelectCountryFilter(int index) {
     helpersCountrySelected.value = helpersCountry[index].value!;
     helpersCountry.refresh();
+
+    getHelpers();
   }
 
   onSelectReadyMonth(OptionMonth value) {
     selectedMonth.value = value;
+
+    getHelpersCount();
   }
 
   onSelectReadyYear(OptionYear value) {
     selectedYear.value = value;
+
+    getHelpersCount();
   }
 
   onChangeRangeAge(RangeValues values) {
     isAgeFiltered.value = true;
     currentRangeValues.value = values;
+
+    getHelpersCount();
   }
 
   onChangeIsExpanded(int index) {
@@ -515,12 +569,15 @@ class HelperListingController extends GetxController {
     if (!isMonthYearFiltered.value) emptyCount += 1;
     if (!isAgeFiltered.value) emptyCount += 1;
 
-    if (emptyCount > 0) {
+    if (emptyCount > 2) {
       CommonFunction.snackbarHelper(
           isSuccess: false, title: 'Warning', message: 'please at least select one of the search conditions');
     } else {
       Get.back();
       isFiltered.value = true;
+
+      getHelpersCount();
+      getHelpers();
     }
   }
 
@@ -537,6 +594,64 @@ class HelperListingController extends GetxController {
 
     currentRangeValues.value = RangeValues(21, 50);
     isAgeFiltered.value = false;
+
+    selectedSortBy.value = helpersSortBy[0];
+    selectedSortByTemp.value = helpersSortBy[0];
+
+    helpersStatus.assignAll([
+      OptionStatusHelpersModel(
+        label: "filters_in_singapore".tr,
+        value: 'SG',
+        selected: true,
+      ),
+      OptionStatusHelpersModel(
+        label: "filters_overseas".tr,
+        value: 'OVERSEAS',
+      ),
+    ]);
+
+    helpersStatusSelected.value = helpersStatus[0];
+
+    helpersCountrySelected.value = 'all';
+
+    helpersNationalitySelected.clear();
+    for (var i = 0; i < helpersNationality.length; i++) {
+      helpersNationality[i].selected = false;
+    }
+
+    helpersLanguageSelected.clear();
+    for (var i = 0; i < helpersLanguage.length; i++) {
+      helpersLanguage[i].selected = false;
+    }
+
+    helpersReligionSelected.clear();
+    for (var i = 0; i < helpersReligion.length; i++) {
+      helpersReligion[i].selected = false;
+    }
+
+    helpersEducationSelected.clear();
+    for (var i = 0; i < helpersEducation.length; i++) {
+      helpersEducation[i].selected = false;
+    }
+
+    helpersMaritalStatusSelected.clear();
+    for (var i = 0; i < helpersMaritalStatus.length; i++) {
+      helpersMaritalStatus[i].selected = false;
+    }
+
+    helpersWorkSkillSelected.clear();
+    for (var i = 0; i < helpersWorkSkill.length; i++) {
+      helpersWorkSkill[i].selected = false;
+    }
+
+    helpersWorkExperienceSelected.clear();
+    for (var i = 0; i < helpersWorkExperience.length; i++) {
+      helpersWorkExperience[i].selected = false;
+    }
+
+    getHelpersCount();
+
+    getHelpers();
   }
 
   onSelectSortBy(int index) {
@@ -550,11 +665,26 @@ class HelperListingController extends GetxController {
     } else {
       selectedSortByTemp.value = selectedSortBy.value;
     }
+
+    getHelpersCount();
   }
 
   onSelectStatusFilter(int index) {
-    helpersStatus[index].selected = !helpersStatus[index].selected!;
+    for (var i = 0; i < helpersStatus.length; i++) {
+      if (helpersStatus[index].value == helpersStatus[i].value) {
+        helpersStatus[index].selected = !helpersStatus[index].selected!;
+      } else {
+        helpersStatus[i].selected = !helpersStatus[i].selected!;
+      }
+
+      if (helpersStatus[i].selected == true) {
+        helpersStatusSelected.value = helpersStatus[i];
+      }
+    }
+    // helpersStatus[index].selected = !helpersStatus[index].selected!;
     helpersStatus.refresh();
+
+    getHelpersCount();
   }
 
   onSelectNationality(int index) {
@@ -585,6 +715,8 @@ class HelperListingController extends GetxController {
         }
       }
     }
+
+    getHelpersCount();
   }
 
   onSelectLanguage(int index) {
@@ -615,6 +747,8 @@ class HelperListingController extends GetxController {
         }
       }
     }
+
+    getHelpersCount();
   }
 
   onSelectReligion(int index) {
@@ -645,6 +779,8 @@ class HelperListingController extends GetxController {
         }
       }
     }
+
+    getHelpersCount();
   }
 
   onSelectEducation(int index) {
@@ -675,6 +811,8 @@ class HelperListingController extends GetxController {
         }
       }
     }
+
+    getHelpersCount();
   }
 
   onSelectMaritalStatus(int index) {
@@ -705,6 +843,8 @@ class HelperListingController extends GetxController {
         }
       }
     }
+
+    getHelpersCount();
   }
 
   onSelectWorkSkill(int index) {
@@ -735,6 +875,8 @@ class HelperListingController extends GetxController {
         }
       }
     }
+
+    getHelpersCount();
   }
 
   onSelectWorkExperience(int index) {
@@ -765,5 +907,97 @@ class HelperListingController extends GetxController {
         }
       }
     }
+
+    getHelpersCount();
+  }
+
+  getHelpers() {
+    isLoading.value = true;
+    helpers.clear();
+    ApiRepositories.helperList(
+      ageMin: isAgeFiltered.value ? currentRangeValues.value.start.toInt() : null,
+      ageMax: isAgeFiltered.value ? currentRangeValues.value.end.toInt() : null,
+      status: helpersStatusSelected.value.value == null ? null : helpersStatusSelected.value.value,
+      nationality: !isFiltered.value
+          ? helpersCountrySelected.value == 'all'
+              ? null
+              : helpersCountrySelected.value
+          : helpersNationalitySelected.isEmpty
+              ? null
+              : helpersNationalitySelected.map((e) => e.value).toList().join(','),
+      religion: helpersReligionSelected.isEmpty ? null : helpersReligionSelected.map((e) => e.value).toList().join(','),
+      skills:
+          helpersWorkSkillSelected.isEmpty ? null : helpersWorkSkillSelected.map((e) => e.value!).toList().join(','),
+      language: helpersLanguageSelected.isEmpty ? null : helpersLanguageSelected.map((e) => e.value).toList().join(','),
+      education:
+          helpersEducationSelected.isEmpty ? null : helpersEducationSelected.map((e) => e.value).toList().join(','),
+      maritalStatus: helpersMaritalStatusSelected.isEmpty
+          ? null
+          : helpersMaritalStatusSelected.map((e) => e.value).toList().join(','),
+      readyFromMin: isFiltered.value && isMonthYearFiltered.value
+          ? '${selectedYear.value.value}-${selectedMonth.value.value}-01'
+          : null,
+      orderBy: selectedSortBy.value.value,
+      workExperience: helpersWorkExperienceSelected.isEmpty
+          ? null
+          : helpersWorkExperienceSelected.map((e) => e.value).toList().join(','),
+    ).then((value) {
+      isLoading.value = false;
+      if (value is ResponseHelpers) {
+        helpers.assignAll(value.data!.list!.map(
+          (e) => HelpersModel(
+            id: e.id,
+            image: e.photo != null && e.photo!.isNotEmpty
+                ? 'https://api.maiden.yurekadev.com/${e.photo}'.replaceAll('public/', 'helper/')
+                : AppConstant.DEFAULT_AVATAR,
+            age: int.tryParse(e.age ?? '0'),
+            country: e.countryName,
+            experience: int.tryParse(e.experienceYears ?? '0'),
+            name: e.fullName,
+            readyDate: (e.readyForHireDate?.isEmpty ?? true) ? null : DateTime.parse(e.readyForHireDate!),
+          ),
+        ));
+      } else {
+        CommonFunction.snackbarHelper(isSuccess: false, message: value!.message!);
+      }
+    }, onError: (e) {
+      CommonFunction.snackbarHelper(isSuccess: false, message: e.toString());
+      isLoading.value = false;
+    });
+  }
+
+  getHelpersCount() {
+    helpersCountSearch.value = 0;
+    ApiRepositories.helperCount(
+      ageMin: isAgeFiltered.value ? currentRangeValues.value.start.toInt() : null,
+      ageMax: isAgeFiltered.value ? currentRangeValues.value.end.toInt() : null,
+      status: helpersStatusSelected.value.value == null ? null : helpersStatusSelected.value.value,
+      nationality: !isFiltered.value
+          ? helpersCountrySelected.value == 'all'
+              ? null
+              : helpersCountrySelected.value
+          : helpersNationalitySelected.isEmpty
+              ? null
+              : helpersNationalitySelected.map((e) => e.value).toList().join(','),
+      religion: helpersReligionSelected.isEmpty ? null : helpersReligionSelected.map((e) => e.value).toList().join(','),
+      skills:
+          helpersWorkSkillSelected.isEmpty ? null : helpersWorkSkillSelected.map((e) => e.value!).toList().join(','),
+      language: helpersLanguageSelected.isEmpty ? null : helpersLanguageSelected.map((e) => e.value).toList().join(','),
+      education:
+          helpersEducationSelected.isEmpty ? null : helpersEducationSelected.map((e) => e.value).toList().join(','),
+      maritalStatus: helpersMaritalStatusSelected.isEmpty
+          ? null
+          : helpersMaritalStatusSelected.map((e) => e.value).toList().join(','),
+      readyFromMin: isMonthYearFiltered.value ? '${selectedYear.value.value}-${selectedMonth.value.value}-01' : null,
+      orderBy: selectedSortBy.value.value,
+      workExperience: helpersWorkExperienceSelected.isEmpty
+          ? null
+          : helpersWorkExperienceSelected.map((e) => e.value).toList().join(','),
+    ).then((value) {
+      if (value is ResponseHelpersCount) {
+        var temp = (value.data?.totalData ?? 0);
+        helpersCountSearch.value = temp > 0 ? temp - 1 : 0;
+      } else {}
+    }, onError: (e) {});
   }
 }
