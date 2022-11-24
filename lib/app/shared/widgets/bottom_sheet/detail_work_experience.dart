@@ -54,7 +54,7 @@ class DetailWorkExperience extends StatelessWidget {
               ),
               Expanded(
                 child: Text(
-                  "${item['year']} ${item['label'].toString().toUpperCase()}",
+                  "${item['from']} - ${item['to']} ${item['country'].toString().toUpperCase()}",
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     color: Color(0xFFFBFBFB),
@@ -110,7 +110,7 @@ class DetailWorkExperience extends StatelessWidget {
                             ),
                           ).marginOnly(bottom: 5),
                           Text(
-                            "5",
+                            item['no_of_pax'],
                             overflow: TextOverflow.ellipsis,
                             style: TextStyle(
                               color: Color(0xFFFBFBFB),
@@ -147,7 +147,7 @@ class DetailWorkExperience extends StatelessWidget {
                             ),
                           ).marginOnly(bottom: 5),
                           Text(
-                            "4 Room HDB",
+                            item['house_type'],
                             style: TextStyle(
                               color: Color(0xFFFBFBFB),
                               fontFamily: AppConstant.SF_PRO_FONT,
@@ -183,7 +183,7 @@ class DetailWorkExperience extends StatelessWidget {
                             ),
                           ).marginOnly(bottom: 5),
                           Text(
-                            "-",
+                            item['reason_termination'],
                             style: TextStyle(
                               color: Color(0xFFFBFBFB),
                               fontFamily: AppConstant.SF_PRO_FONT,
@@ -256,9 +256,9 @@ class DetailWorkExperience extends StatelessWidget {
                     crossAxisSpacing: 10,
                     mainAxisSpacing: 10,
                   ),
-                  itemCount: controller.workDuties.length,
+                  itemCount: item['work_duties'].length,
                   itemBuilder: (BuildContext ctx, index) {
-                    var item = controller.workDuties[index];
+                    var tempItem = item['work_duties'][index];
                     return Container(
                       decoration: BoxDecoration(
                         color: Color(0xFFAF4447),
@@ -271,12 +271,12 @@ class DetailWorkExperience extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           SvgPicture.asset(
-                            item['icon'],
+                            tempItem['icon'],
                             height: 48,
                             width: 48,
                           ),
                           Text(
-                            item['label'],
+                            tempItem['label'],
                             overflow: TextOverflow.ellipsis,
                             style: TextStyle(
                               color: Colors.white,
@@ -284,6 +284,7 @@ class DetailWorkExperience extends StatelessWidget {
                               fontWeight: FontWeight.w400,
                               fontSize: 14,
                             ),
+                            textAlign: TextAlign.center,
                           ).marginOnly(top: 10),
                         ],
                       ),
