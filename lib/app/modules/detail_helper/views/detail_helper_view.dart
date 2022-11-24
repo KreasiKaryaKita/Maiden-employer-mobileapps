@@ -574,27 +574,27 @@ class DetailHelperView extends GetView<DetailHelperController> {
                             ).marginOnly(right: 20),
                           ),
                         ),
-                        // if (controller.helperDetail.value.availabilityInterviewedEmployer
-                        //         ?.firstWhere((e) => e.question == 'Not available for interview',
-                        //             orElse: () => AvailabilityInterviewedEmployer(answer: false))
-                        //         .answer ==
-                        //     true)
-                        Expanded(
-                          flex: 2,
-                          child: ButtonFill(
-                            onPressed: () {},
-                            backgroundColor: Colors.white,
-                            height: 48,
-                            text: Text(
-                              'request_for_interview'.tr,
-                              style: TextStyle(
-                                color: Color(0xFFE1464A),
-                                fontWeight: FontWeight.w700,
-                                fontSize: 16,
+                        if (controller.helperDetail.value.availabilityInterviewedEmployer
+                                ?.firstWhere((e) => e.question == 'Not available for interview',
+                                    orElse: () => AvailabilityInterviewedEmployer(answer: false))
+                                .answer ==
+                            true)
+                          Expanded(
+                            flex: 2,
+                            child: ButtonFill(
+                              onPressed: () {},
+                              backgroundColor: Colors.white,
+                              height: 48,
+                              text: Text(
+                                'request_for_interview'.tr,
+                                style: TextStyle(
+                                  color: Color(0xFFE1464A),
+                                  fontWeight: FontWeight.w700,
+                                  fontSize: 16,
+                                ),
                               ),
                             ),
-                          ),
-                        )
+                          )
                       ],
                     ),
                   )
