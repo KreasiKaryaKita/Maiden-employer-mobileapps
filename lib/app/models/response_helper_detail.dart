@@ -4,7 +4,7 @@
 
 import 'dart:convert';
 
-import 'response_standard.dart';
+import 'package:maiden_employer/app/models/response_standard.dart';
 
 class ResponseHelperDetail extends ResponseModel {
   ResponseHelperDetail({
@@ -14,7 +14,7 @@ class ResponseHelperDetail extends ResponseModel {
   });
 
   final int? error;
-  final Data? data;
+  final HelperDetailModel? data;
   final List<String>? message;
 
   factory ResponseHelperDetail.fromRawJson(String str) => ResponseHelperDetail.fromJson(json.decode(str));
@@ -23,7 +23,7 @@ class ResponseHelperDetail extends ResponseModel {
 
   factory ResponseHelperDetail.fromJson(Map<String, dynamic> json) => ResponseHelperDetail(
         error: json["error"] == null ? null : json["error"],
-        data: json["data"] == null ? null : Data.fromJson(json["data"]),
+        data: json["data"] == null ? null : HelperDetailModel.fromJson(json["data"]),
         message: json["message"] == null ? null : List<String>.from(json["message"].map((x) => x)),
       );
 
@@ -34,8 +34,8 @@ class ResponseHelperDetail extends ResponseModel {
       };
 }
 
-class Data {
-  Data({
+class HelperDetailModel {
+  HelperDetailModel({
     this.id,
     this.helperId,
     this.firstname,
@@ -66,34 +66,54 @@ class Data {
   final HelperSkills? helperSkills;
   final List<Language>? language;
   final List<Experience>? experience;
-  final Vaccination? vaccination;
-  final List<Language>? willingAbleTo;
+  final List<Vaccination>? vaccination;
+  final List<WillingAbleTo>? willingAbleTo;
 
-  factory Data.fromRawJson(String str) => Data.fromJson(json.decode(str));
+  factory HelperDetailModel.fromRawJson(String str) => HelperDetailModel.fromJson(json.decode(str));
 
   String toRawJson() => json.encode(toJson());
 
-  factory Data.fromJson(Map<String, dynamic> json) => Data(
-        id: json["id"] == null ? null : json["id"],
-        helperId: json["helper_id"] == null ? null : json["helper_id"],
-        firstname: json["firstname"] == null ? null : json["firstname"],
-        lastname: json["lastname"] == null ? null : json["lastname"],
-        photo: json["photo"] == null ? null : json["photo"],
-        birthOfDate: json["birth_of_date"] == null ? null : DateTime.parse(json["birth_of_date"]),
-        age: json["age"] == null ? null : json["age"],
-        country: json["country"] == null ? null : json["country"],
-        countryName: json["country_name"] == null ? null : json["country_name"],
-        countryImage: json["country_image"] == null ? null : json["country_image"],
-        helperSkills: json["helper_skills"] == null ? null : HelperSkills.fromJson(json["helper_skills"]),
-        language:
-            json["language"] == null ? null : List<Language>.from(json["language"].map((x) => Language.fromJson(x))),
+  factory HelperDetailModel.fromJson(Map<String, dynamic> json) => HelperDetailModel(
+        id: json["id"] == null || (json["id"] is String && json["id"].isEmpty) ? null : json["id"],
+        helperId: json["helper_id"] == null || (json["helper_id"] is String && json["helper_id"].isEmpty)
+            ? null
+            : json["helper_id"],
+        firstname: json["firstname"] == null || (json["firstname"] is String && json["firstname"].isEmpty)
+            ? null
+            : json["firstname"],
+        lastname: json["lastname"] == null || (json["lastname"] is String && json["lastname"].isEmpty)
+            ? null
+            : json["lastname"],
+        photo: json["photo"] == null || (json["photo"] is String && json["photo"].isEmpty) ? null : json["photo"],
+        birthOfDate: json["birth_of_date"] == null || (json["birth_of_date"] is String && json["birth_of_date"].isEmpty)
+            ? null
+            : DateTime.parse(json["birth_of_date"]),
+        age: json["age"] == null || (json["age"] is String && json["age"].isEmpty) ? null : json["age"],
+        country:
+            json["country"] == null || (json["country"] is String && json["country"].isEmpty) ? null : json["country"],
+        countryName: json["country_name"] == null || (json["country_name"] is String && json["country_name"].isEmpty)
+            ? null
+            : json["country_name"],
+        countryImage:
+            json["country_image"] == null || (json["country_image"] is String && json["country_image"].isEmpty)
+                ? null
+                : json["country_image"],
+        helperSkills:
+            json["helper_skills"] == null || (json["helper_skills"] is String && json["helper_skills"].isEmpty)
+                ? null
+                : HelperSkills.fromJson(json["helper_skills"]),
+        language: json["language"] == null || (json["language"] is String && json["language"].isEmpty)
+            ? null
+            : List<Language>.from(json["language"].map((x) => Language.fromJson(x))),
         experience: json["experience"] == null
             ? null
             : List<Experience>.from(json["experience"].map((x) => Experience.fromJson(x))),
-        vaccination: json["vaccination"] == null ? null : Vaccination.fromJson(json["vaccination"]),
+        vaccination: json["vaccination"] == null
+            ? null
+            : List<Vaccination>.from(json["vaccination"].map((x) => Vaccination.fromJson(x))),
         willingAbleTo: json["willing_able_to"] == null
             ? null
-            : List<Language>.from(json["willing_able_to"].map((x) => Language.fromJson(x))),
+            : List<WillingAbleTo>.from(json["willing_able_to"].map((x) => WillingAbleTo.fromJson(x))),
       );
 
   Map<String, dynamic> toJson() => {
@@ -110,48 +130,86 @@ class Data {
         "helper_skills": helperSkills == null ? null : helperSkills!.toJson(),
         "language": language == null ? null : List<dynamic>.from(language!.map((x) => x.toJson())),
         "experience": experience == null ? null : List<dynamic>.from(experience!.map((x) => x.toJson())),
-        "vaccination": vaccination == null ? null : vaccination!.toJson(),
+        "vaccination": vaccination == null ? null : List<dynamic>.from(vaccination!.map((x) => x.toJson())),
         "willing_able_to": willingAbleTo == null ? null : List<dynamic>.from(willingAbleTo!.map((x) => x.toJson())),
       };
 }
 
 class Experience {
   Experience({
-    this.fromYear,
-    this.toYear,
-    this.countryId,
+    this.from,
+    this.to,
+    this.country,
     this.name,
+    this.ethnicity,
+    this.noOfPax,
+    this.houseType,
     this.workDuties,
-    this.reasonForTermination,
+    this.reasonTermination,
   });
 
-  final int? fromYear;
-  final int? toYear;
-  final String? countryId;
+  final int? from;
+  final int? to;
+  final String? country;
   final String? name;
-  final String? workDuties;
-  final String? reasonForTermination;
+  final String? ethnicity;
+  final String? noOfPax;
+  final String? houseType;
+  final List<WillingAbleTo>? workDuties;
+  final String? reasonTermination;
 
   factory Experience.fromRawJson(String str) => Experience.fromJson(json.decode(str));
 
   String toRawJson() => json.encode(toJson());
 
   factory Experience.fromJson(Map<String, dynamic> json) => Experience(
-        fromYear: json["from_year"] == null ? null : json["from_year"],
-        toYear: json["to_year"] == null ? null : json["to_year"],
-        countryId: json["country_id"] == null ? null : json["country_id"],
+        from: json["from"] == null ? null : json["from"],
+        to: json["to"] == null ? null : json["to"],
+        country: json["country"] == null ? null : json["country"],
         name: json["name"] == null ? null : json["name"],
-        workDuties: json["work_duties"] == null ? null : json["work_duties"],
-        reasonForTermination: json["reason_for_termination"] == null ? null : json["reason_for_termination"],
+        ethnicity: json["ethnicity"] == null ? null : json["ethnicity"],
+        noOfPax: json["no_of_pax"] == null ? null : json["no_of_pax"],
+        houseType: json["house_type"] == null ? null : json["house_type"],
+        workDuties: json["work_duties"] == null
+            ? null
+            : List<WillingAbleTo>.from(json["work_duties"].map((x) => WillingAbleTo.fromJson(x))),
+        reasonTermination: json["reason_termination"] == null ? null : json["reason_termination"],
       );
 
   Map<String, dynamic> toJson() => {
-        "from_year": fromYear == null ? null : fromYear,
-        "to_year": toYear == null ? null : toYear,
-        "country_id": countryId == null ? null : countryId,
+        "from": from == null ? null : from,
+        "to": to == null ? null : to,
+        "country": country == null ? null : country,
         "name": name == null ? null : name,
-        "work_duties": workDuties == null ? null : workDuties,
-        "reason_for_termination": reasonForTermination == null ? null : reasonForTermination,
+        "ethnicity": ethnicity == null ? null : ethnicity,
+        "no_of_pax": noOfPax == null ? null : noOfPax,
+        "house_type": houseType == null ? null : houseType,
+        "work_duties": workDuties == null ? null : List<dynamic>.from(workDuties!.map((x) => x.toJson())),
+        "reason_termination": reasonTermination == null ? null : reasonTermination,
+      };
+}
+
+class WillingAbleTo {
+  WillingAbleTo({
+    this.question,
+    this.answer,
+  });
+
+  final String? question;
+  final bool? answer;
+
+  factory WillingAbleTo.fromRawJson(String str) => WillingAbleTo.fromJson(json.decode(str));
+
+  String toRawJson() => json.encode(toJson());
+
+  factory WillingAbleTo.fromJson(Map<String, dynamic> json) => WillingAbleTo(
+        question: json["question"] == null ? null : json["question"],
+        answer: json["answer"] == null ? null : json["answer"],
+      );
+
+  Map<String, dynamic> toJson() => {
+        "question": question == null ? null : question,
+        "answer": answer == null ? null : answer,
       };
 }
 
@@ -195,10 +253,12 @@ class Language {
   Language({
     this.question,
     this.answer,
+    this.level,
   });
 
   final String? question;
-  final String? answer;
+  final bool? answer;
+  final String? level;
 
   factory Language.fromRawJson(String str) => Language.fromJson(json.decode(str));
 
@@ -207,22 +267,62 @@ class Language {
   factory Language.fromJson(Map<String, dynamic> json) => Language(
         question: json["question"] == null ? null : json["question"],
         answer: json["answer"] == null ? null : json["answer"],
+        level: json["level"] == null ? null : json["level"],
       );
 
   Map<String, dynamic> toJson() => {
         "question": question == null ? null : question,
         "answer": answer == null ? null : answer,
+        "level": level == null ? null : level,
       };
 }
 
 class Vaccination {
-  Vaccination();
+  Vaccination({
+    this.status,
+    this.vaccine,
+  });
+
+  final String? status;
+  final List<Vaccine>? vaccine;
 
   factory Vaccination.fromRawJson(String str) => Vaccination.fromJson(json.decode(str));
 
   String toRawJson() => json.encode(toJson());
 
-  factory Vaccination.fromJson(Map<String, dynamic> json) => Vaccination();
+  factory Vaccination.fromJson(Map<String, dynamic> json) => Vaccination(
+        status: json["status"] == null ? null : json["status"],
+        vaccine: json["vaccine"] == null ? null : List<Vaccine>.from(json["vaccine"].map((x) => Vaccine.fromJson(x))),
+      );
 
-  Map<String, dynamic> toJson() => {};
+  Map<String, dynamic> toJson() => {
+        "status": status == null ? null : status,
+        "vaccine": vaccine == null ? null : List<dynamic>.from(vaccine!.map((x) => x.toJson())),
+      };
+}
+
+class Vaccine {
+  Vaccine({
+    this.date,
+    this.type,
+  });
+
+  final DateTime? date;
+  final String? type;
+
+  factory Vaccine.fromRawJson(String str) => Vaccine.fromJson(json.decode(str));
+
+  String toRawJson() => json.encode(toJson());
+
+  factory Vaccine.fromJson(Map<String, dynamic> json) => Vaccine(
+        date: json["date"] == null ? null : DateTime.parse(json["date"]),
+        type: json["type"] == null ? null : json["type"],
+      );
+
+  Map<String, dynamic> toJson() => {
+        "date": date == null
+            ? null
+            : "${date!.year.toString().padLeft(4, '0')}-${date!.month.toString().padLeft(2, '0')}-${date!.day.toString().padLeft(2, '0')}",
+        "type": type == null ? null : type,
+      };
 }
