@@ -903,7 +903,7 @@ class HelperListingController extends GetxController {
   }
 
   String helperCountryImage({required String country}) {
-    print('===? ${country}');
+    print('===? $country');
     var tempCountry = [
       'indonesia',
       'singapore',
@@ -960,7 +960,7 @@ class HelperListingController extends GetxController {
     ).then((value) {
       isLoading.value = false;
       if (value is ResponseHelpers) {
-        helpers.assignAll(value!.data!.list!.map(
+        helpers.assignAll(value.data!.list!.map(
           (e) => HelpersModel(
             id: e.id,
             image: e.photo != null && e.photo!.isNotEmpty

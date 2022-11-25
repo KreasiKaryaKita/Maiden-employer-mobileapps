@@ -1,6 +1,4 @@
-// To parse this JSON data, do
-//
-//     final responseHelpers = responseHelpersFromJson(jsonString);
+// ignore_for_file: overridden_fields, annotate_overrides
 
 import 'dart:convert';
 
@@ -22,13 +20,13 @@ class ResponseHelpers extends ResponseModel {
   String toRawJson() => json.encode(toJson());
 
   factory ResponseHelpers.fromJson(Map<String, dynamic> json) => ResponseHelpers(
-        error: json["error"] == null ? null : json["error"],
+        error: json["error"],
         data: json["data"] == null ? null : Data.fromJson(json["data"]),
         message: json["message"] == null ? null : List<String>.from(json["message"].map((x) => x)),
       );
 
   Map<String, dynamic> toJson() => {
-        "error": error == null ? null : error,
+        "error": error,
         "data": data == null ? null : data!.toJson(),
         "message": message == null ? null : List<dynamic>.from(message!.map((x) => x)),
       };
@@ -53,16 +51,16 @@ class Data {
 
   factory Data.fromJson(Map<String, dynamic> json) => Data(
         list: json["list"] == null ? null : List<ListElement>.from(json["list"].map((x) => ListElement.fromJson(x))),
-        limit: json["limit"] == null ? null : json["limit"],
-        page: json["page"] == null ? null : json["page"],
-        totalData: json["total_data"] == null ? null : json["total_data"],
+        limit: json["limit"],
+        page: json["page"],
+        totalData: json["total_data"],
       );
 
   Map<String, dynamic> toJson() => {
         "list": list == null ? null : List<dynamic>.from(list!.map((x) => x.toJson())),
-        "limit": limit == null ? null : limit,
-        "page": page == null ? null : page,
-        "total_data": totalData == null ? null : totalData,
+        "limit": limit,
+        "page": page,
+        "total_data": totalData,
       };
 }
 
@@ -112,46 +110,46 @@ class ListElement {
   String toRawJson() => json.encode(toJson());
 
   factory ListElement.fromJson(Map<String, dynamic> json) => ListElement(
-        id: json["id"] == null ? null : json["id"],
-        helperId: json["helper_id"] == null ? null : json["helper_id"],
-        photo: json["photo"] == null ? null : json["photo"],
-        fullName: json["full_name"] == null ? null : json["full_name"],
-        birthDate: json["birth_date"] == null ? null : json["birth_date"],
-        age: json["age"] == null ? null : json["age"],
-        country: json["country"] == null ? null : json["country"],
-        countryImage: json["country_image"] == null ? null : json["country_image"],
-        skills: json["skills"] == null ? null : json["skills"],
+        id: json["id"],
+        helperId: json["helper_id"],
+        photo: json["photo"],
+        fullName: json["full_name"],
+        birthDate: json["birth_date"],
+        age: json["age"],
+        country: json["country"],
+        countryImage: json["country_image"],
+        skills: json["skills"],
         language:
             json["language"] == null ? null : List<Language>.from(json["language"].map((x) => Language.fromJson(x))),
-        religion: json["religion"] == null ? null : json["religion"],
-        educationLevel: json["education_level"] == null ? null : json["education_level"],
-        maritalStatus: json["marital_status"] == null ? null : json["marital_status"],
-        readyForHireDate: json["ready_for_hire_date"] == null ? null : json["ready_for_hire_date"],
-        experienceYears: json["experience_years"] == null ? null : json["experience_years"],
-        experienceMonths: json["experience_months"] == null ? null : json["experience_months"],
-        sallary: json["sallary"] == null ? null : json["sallary"],
-        location: json["location"] == null ? null : json["location"],
+        religion: json["religion"],
+        educationLevel: json["education_level"],
+        maritalStatus: json["marital_status"],
+        readyForHireDate: json["ready_for_hire_date"],
+        experienceYears: json["experience_years"],
+        experienceMonths: json["experience_months"],
+        sallary: json["sallary"],
+        location: json["location"],
       );
 
   Map<String, dynamic> toJson() => {
-        "id": id == null ? null : id,
-        "helper_id": helperId == null ? null : helperId,
-        "photo": photo == null ? null : photo,
-        "full_name": fullName == null ? null : fullName,
-        "birth_date": birthDate == null ? null : birthDate,
-        "age": age == null ? null : age,
-        "country": country == null ? null : country,
-        "country_image": countryImage == null ? null : countryImage,
-        "skills": skills == null ? null : skills,
+        "id": id,
+        "helper_id": helperId,
+        "photo": photo,
+        "full_name": fullName,
+        "birth_date": birthDate,
+        "age": age,
+        "country": country,
+        "country_image": countryImage,
+        "skills": skills,
         "language": language == null ? null : List<dynamic>.from(language!.map((x) => x.toJson())),
-        "religion": religion == null ? null : religion,
-        "education_level": educationLevel == null ? null : educationLevel,
-        "marital_status": maritalStatus == null ? null : maritalStatus,
-        "ready_for_hire_date": readyForHireDate == null ? null : readyForHireDate,
-        "experience_years": experienceYears == null ? null : experienceYears,
-        "experience_months": experienceMonths == null ? null : experienceMonths,
-        "sallary": sallary == null ? null : sallary,
-        "location": location == null ? null : location,
+        "religion": religion,
+        "education_level": educationLevel,
+        "marital_status": maritalStatus,
+        "ready_for_hire_date": readyForHireDate,
+        "experience_years": experienceYears,
+        "experience_months": experienceMonths,
+        "sallary": sallary,
+        "location": location,
       };
 }
 
@@ -171,14 +169,14 @@ class Language {
   String toRawJson() => json.encode(toJson());
 
   factory Language.fromJson(Map<String, dynamic> json) => Language(
-        question: json["question"] == null ? null : json["question"],
-        answer: json["answer"] == null ? null : json["answer"],
-        level: json["level"] == null ? null : json["level"],
+        question: json["question"],
+        answer: json["answer"],
+        level: json["level"],
       );
 
   Map<String, dynamic> toJson() => {
-        "question": question == null ? null : question,
-        "answer": answer == null ? null : answer,
-        "level": level == null ? null : level,
+        "question": question,
+        "answer": answer,
+        "level": level,
       };
 }
