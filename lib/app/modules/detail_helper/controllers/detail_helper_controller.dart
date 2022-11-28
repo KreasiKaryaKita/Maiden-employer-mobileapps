@@ -1,15 +1,24 @@
 // ignore_for_file: unnecessary_overrides
-
+import 'dart:async';
 import 'dart:io';
-
-import 'package:flutter_downloader/flutter_downloader.dart';
+import 'package:dio/dio.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:flutter_pdfview/flutter_pdfview.dart';
 import 'package:get/get.dart';
+import 'package:maiden_employer/app/config/constants/endpoint_constant.dart';
 import 'package:maiden_employer/app/data/repository/api_repositories.dart';
 import 'package:maiden_employer/app/models/response_helper_detail.dart';
+import 'package:maiden_employer/app/modules/detail_helper/views/document_preview_view.dart';
 import 'package:maiden_employer/app/shared/common/common_function.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:permission_handler/permission_handler.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 class DetailHelperController extends GetxController {
+  final Completer<PDFViewController> pdfController = Completer<PDFViewController>();
+  final refreshCt = RefreshController();
+
   var isLoading = true.obs;
   RxDouble count = 0.0.obs;
   var arguments = {}.obs;
@@ -67,6 +76,12 @@ class DetailHelperController extends GetxController {
   @override
   void onClose() {
     super.onClose();
+  }
+
+  onRefresh() async {
+    isLoading.value = true;
+    getDetail();
+    refreshCt.refreshCompleted();
   }
 
   getDetail() {
@@ -284,20 +299,81 @@ class DetailHelperController extends GetxController {
   }
 
   onDownloadPdfPressed() async {
-    var url = 'https://cms.maiden.yurekadev.com/helper/v2/helper/export/${helperDetail.value.id}/pdf';
+    var status = await Permission.storage.request();
+    printInfo(info: status.toString());
+    if (status == PermissionStatus.granted) {
+      CommonFunction.loadingShow();
+      final baseUrl = dotenv.env['APP_ENV'] == 'dev' ? dotenv.env['BASE_URL_PDF_DEV'] : dotenv.env['BASE_URL_PDF_PROD'];
 
+      var uri = '$baseUrl${helperDetail.value.id}${EndpointConstant.HELPERS_PDF}';
+
+      String pathDownload = "${await getDownloadPath()}/${DateTime.now().millisecondsSinceEpoch}.pdf";
+      printInfo(info: "Path : $pathDownload");
+      printInfo(info: "uri : $uri");
+
+      if (pathDownload.isNotEmpty) {
+        Dio dio = Dio();
+
+        try {
+          var respon = await dio.download(
+            uri,
+            pathDownload,
+            onReceiveProgress: (rcv, total) {
+              printInfo(info: 'received: ${rcv.toStringAsFixed(0)} out of total: ${total.toStringAsFixed(0)}');
+            },
+          );
+          printInfo(info: "Res : ${respon.statusMessage}");
+          CommonFunction.loadingHide();
+          CommonFunction.snackbarHelper(
+            message: "${'download_file_msg'.tr} $pathDownload",
+            isSuccess: true,
+            duration: Duration(seconds: 10),
+            mainButtonOnPressed: () {
+              Get.to(
+                () => DocumentPreviewView(pdfPath: pathDownload),
+              );
+            },
+            mainButton: Text(
+              'view_doc'.tr,
+              style: TextStyle(
+                color: Colors.white,
+                fontWeight: FontWeight.w700,
+              ),
+            ),
+          );
+        } on DioError catch (e) {
+          CommonFunction.loadingHide();
+          CommonFunction.snackbarHelper(message: "download_file_error_msg_2".tr, isSuccess: false);
+          printError(info: "Error : ${e.response?.statusCode}");
+        } catch (e) {
+          printError(info: "Error : $e");
+        }
+      } else {
+        CommonFunction.loadingHide();
+        CommonFunction.snackbarHelper(message: "download_file_error_msg".tr, isSuccess: false);
+      }
+    } else if (status == PermissionStatus.denied) {
+      CommonFunction.snackbarHelper(message: "error_permission_storage".tr, isSuccess: false);
+    } else {
+      CommonFunction.snackbarHelper(message: "error_permission_storage".tr, isSuccess: false);
+      await openAppSettings();
+    }
+  }
+
+  Future<String> getDownloadPath() async {
     Directory? directory;
-    directory = Directory('/storage/emulated/0/Download');
-    // Put file in global download folder, if for an unknown reason it didn't exist, we fallback
-    // ignore: avoid_slow_async_io
-    if (!await directory.exists()) directory = await getExternalStorageDirectory();
-
-    final taskId = await FlutterDownloader.enqueue(
-      url: url,
-      headers: {}, // optional: header send with url (auth token etc)
-      savedDir: directory!.path,
-      showNotification: true, // show download progress in status bar (for Android)
-      openFileFromNotification: true, // click on notification to open downloaded file (for Android)
-    );
+    try {
+      if (Platform.isIOS) {
+        directory = await getApplicationDocumentsDirectory();
+      } else {
+        directory = (await getExternalStorageDirectories(type: StorageDirectory.downloads))?.first;
+      }
+    } catch (err) {
+      print("Cannot get download folder path : ${err.toString()}");
+    }
+    if (directory != null) {
+      return directory.path;
+    }
+    return "";
   }
 }

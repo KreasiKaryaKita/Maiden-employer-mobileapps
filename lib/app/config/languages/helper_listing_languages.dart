@@ -107,6 +107,9 @@ class HelperListingLanguages {
     'filters_work_experience_hong_kong': 'Hong Kong',
     'filters_work_experience_taiwan': 'Taiwan',
     'filters_work_experience_middle_east': 'Middle East',
+    'download_file_msg': 'File Successfully Downloaded on',
+    'download_file_error_msg': 'Cannot get download folder path',
+    'download_file_error_msg_2': 'File Failed to Download',
   };
 
   static final ID = {
@@ -212,5 +215,8 @@ class HelperListingLanguages {
     'filters_work_experience_hong_kong': 'Hong Kong',
     'filters_work_experience_taiwan': 'Taiwan',
     'filters_work_experience_middle_east': 'Timur Tengah',
+    'download_file_msg': 'File Berhasil Diunduh di',
+    'download_file_error_msg': 'Tidak bisa mendapatkan jalur folder unduhan',
+    'download_file_error_msg_2': 'File Gagal Diunduh',
   };
 }
