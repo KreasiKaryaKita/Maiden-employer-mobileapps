@@ -9,22 +9,26 @@ import 'package:get/get.dart';
 class CommonFunction {
   static loadingShow() {
     return Get.dialog(
-      Center(
-        child: Container(
-          padding: const EdgeInsets.all(24),
-          decoration: BoxDecoration(
-            color: Colors.white,
-            borderRadius: const BorderRadius.all(Radius.circular(8)),
-            boxShadow: [
-              BoxShadow(
-                color: Colors.black.withOpacity(0.3),
-                blurRadius: 4,
-                spreadRadius: 2,
-              ),
-            ],
-          ),
-          child: const CircularProgressIndicator(
-            color: AppColors.primary_60,
+      barrierDismissible: false,
+      WillPopScope(
+        onWillPop: () async => false,
+        child: Center(
+          child: Container(
+            padding: const EdgeInsets.all(24),
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: const BorderRadius.all(Radius.circular(8)),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.black.withOpacity(0.3),
+                  blurRadius: 4,
+                  spreadRadius: 2,
+                ),
+              ],
+            ),
+            child: const CircularProgressIndicator(
+              color: AppColors.primary_60,
+            ),
           ),
         ),
       ),

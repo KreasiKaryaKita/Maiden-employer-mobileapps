@@ -23,4 +23,5 @@ class EndpointConstant {
   static const String HELPERS = 'helper/list';
   static const String HELPER_DETAIL = 'helper/detail';
   static const String HELPERS_COUNT = 'helper/count';
+  static const String HELPERS_PDF = '/pdf';
 }
