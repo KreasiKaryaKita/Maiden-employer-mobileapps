@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
@@ -321,7 +323,7 @@ class RegisterStepTwoView extends GetView<RegisterStepTwoController> {
                     fontSize: 16,
                   ),
                 ),
-              ),
+              ).paddingOnly(bottom: (Platform.isAndroid) ? 0 : 12),
             )
           ],
         ),

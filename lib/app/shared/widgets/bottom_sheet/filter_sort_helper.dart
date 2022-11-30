@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:maiden_employer/app/config/constants/app_constant.dart';
@@ -113,12 +115,12 @@ class FilterSortHelper extends StatelessWidget {
                   text: Text(
                     'filters_apply'.tr,
                     style: TextStyle(
-                      color: Color(0xFFE1464A),
+                      color: Color(0xFF333333),
                       fontWeight: FontWeight.w700,
                       fontSize: 16,
                     ),
                   ),
-                ),
+                ).paddingOnly(bottom: (Platform.isAndroid) ? 0 : 12),
               )
             ],
           ),

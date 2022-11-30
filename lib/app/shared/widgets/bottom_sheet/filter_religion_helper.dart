@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:maiden_employer/app/config/constants/app_constant.dart';
@@ -60,13 +62,12 @@ class FilterReligionHelper extends StatelessWidget {
                 actions: [
                   InkWell(
                     onTap: () {
-                      Get.back();
                       controller.onSetReligion(false, true);
                     },
                     child: Align(
                       alignment: Alignment.center,
                       child: Text(
-                        "all".tr.toUpperCase(),
+                        (controller.isAllReligionSelected.value) ? "clear".tr.toUpperCase() : "all".tr.toUpperCase(),
                         textAlign: TextAlign.center,
                         style: TextStyle(
                           fontFamily: AppConstant.SF_PRO_FONT,
@@ -134,12 +135,13 @@ class FilterReligionHelper extends StatelessWidget {
                   text: Text(
                     'filters_apply'.tr,
                     style: TextStyle(
-                      color: Color(0xFFE1464A),
+                      color: Color(0xFF333333),
                       fontWeight: FontWeight.w700,
                       fontSize: 16,
+                      fontFamily: AppConstant.SF_PRO_FONT,
                     ),
                   ),
-                ),
+                ).paddingOnly(bottom: (Platform.isAndroid) ? 0 : 12),
               )
             ],
           ),

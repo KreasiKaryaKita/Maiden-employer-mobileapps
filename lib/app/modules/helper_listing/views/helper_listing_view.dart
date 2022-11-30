@@ -18,6 +18,7 @@ class HelperListingView extends GetView<HelperListingController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       body: Container(
         decoration: BoxDecoration(
           gradient: LinearGradient(
@@ -107,7 +108,7 @@ class HelperListingView extends GetView<HelperListingController> {
                                                         color: Color(0xFF272B30),
                                                         fontFamily: AppConstant.CENTURY_GOTHIC_FONT,
                                                         fontWeight: FontWeight.w700,
-                                                        fontSize: 13,
+                                                        fontSize: 12,
                                                       ),
                                                     ).marginOnly(bottom: 4),
                                                     Text(

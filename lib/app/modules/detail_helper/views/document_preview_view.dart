@@ -25,45 +25,47 @@ class DocumentPreviewView extends GetView<DetailHelperController> {
         centerTitle: true,
         backgroundColor: Colors.white,
       ),
-      body: Column(
-        children: [
-          Expanded(
-            child: PDFView(
-              fitEachPage: true,
-              filePath: pdfPath,
-              enableSwipe: true,
-              fitPolicy: FitPolicy.BOTH,
-              swipeHorizontal: false,
-              pageSnap: false,
-              autoSpacing: true,
-              pageFling: false,
-              onRender: (pages) {},
-              onError: (error) {
-                if (kDebugMode) {
-                  print('==>$error');
-                }
-              },
-              onPageError: (page, error) {
-                if (kDebugMode) {
-                  print('==> $page: ${error.toString()}');
-                }
-              },
-              onViewCreated: (PDFViewController pdfViewController) {
-                if (!controller.pdfController.isCompleted) {
-                  controller.pdfController.complete(pdfViewController);
-                }
-                if (kDebugMode) {
-                  print('==> page created');
-                }
-              },
-              onPageChanged: (int? page, int? total) {
-                if (kDebugMode) {
-                  print('==> page change: $page/$total');
-                }
-              },
+      body: SafeArea(
+        child: Column(
+          children: [
+            Expanded(
+              child: PDFView(
+                fitEachPage: true,
+                filePath: pdfPath,
+                enableSwipe: true,
+                fitPolicy: FitPolicy.BOTH,
+                swipeHorizontal: false,
+                pageSnap: false,
+                autoSpacing: true,
+                pageFling: false,
+                onRender: (pages) {},
+                onError: (error) {
+                  if (kDebugMode) {
+                    print('==>$error');
+                  }
+                },
+                onPageError: (page, error) {
+                  if (kDebugMode) {
+                    print('==> $page: ${error.toString()}');
+                  }
+                },
+                onViewCreated: (PDFViewController pdfViewController) {
+                  if (!controller.pdfController.isCompleted) {
+                    controller.pdfController.complete(pdfViewController);
+                  }
+                  if (kDebugMode) {
+                    print('==> page created');
+                  }
+                },
+                onPageChanged: (int? page, int? total) {
+                  if (kDebugMode) {
+                    print('==> page change: $page/$total');
+                  }
+                },
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

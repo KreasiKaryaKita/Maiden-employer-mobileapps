@@ -1,7 +1,9 @@
+import 'dart:io';
 import 'dart:ui';
 
 import 'package:expandable/expandable.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_typeahead/flutter_typeahead.dart';
 import 'package:get/get.dart';
 import 'package:maiden_employer/app/config/constants/app_constant.dart';
@@ -166,6 +168,7 @@ class SearchHelper extends StatelessWidget {
                                         color: Color(0xFF6A7178),
                                         fontWeight: FontWeight.w400,
                                         fontSize: 14,
+                                        fontFamily: AppConstant.SF_PRO_FONT,
                                       ),
                                       border: OutlineInputBorder(
                                         borderRadius: BorderRadius.circular(50),
@@ -226,11 +229,22 @@ class SearchHelper extends StatelessWidget {
                                             padding: EdgeInsets.symmetric(horizontal: 8, vertical: 8.5),
                                             decoration: BoxDecoration(
                                               borderRadius: BorderRadius.all(Radius.circular(4)),
-                                              gradient: LinearGradient(colors: [Color(0xFF2E112D), Color(0xFF540032)]),
+                                              gradient: LinearGradient(
+                                                colors: [
+                                                  Color(0xFF2E112D),
+                                                  Color(0xFF540032),
+                                                ],
+                                              ),
                                             ),
                                             child: Row(mainAxisSize: MainAxisSize.min, children: [
-                                              Text(sel[index].label ?? '',
-                                                  style: TextStyle(fontSize: 10, color: Colors.white)),
+                                              Text(
+                                                sel[index].label ?? '',
+                                                style: TextStyle(
+                                                  fontSize: 10,
+                                                  color: Colors.white,
+                                                  fontFamily: AppConstant.SF_PRO_FONT,
+                                                ),
+                                              ),
                                               SizedBox(width: 12),
                                               Icon(Icons.close, color: Colors.white, size: 16)
                                             ]),
@@ -354,6 +368,7 @@ class SearchHelper extends StatelessWidget {
                                                           color: Color(0xFF8C1D20),
                                                           fontWeight: FontWeight.w700,
                                                           fontSize: 16,
+                                                          fontFamily: AppConstant.SF_PRO_FONT,
                                                         ),
                                                       ),
                                                       Divider(
@@ -366,6 +381,7 @@ class SearchHelper extends StatelessWidget {
                                                           color: Color(0xFF8C1D20),
                                                           fontWeight: FontWeight.w400,
                                                           fontSize: 12,
+                                                          fontFamily: AppConstant.SF_PRO_FONT,
                                                         ),
                                                       ),
                                                     ],
@@ -441,6 +457,7 @@ class SearchHelper extends StatelessWidget {
                                                         color: Color(0xFF8C1D20),
                                                         fontWeight: FontWeight.w700,
                                                         fontSize: 16,
+                                                        fontFamily: AppConstant.SF_PRO_FONT,
                                                       ),
                                                     ),
                                                     Divider(
@@ -453,6 +470,7 @@ class SearchHelper extends StatelessWidget {
                                                         color: Color(0xFF8C1D20),
                                                         fontWeight: FontWeight.w400,
                                                         fontSize: 12,
+                                                        fontFamily: AppConstant.SF_PRO_FONT,
                                                       ),
                                                     ),
                                                   ],
@@ -546,8 +564,8 @@ class SearchHelper extends StatelessWidget {
                                     ),
                                     child: RangeSlider(
                                       values: controller.currentRangeValues.value,
-                                      max: 50,
-                                      min: 21,
+                                      max: 80,
+                                      min: 15,
                                       onChanged: controller.onChangeRangeAge,
                                       inactiveColor: Color(0xFFCED4DA),
                                       activeColor: Color(0xFF8C1D20),
@@ -558,73 +576,124 @@ class SearchHelper extends StatelessWidget {
                                   crossAxisAlignment: CrossAxisAlignment.center,
                                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                   children: [
-                                    Container(
-                                      padding: EdgeInsets.symmetric(horizontal: 9, vertical: 12),
-                                      decoration: BoxDecoration(
-                                        border: Border.all(
+                                    Expanded(
+                                      child: TextField(
+                                        controller: controller.inputAgeStart,
+                                        style: const TextStyle(
+                                          fontFamily: AppConstant.SF_PRO_FONT,
                                           color: Color(0xFF8C1D20),
+                                          fontSize: 14,
+                                          fontWeight: FontWeight.w700,
                                         ),
-                                        borderRadius: BorderRadius.all(
-                                          Radius.circular(8),
-                                        ),
-                                      ),
-                                      child: RichText(
-                                        textAlign: TextAlign.center,
-                                        text: TextSpan(
-                                          children: <TextSpan>[
-                                            TextSpan(
-                                              text: "${controller.currentRangeValues.value.start.round()} ",
-                                              style: const TextStyle(
-                                                color: Color(0xFF8C1D20),
-                                                fontSize: 14,
-                                                fontWeight: FontWeight.w700,
-                                              ),
+                                        textInputAction: TextInputAction.done,
+                                        onSubmitted: (value) async {
+                                          await controller.onSubmitAgeStart(value);
+                                          await controller.onSubmitAgeEnd(controller.inputAgeEnd.text);
+                                          controller.onChangeRangeAge(controller.currentRangeValues.value);
+                                        },
+                                        textAlignVertical: TextAlignVertical.center,
+                                        keyboardType: TextInputType.number,
+                                        inputFormatters: <TextInputFormatter>[FilteringTextInputFormatter.digitsOnly],
+                                        decoration: InputDecoration(
+                                          counterText: '',
+                                          contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                                          isDense: false,
+                                          enabledBorder: OutlineInputBorder(
+                                            borderSide: const BorderSide(
+                                              color: Color(0xFF8C1D20),
                                             ),
-                                            TextSpan(
-                                              text: 'search_age_year'.tr,
-                                              style: const TextStyle(
-                                                color: Color(0xFF8C1D20),
-                                                fontSize: 14,
-                                                fontWeight: FontWeight.w400,
-                                              ),
-                                            )
-                                          ],
+                                            borderRadius: BorderRadius.circular(8),
+                                          ),
+                                          disabledBorder: OutlineInputBorder(
+                                            borderSide: const BorderSide(
+                                              color: Color(0xFF8C1D20),
+                                            ),
+                                            borderRadius: BorderRadius.circular(8),
+                                          ),
+                                          border: OutlineInputBorder(
+                                            borderRadius: BorderRadius.circular(8),
+                                            borderSide: const BorderSide(
+                                              color: Color(0xFF8C1D20),
+                                            ),
+                                          ),
+                                          focusedBorder: OutlineInputBorder(
+                                            borderRadius: BorderRadius.circular(8),
+                                            borderSide: const BorderSide(
+                                              color: Color(0xFF8C1D20),
+                                            ),
+                                          ),
+                                          suffix: Text(
+                                            'search_age_year'.tr,
+                                            style: TextStyle(
+                                              color: Color(0xFF8C1D20),
+                                              fontSize: 14,
+                                              fontWeight: FontWeight.w400,
+                                              fontFamily: AppConstant.SF_PRO_FONT,
+                                            ),
+                                          ),
                                         ),
-                                      ),
+                                      ).marginOnly(right: 16),
                                     ),
-                                    Container(
-                                      padding: EdgeInsets.symmetric(horizontal: 9, vertical: 12),
-                                      decoration: BoxDecoration(
-                                        border: Border.all(
+                                    Expanded(
+                                      child: Container(),
+                                    ),
+                                    Expanded(
+                                      child: TextField(
+                                        controller: controller.inputAgeEnd,
+                                        style: const TextStyle(
+                                          fontFamily: AppConstant.SF_PRO_FONT,
                                           color: Color(0xFF8C1D20),
+                                          fontSize: 14,
+                                          fontWeight: FontWeight.w700,
                                         ),
-                                        borderRadius: BorderRadius.all(
-                                          Radius.circular(8),
-                                        ),
-                                      ),
-                                      child: RichText(
-                                        textAlign: TextAlign.center,
-                                        text: TextSpan(
-                                          children: <TextSpan>[
-                                            TextSpan(
-                                              text: "${controller.currentRangeValues.value.end.round()} ",
-                                              style: const TextStyle(
-                                                color: Color(0xFF8C1D20),
-                                                fontSize: 14,
-                                                fontWeight: FontWeight.w700,
-                                              ),
+                                        textInputAction: TextInputAction.done,
+                                        onSubmitted: (value) async {
+                                          await controller.onSubmitAgeStart(controller.inputAgeStart.text);
+                                          await controller.onSubmitAgeEnd(value);
+                                          controller.onChangeRangeAge(controller.currentRangeValues.value);
+                                        },
+                                        textAlignVertical: TextAlignVertical.center,
+                                        keyboardType: TextInputType.number,
+                                        inputFormatters: <TextInputFormatter>[FilteringTextInputFormatter.digitsOnly],
+                                        decoration: InputDecoration(
+                                          counterText: '',
+                                          contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                                          isDense: false,
+                                          enabledBorder: OutlineInputBorder(
+                                            borderSide: const BorderSide(
+                                              color: Color(0xFF8C1D20),
                                             ),
-                                            TextSpan(
-                                              text: 'search_age_year'.tr,
-                                              style: const TextStyle(
-                                                color: Color(0xFF8C1D20),
-                                                fontSize: 14,
-                                                fontWeight: FontWeight.w400,
-                                              ),
-                                            )
-                                          ],
+                                            borderRadius: BorderRadius.circular(8),
+                                          ),
+                                          disabledBorder: OutlineInputBorder(
+                                            borderSide: const BorderSide(
+                                              color: Color(0xFF8C1D20),
+                                            ),
+                                            borderRadius: BorderRadius.circular(8),
+                                          ),
+                                          border: OutlineInputBorder(
+                                            borderRadius: BorderRadius.circular(8),
+                                            borderSide: const BorderSide(
+                                              color: Color(0xFF8C1D20),
+                                            ),
+                                          ),
+                                          focusedBorder: OutlineInputBorder(
+                                            borderRadius: BorderRadius.circular(8),
+                                            borderSide: const BorderSide(
+                                              color: Color(0xFF8C1D20),
+                                            ),
+                                          ),
+                                          suffix: Text(
+                                            'search_age_year'.tr,
+                                            style: TextStyle(
+                                              color: Color(0xFF8C1D20),
+                                              fontSize: 14,
+                                              fontWeight: FontWeight.w400,
+                                              fontFamily: AppConstant.SF_PRO_FONT,
+                                            ),
+                                          ),
                                         ),
-                                      ),
+                                      ).marginOnly(left: 16),
                                     ),
                                   ],
                                 ),
@@ -644,6 +713,7 @@ class SearchHelper extends StatelessWidget {
                       Expanded(
                         child: ButtonText(
                           onPressed: () {
+                            Get.back();
                             controller.onClearSearch();
                           },
                           text: Text(
@@ -660,7 +730,12 @@ class SearchHelper extends StatelessWidget {
                       ),
                       Expanded(
                         child: ButtonFill(
-                          onPressed: () {
+                          onPressed: () async {
+                            if (controller.ageIsExpanded.value) {
+                              await controller.onSubmitAgeStart(controller.inputAgeStart.text);
+                              await controller.onSubmitAgeEnd(controller.inputAgeEnd.text);
+                              await controller.onChangeRangeAge(controller.currentRangeValues.value);
+                            }
                             controller.onSubmitSearch();
                           },
                           backgroundColor: Colors.white,
@@ -671,12 +746,13 @@ class SearchHelper extends StatelessWidget {
                               color: Color(0xFF333333),
                               fontWeight: FontWeight.w700,
                               fontSize: 16,
+                              fontFamily: AppConstant.SF_PRO_FONT,
                             ),
                           ),
                         ),
                       )
                     ],
-                  ),
+                  ).paddingOnly(bottom: (Platform.isAndroid) ? 0 : 12),
                 )
               ],
             ),

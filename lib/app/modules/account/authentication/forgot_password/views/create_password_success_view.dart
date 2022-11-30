@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
@@ -91,7 +93,7 @@ class CreatePasswordSuccessView extends GetView<CreatePasswordSuccessController>
                   fontSize: 16,
                 ),
               ),
-            ),
+            ).paddingOnly(bottom: (Platform.isAndroid) ? 0 : 12),
           ),
         ],
       ),

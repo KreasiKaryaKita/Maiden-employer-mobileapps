@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_pdfview/flutter_pdfview.dart';
 import 'package:get/get.dart';
+import 'package:maiden_employer/app/config/constants/app_constant.dart';
 import 'package:maiden_employer/app/config/constants/endpoint_constant.dart';
 import 'package:maiden_employer/app/data/repository/api_repositories.dart';
 import 'package:maiden_employer/app/models/response_helper_detail.dart';
@@ -338,6 +339,7 @@ class DetailHelperController extends GetxController {
               style: TextStyle(
                 color: Colors.white,
                 fontWeight: FontWeight.w700,
+                fontFamily: AppConstant.SF_PRO_FONT,
               ),
             ),
           );

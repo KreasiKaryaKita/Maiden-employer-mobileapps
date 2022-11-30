@@ -12,6 +12,7 @@ class MainView extends GetView<MainController> {
   Widget build(BuildContext context) {
     return Obx(
       () => Scaffold(
+        resizeToAvoidBottomInset: false,
         body: WillPopScope(
           onWillPop: controller.onWillPop,
           child: PageStorage(

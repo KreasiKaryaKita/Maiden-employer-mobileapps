@@ -1,4 +1,7 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:maiden_employer/app/config/constants/app_constant.dart';
 import 'package:maiden_employer/app/models/entity/option_status_helpers_model.dart';
@@ -258,8 +261,8 @@ class FilterHelper extends StatelessWidget {
                               ),
                               child: RangeSlider(
                                 values: controller.currentRangeValues.value,
-                                max: 50,
-                                min: 21,
+                                max: 80,
+                                min: 15,
                                 onChanged: controller.onChangeRangeAge,
                                 inactiveColor: Color(0xFF2E112D),
                                 activeColor: Color(0xFFCE5D60),
@@ -270,73 +273,122 @@ class FilterHelper extends StatelessWidget {
                             crossAxisAlignment: CrossAxisAlignment.center,
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              Container(
-                                padding: EdgeInsets.symmetric(horizontal: 9, vertical: 12),
-                                decoration: BoxDecoration(
-                                  border: Border.all(
+                              Expanded(
+                                child: TextField(
+                                  controller: controller.inputAgeStart,
+                                  style: const TextStyle(
+                                    fontFamily: AppConstant.SF_PRO_FONT,
                                     color: Colors.white,
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.w700,
                                   ),
-                                  borderRadius: BorderRadius.all(
-                                    Radius.circular(8),
-                                  ),
-                                ),
-                                child: RichText(
-                                  textAlign: TextAlign.center,
-                                  text: TextSpan(
-                                    children: <TextSpan>[
-                                      TextSpan(
-                                        text: "${controller.currentRangeValues.value.start.round()} ",
-                                        style: const TextStyle(
-                                          color: Colors.white,
-                                          fontSize: 14,
-                                          fontWeight: FontWeight.w700,
-                                        ),
+                                  textInputAction: TextInputAction.done,
+                                  onSubmitted: (value) async {
+                                    await controller.onSubmitAgeStart(value);
+                                    await controller.onSubmitAgeEnd(controller.inputAgeEnd.text);
+                                    controller.onChangeRangeAge(controller.currentRangeValues.value);
+                                  },
+                                  textAlignVertical: TextAlignVertical.center,
+                                  keyboardType: TextInputType.number,
+                                  inputFormatters: <TextInputFormatter>[FilteringTextInputFormatter.digitsOnly],
+                                  decoration: InputDecoration(
+                                    counterText: '',
+                                    contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                                    isDense: false,
+                                    enabledBorder: OutlineInputBorder(
+                                      borderSide: const BorderSide(
+                                        color: Colors.white,
                                       ),
-                                      TextSpan(
-                                        text: 'search_age_year'.tr,
-                                        style: const TextStyle(
-                                          color: Colors.white,
-                                          fontSize: 14,
-                                          fontWeight: FontWeight.w400,
-                                        ),
-                                      )
-                                    ],
+                                      borderRadius: BorderRadius.circular(8),
+                                    ),
+                                    disabledBorder: OutlineInputBorder(
+                                      borderSide: const BorderSide(
+                                        color: Colors.white,
+                                      ),
+                                      borderRadius: BorderRadius.circular(8),
+                                    ),
+                                    border: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(8),
+                                      borderSide: const BorderSide(
+                                        color: Colors.white,
+                                      ),
+                                    ),
+                                    focusedBorder: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(8),
+                                      borderSide: const BorderSide(
+                                        color: Colors.white,
+                                      ),
+                                    ),
+                                    suffix: Text(
+                                      'search_age_year'.tr,
+                                      style: TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.w400,
+                                      ),
+                                    ),
                                   ),
-                                ),
+                                ).marginOnly(right: 16),
                               ),
-                              Container(
-                                padding: EdgeInsets.symmetric(horizontal: 9, vertical: 12),
-                                decoration: BoxDecoration(
-                                  border: Border.all(
+                              Expanded(
+                                child: Container(),
+                              ),
+                              Expanded(
+                                child: TextField(
+                                  controller: controller.inputAgeEnd,
+                                  style: const TextStyle(
+                                    fontFamily: AppConstant.SF_PRO_FONT,
                                     color: Colors.white,
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.w700,
                                   ),
-                                  borderRadius: BorderRadius.all(
-                                    Radius.circular(8),
-                                  ),
-                                ),
-                                child: RichText(
-                                  textAlign: TextAlign.center,
-                                  text: TextSpan(
-                                    children: <TextSpan>[
-                                      TextSpan(
-                                        text: "${controller.currentRangeValues.value.end.round()} ",
-                                        style: const TextStyle(
-                                          color: Colors.white,
-                                          fontSize: 14,
-                                          fontWeight: FontWeight.w700,
-                                        ),
+                                  textInputAction: TextInputAction.done,
+                                  onSubmitted: (value) async {
+                                    await controller.onSubmitAgeStart(controller.inputAgeStart.text);
+                                    await controller.onSubmitAgeEnd(value);
+                                    controller.onChangeRangeAge(controller.currentRangeValues.value);
+                                  },
+                                  textAlignVertical: TextAlignVertical.center,
+                                  keyboardType: TextInputType.number,
+                                  inputFormatters: <TextInputFormatter>[FilteringTextInputFormatter.digitsOnly],
+                                  decoration: InputDecoration(
+                                    counterText: '',
+                                    contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                                    isDense: false,
+                                    enabledBorder: OutlineInputBorder(
+                                      borderSide: const BorderSide(
+                                        color: Colors.white,
                                       ),
-                                      TextSpan(
-                                        text: 'search_age_year'.tr,
-                                        style: const TextStyle(
-                                          color: Colors.white,
-                                          fontSize: 14,
-                                          fontWeight: FontWeight.w400,
-                                        ),
-                                      )
-                                    ],
+                                      borderRadius: BorderRadius.circular(8),
+                                    ),
+                                    disabledBorder: OutlineInputBorder(
+                                      borderSide: const BorderSide(
+                                        color: Colors.white,
+                                      ),
+                                      borderRadius: BorderRadius.circular(8),
+                                    ),
+                                    border: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(8),
+                                      borderSide: const BorderSide(
+                                        color: Colors.white,
+                                      ),
+                                    ),
+                                    focusedBorder: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(8),
+                                      borderSide: const BorderSide(
+                                        color: Colors.white,
+                                      ),
+                                    ),
+                                    suffix: Text(
+                                      'search_age_year'.tr,
+                                      style: TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.w400,
+                                      ),
+                                    ),
                                   ),
-                                ),
+                                ).marginOnly(left: 16),
                               ),
                             ],
                           ),
@@ -582,7 +634,9 @@ class FilterHelper extends StatelessWidget {
                                     ),
                                   ).marginOnly(bottom: 3),
                                   Text(
-                                    (controller.helpersNationalitySelected.isEmpty)
+                                    (controller.helpersNationalitySelected.isEmpty ||
+                                            controller.helpersNationalitySelected.length ==
+                                                controller.helpersNationality.length)
                                         ? "all".tr
                                         : controller.helpersNationalitySelected.map((val) => val.label).join(', '),
                                     style: TextStyle(
@@ -639,7 +693,9 @@ class FilterHelper extends StatelessWidget {
                                     ),
                                   ).marginOnly(bottom: 3),
                                   Text(
-                                    (controller.helpersLanguageSelected.isEmpty)
+                                    (controller.helpersLanguageSelected.isEmpty ||
+                                            controller.helpersLanguageSelected.length ==
+                                                controller.helpersLanguage.length)
                                         ? "all".tr
                                         : controller.helpersLanguageSelected.map((val) => val.label).join(', '),
                                     style: TextStyle(
@@ -696,7 +752,9 @@ class FilterHelper extends StatelessWidget {
                                     ),
                                   ).marginOnly(bottom: 3),
                                   Text(
-                                    (controller.helpersReligionSelected.isEmpty)
+                                    (controller.helpersReligionSelected.isEmpty ||
+                                            controller.helpersReligionSelected.length ==
+                                                controller.helpersReligion.length)
                                         ? "all".tr
                                         : controller.helpersReligionSelected.map((val) => val.label).join(', '),
                                     style: TextStyle(
@@ -753,7 +811,9 @@ class FilterHelper extends StatelessWidget {
                                     ),
                                   ).marginOnly(bottom: 3),
                                   Text(
-                                    (controller.helpersEducationSelected.isEmpty)
+                                    (controller.helpersEducationSelected.isEmpty ||
+                                            controller.helpersEducationSelected.length ==
+                                                controller.helpersEducation.length)
                                         ? "all".tr
                                         : controller.helpersEducationSelected.map((val) => val.label).join(', '),
                                     style: TextStyle(
@@ -810,7 +870,9 @@ class FilterHelper extends StatelessWidget {
                                     ),
                                   ).marginOnly(bottom: 3),
                                   Text(
-                                    (controller.helpersMaritalStatusSelected.isEmpty)
+                                    (controller.helpersMaritalStatusSelected.isEmpty ||
+                                            controller.helpersMaritalStatusSelected.length ==
+                                                controller.helpersMaritalStatus.length)
                                         ? "all".tr
                                         : controller.helpersMaritalStatusSelected.map((val) => val.label).join(', '),
                                     style: TextStyle(
@@ -867,7 +929,9 @@ class FilterHelper extends StatelessWidget {
                                     ),
                                   ).marginOnly(bottom: 3),
                                   Text(
-                                    (controller.helpersWorkSkillSelected.isEmpty)
+                                    (controller.helpersWorkSkillSelected.isEmpty ||
+                                            controller.helpersWorkSkillSelected.length ==
+                                                controller.helpersWorkSkill.length)
                                         ? "all".tr
                                         : controller.helpersWorkSkillSelected.map((val) => val.label).join(', '),
                                     style: TextStyle(
@@ -924,7 +988,9 @@ class FilterHelper extends StatelessWidget {
                                     ),
                                   ).marginOnly(bottom: 3),
                                   Text(
-                                    (controller.helpersWorkExperienceSelected.isEmpty)
+                                    (controller.helpersWorkExperienceSelected.isEmpty ||
+                                            controller.helpersWorkExperienceSelected.length ==
+                                                controller.helpersWorkExperience.length)
                                         ? "all".tr
                                         : controller.helpersWorkExperienceSelected.map((val) => val.label).join(', '),
                                     style: TextStyle(
@@ -953,7 +1019,10 @@ class FilterHelper extends StatelessWidget {
                 color: Color(0xFF820333),
                 padding: EdgeInsets.symmetric(horizontal: 20, vertical: 20),
                 child: ButtonFill(
-                  onPressed: () {
+                  onPressed: () async {
+                    await controller.onSubmitAgeStart(controller.inputAgeStart.text);
+                    await controller.onSubmitAgeEnd(controller.inputAgeEnd.text);
+                    await controller.onChangeRangeAge(controller.currentRangeValues.value);
                     controller.onSubmitSearch();
                   },
                   backgroundColor: Colors.white,
@@ -961,12 +1030,13 @@ class FilterHelper extends StatelessWidget {
                   text: Text(
                     "${'filters_apply_all'.tr} (${controller.helpersCountSearch.value})",
                     style: TextStyle(
-                      color: Color(0xFFE1464A),
+                      color: Color(0xFF333333),
                       fontWeight: FontWeight.w700,
                       fontSize: 16,
+                      fontFamily: AppConstant.SF_PRO_FONT,
                     ),
                   ),
-                ),
+                ).paddingOnly(bottom: (Platform.isAndroid) ? 0 : 12),
               )
             ],
           ),

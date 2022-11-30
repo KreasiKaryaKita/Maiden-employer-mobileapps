@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
@@ -164,7 +166,7 @@ class CreatePasswordView extends GetView<CreatePasswordController> {
                     fontSize: 16,
                   ),
                 ),
-              ),
+              ).paddingOnly(bottom: (Platform.isAndroid) ? 0 : 12),
             ),
           ],
         ),
