@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
@@ -61,13 +63,12 @@ class FilterNationalityHelper extends StatelessWidget {
                 actions: [
                   InkWell(
                     onTap: () {
-                      Get.back();
                       controller.onSetNationality(false, true);
                     },
                     child: Align(
                       alignment: Alignment.center,
                       child: Text(
-                        "all".tr.toUpperCase(),
+                        (controller.isAllNationalitySelected.value) ? "clear".tr.toUpperCase() : "all".tr.toUpperCase(),
                         textAlign: TextAlign.center,
                         style: TextStyle(
                           fontFamily: AppConstant.SF_PRO_FONT,
@@ -139,12 +140,13 @@ class FilterNationalityHelper extends StatelessWidget {
                   text: Text(
                     'filters_apply'.tr,
                     style: TextStyle(
-                      color: Color(0xFFE1464A),
+                      color: Color(0xFF333333),
                       fontWeight: FontWeight.w700,
                       fontSize: 16,
+                      fontFamily: AppConstant.SF_PRO_FONT,
                     ),
                   ),
-                ),
+                ).paddingOnly(bottom: (Platform.isAndroid) ? 0 : 12),
               )
             ],
           ),

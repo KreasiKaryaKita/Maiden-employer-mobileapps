@@ -45,7 +45,9 @@ class HelperListingController extends GetxController {
   var now = DateTime.now();
   var isMonthYearFiltered = false.obs;
 
-  Rx<RangeValues> currentRangeValues = RangeValues(21, 50).obs;
+  Rx<RangeValues> currentRangeValues = RangeValues(15, 80).obs;
+  TextEditingController inputAgeEnd = TextEditingController();
+  TextEditingController inputAgeStart = TextEditingController();
   var isAgeFiltered = false.obs;
 
   ExpandableController skillsIsExpanded = ExpandableController(initialExpanded: true);
@@ -55,35 +57,47 @@ class HelperListingController extends GetxController {
   var helpersSortBy = <OptionSortHelpersModel>[].obs;
   var selectedSortBy = OptionSortHelpersModel().obs;
   var selectedSortByTemp = OptionSortHelpersModel().obs;
+
   var helpersStatus = <OptionStatusHelpersModel>[].obs;
   var helpersStatusSelected = OptionStatusHelpersModel().obs;
+
   var helpersNationality = <OptionNasionalityHelpersModel>[].obs;
   var helpersNationalitySelected = <OptionNasionalityHelpersModel>[].obs;
+  RxBool isAllNationalitySelected = false.obs;
 
   var helpersLanguage = <OptionLanguageHelpersModel>[].obs;
   var helpersLanguageSelected = <OptionLanguageHelpersModel>[].obs;
+  RxBool isAllLanguageSelected = false.obs;
 
   var helpersReligion = <OptionReligionHelpersModel>[].obs;
   var helpersReligionSelected = <OptionReligionHelpersModel>[].obs;
+  RxBool isAllReligionSelected = false.obs;
 
   var helpersEducation = <OptionEducationHelpersModel>[].obs;
   var helpersEducationSelected = <OptionEducationHelpersModel>[].obs;
+  RxBool isAllEducationSelected = false.obs;
 
   var helpersMaritalStatus = <OptionMaritalStatusHelpersModel>[].obs;
   var helpersMaritalStatusSelected = <OptionMaritalStatusHelpersModel>[].obs;
+  RxBool isAllMaritalStatusSelected = false.obs;
 
   var helperSkillsTextCt = TextEditingController();
   var helpersWorkSkill = <OptionWorkSkillHelpersModel>[].obs;
   var helpersWorkSkillSelected = <OptionWorkSkillHelpersModel>[].obs;
+  RxBool isAllWorkSkillSelected = false.obs;
 
   var helpersWorkExperience = <OptionWorkExperienceHelpersModel>[].obs;
   var helpersWorkExperienceSelected = <OptionWorkExperienceHelpersModel>[].obs;
+  RxBool isAllWorkExperienceSelected = false.obs;
 
   RxBool isFiltered = false.obs;
 
   @override
   void onInit() {
     super.onInit();
+    inputAgeStart.value = TextEditingValue(text: "15");
+    inputAgeEnd.value = TextEditingValue(text: "80");
+
     helpersCountSearch.value = 0;
     months.assignAll([
       OptionMonth(label: "Jan", value: "01"),
@@ -531,10 +545,47 @@ class HelperListingController extends GetxController {
     getHelpersCount();
   }
 
+  onSubmitAgeStart(String value) {
+    double start = currentRangeValues.value.start;
+    double end = currentRangeValues.value.end;
+    if (value.isEmpty) {
+      inputAgeStart.value = TextEditingValue(text: start.toStringAsFixed(0));
+    } else {
+      double newStart = double.parse(value);
+      if (newStart < 15) {
+        inputAgeStart.value = TextEditingValue(text: "15");
+        newStart = 15;
+      } else if (newStart >= end) {
+        inputAgeStart.value = TextEditingValue(text: start.toStringAsFixed(0));
+        newStart = start;
+      }
+      currentRangeValues.value = RangeValues(newStart, end);
+    }
+  }
+
+  onSubmitAgeEnd(String value) {
+    double start = currentRangeValues.value.start;
+    double end = currentRangeValues.value.end;
+    if (value.isEmpty) {
+      inputAgeEnd.value = TextEditingValue(text: end.toStringAsFixed(0));
+    } else {
+      double newEnd = double.parse(value);
+      if (newEnd > 80) {
+        inputAgeEnd.value = TextEditingValue(text: "80");
+        newEnd = 80;
+      } else if (newEnd <= start) {
+        inputAgeEnd.value = TextEditingValue(text: end.toStringAsFixed(0));
+        newEnd = end;
+      }
+      currentRangeValues.value = RangeValues(start, newEnd);
+    }
+  }
+
   onChangeRangeAge(RangeValues values) {
     isAgeFiltered.value = true;
     currentRangeValues.value = values;
-
+    inputAgeStart.value = TextEditingValue(text: values.start.toStringAsFixed(0));
+    inputAgeEnd.value = TextEditingValue(text: values.end.toStringAsFixed(0));
     getHelpersCount();
   }
 
@@ -590,7 +641,9 @@ class HelperListingController extends GetxController {
     selectedYear.value = year[0];
     isMonthYearFiltered.value = false;
 
-    currentRangeValues.value = RangeValues(21, 50);
+    currentRangeValues.value = RangeValues(15, 80);
+    inputAgeStart.value = TextEditingValue(text: "15");
+    inputAgeEnd.value = TextEditingValue(text: "80");
     isAgeFiltered.value = false;
 
     selectedSortBy.value = helpersSortBy[0];
@@ -680,38 +733,71 @@ class HelperListingController extends GetxController {
 
   onSelectNationality(int index) {
     helpersNationality[index].selected = !helpersNationality[index].selected!;
+    int countSelect = 0;
+    for (OptionNasionalityHelpersModel e in helpersNationality) {
+      if (e.selected!) {
+        countSelect++;
+      }
+    }
+    if (countSelect == helpersNationality.length) {
+      isAllNationalitySelected.value = true;
+    } else {
+      isAllNationalitySelected.value = false;
+    }
     helpersNationality.refresh();
   }
 
   onSetNationality(bool isApply, bool isAll) {
     if (isApply) {
       helpersNationalitySelected.clear();
-      for (var item in helpersNationality) {
-        if (item.selected!) {
-          helpersNationalitySelected.add(item);
+      if (!isAllNationalitySelected.value) {
+        for (var item in helpersNationality) {
+          if (item.selected!) {
+            helpersNationalitySelected.add(item);
+          }
         }
       }
+
+      getHelpersCount();
     } else {
-      for (var element in helpersNationality) {
-        element.selected = false;
-      }
       if (isAll) {
-        helpersNationalitySelected.clear();
+        isAllNationalitySelected.value = !isAllNationalitySelected.value;
+        for (var item in helpersNationality) {
+          item.selected = isAllNationalitySelected.value;
+        }
+        helpersNationality.refresh();
       } else {
+        for (var element in helpersNationality) {
+          element.selected = false;
+        }
         for (var element in helpersNationalitySelected) {
           final index = helpersNationality.indexWhere((e) => e.value == element.value);
           if (index >= 0) {
             helpersNationality[index].selected = true;
           }
         }
+        if (helpersNationalitySelected.length == helpersNationality.length) {
+          isAllNationalitySelected.value = true;
+        } else {
+          isAllNationalitySelected.value = false;
+        }
       }
     }
-
-    getHelpersCount();
   }
 
   onSelectLanguage(int index) {
     helpersLanguage[index].selected = !helpersLanguage[index].selected!;
+    int countSelect = 0;
+    for (var e in helpersLanguage) {
+      if (e.selected!) {
+        countSelect++;
+      }
+    }
+    if (countSelect == helpersLanguage.length) {
+      isAllLanguageSelected.value = true;
+    } else {
+      isAllLanguageSelected.value = false;
+    }
     helpersLanguage.refresh();
   }
 
@@ -723,27 +809,47 @@ class HelperListingController extends GetxController {
           helpersLanguageSelected.add(item);
         }
       }
+
+      getHelpersCount();
     } else {
-      for (var element in helpersLanguage) {
-        element.selected = false;
-      }
       if (isAll) {
-        helpersLanguageSelected.clear();
+        isAllLanguageSelected.value = !isAllLanguageSelected.value;
+        for (var item in helpersLanguage) {
+          item.selected = isAllLanguageSelected.value;
+        }
+        helpersLanguage.refresh();
       } else {
+        for (var element in helpersLanguage) {
+          element.selected = false;
+        }
         for (var element in helpersLanguageSelected) {
           final index = helpersLanguage.indexWhere((e) => e.value == element.value);
           if (index >= 0) {
             helpersLanguage[index].selected = true;
           }
         }
+        if (helpersLanguageSelected.length == helpersLanguage.length) {
+          isAllLanguageSelected.value = true;
+        } else {
+          isAllLanguageSelected.value = false;
+        }
       }
     }
-
-    getHelpersCount();
   }
 
   onSelectReligion(int index) {
     helpersReligion[index].selected = !helpersReligion[index].selected!;
+    int countSelect = 0;
+    for (var e in helpersReligion) {
+      if (e.selected!) {
+        countSelect++;
+      }
+    }
+    if (countSelect == helpersReligion.length) {
+      isAllReligionSelected.value = true;
+    } else {
+      isAllReligionSelected.value = false;
+    }
     helpersReligion.refresh();
   }
 
@@ -755,27 +861,47 @@ class HelperListingController extends GetxController {
           helpersReligionSelected.add(item);
         }
       }
+
+      getHelpersCount();
     } else {
-      for (var element in helpersReligion) {
-        element.selected = false;
-      }
       if (isAll) {
-        helpersReligionSelected.clear();
+        isAllReligionSelected.value = !isAllReligionSelected.value;
+        for (var item in helpersReligion) {
+          item.selected = isAllReligionSelected.value;
+        }
+        helpersReligion.refresh();
       } else {
+        for (var element in helpersReligion) {
+          element.selected = false;
+        }
         for (var element in helpersReligionSelected) {
           final index = helpersReligion.indexWhere((e) => e.value == element.value);
           if (index >= 0) {
             helpersReligion[index].selected = true;
           }
         }
+        if (helpersReligionSelected.length == helpersReligion.length) {
+          isAllReligionSelected.value = true;
+        } else {
+          isAllReligionSelected.value = false;
+        }
       }
     }
-
-    getHelpersCount();
   }
 
   onSelectEducation(int index) {
     helpersEducation[index].selected = !helpersEducation[index].selected!;
+    int countSelect = 0;
+    for (var e in helpersEducation) {
+      if (e.selected!) {
+        countSelect++;
+      }
+    }
+    if (countSelect == helpersEducation.length) {
+      isAllEducationSelected.value = true;
+    } else {
+      isAllEducationSelected.value = false;
+    }
     helpersEducation.refresh();
   }
 
@@ -787,27 +913,47 @@ class HelperListingController extends GetxController {
           helpersEducationSelected.add(item);
         }
       }
+
+      getHelpersCount();
     } else {
-      for (var element in helpersEducation) {
-        element.selected = false;
-      }
       if (isAll) {
-        helpersEducationSelected.clear();
+        isAllEducationSelected.value = !isAllEducationSelected.value;
+        for (var item in helpersEducation) {
+          item.selected = isAllEducationSelected.value;
+        }
+        helpersEducation.refresh();
       } else {
+        for (var element in helpersEducation) {
+          element.selected = false;
+        }
         for (var element in helpersEducationSelected) {
           final index = helpersEducation.indexWhere((e) => e.value == element.value);
           if (index >= 0) {
             helpersEducation[index].selected = true;
           }
         }
+        if (helpersEducationSelected.length == helpersEducation.length) {
+          isAllEducationSelected.value = true;
+        } else {
+          isAllEducationSelected.value = false;
+        }
       }
     }
-
-    getHelpersCount();
   }
 
   onSelectMaritalStatus(int index) {
     helpersMaritalStatus[index].selected = !helpersMaritalStatus[index].selected!;
+    int countSelect = 0;
+    for (var e in helpersMaritalStatus) {
+      if (e.selected!) {
+        countSelect++;
+      }
+    }
+    if (countSelect == helpersMaritalStatus.length) {
+      isAllMaritalStatusSelected.value = true;
+    } else {
+      isAllMaritalStatusSelected.value = false;
+    }
     helpersMaritalStatus.refresh();
   }
 
@@ -819,27 +965,47 @@ class HelperListingController extends GetxController {
           helpersMaritalStatusSelected.add(item);
         }
       }
+
+      getHelpersCount();
     } else {
-      for (var element in helpersMaritalStatus) {
-        element.selected = false;
-      }
       if (isAll) {
-        helpersMaritalStatusSelected.clear();
+        isAllMaritalStatusSelected.value = !isAllMaritalStatusSelected.value;
+        for (var item in helpersMaritalStatus) {
+          item.selected = isAllMaritalStatusSelected.value;
+        }
+        helpersMaritalStatus.refresh();
       } else {
+        for (var element in helpersMaritalStatus) {
+          element.selected = false;
+        }
         for (var element in helpersMaritalStatusSelected) {
           final index = helpersMaritalStatus.indexWhere((e) => e.value == element.value);
           if (index >= 0) {
             helpersMaritalStatus[index].selected = true;
           }
         }
+        if (helpersMaritalStatusSelected.length == helpersMaritalStatus.length) {
+          isAllMaritalStatusSelected.value = true;
+        } else {
+          isAllMaritalStatusSelected.value = false;
+        }
       }
     }
-
-    getHelpersCount();
   }
 
   onSelectWorkSkill(int index) {
     helpersWorkSkill[index].selected = !helpersWorkSkill[index].selected!;
+    int countSelect = 0;
+    for (var e in helpersWorkSkill) {
+      if (e.selected!) {
+        countSelect++;
+      }
+    }
+    if (countSelect == helpersWorkSkill.length) {
+      isAllWorkSkillSelected.value = true;
+    } else {
+      isAllWorkSkillSelected.value = false;
+    }
     helpersWorkSkill.refresh();
   }
 
@@ -851,27 +1017,47 @@ class HelperListingController extends GetxController {
           helpersWorkSkillSelected.add(item);
         }
       }
+
+      getHelpersCount();
     } else {
-      for (var element in helpersWorkSkill) {
-        element.selected = false;
-      }
       if (isAll) {
-        helpersWorkSkillSelected.clear();
+        isAllWorkSkillSelected.value = !isAllWorkSkillSelected.value;
+        for (var item in helpersWorkSkill) {
+          item.selected = isAllWorkSkillSelected.value;
+        }
+        helpersWorkSkill.refresh();
       } else {
+        for (var element in helpersWorkSkill) {
+          element.selected = false;
+        }
         for (var element in helpersWorkSkillSelected) {
           final index = helpersWorkSkill.indexWhere((e) => e.value == element.value);
           if (index >= 0) {
             helpersWorkSkill[index].selected = true;
           }
         }
+        if (helpersWorkSkillSelected.length == helpersWorkSkill.length) {
+          isAllWorkSkillSelected.value = true;
+        } else {
+          isAllWorkSkillSelected.value = false;
+        }
       }
     }
-
-    getHelpersCount();
   }
 
   onSelectWorkExperience(int index) {
     helpersWorkExperience[index].selected = !helpersWorkExperience[index].selected!;
+    int countSelect = 0;
+    for (var e in helpersWorkExperience) {
+      if (e.selected!) {
+        countSelect++;
+      }
+    }
+    if (countSelect == helpersWorkExperience.length) {
+      isAllWorkExperienceSelected.value = true;
+    } else {
+      isAllWorkExperienceSelected.value = false;
+    }
     helpersWorkExperience.refresh();
   }
 
@@ -883,23 +1069,32 @@ class HelperListingController extends GetxController {
           helpersWorkExperienceSelected.add(item);
         }
       }
+
+      getHelpersCount();
     } else {
-      for (var element in helpersWorkExperience) {
-        element.selected = false;
-      }
       if (isAll) {
-        helpersWorkExperienceSelected.clear();
+        isAllWorkExperienceSelected.value = !isAllWorkExperienceSelected.value;
+        for (var item in helpersWorkExperience) {
+          item.selected = isAllWorkExperienceSelected.value;
+        }
+        helpersWorkExperience.refresh();
       } else {
+        for (var element in helpersWorkExperience) {
+          element.selected = false;
+        }
         for (var element in helpersWorkExperienceSelected) {
           final index = helpersWorkExperience.indexWhere((e) => e.value == element.value);
           if (index >= 0) {
             helpersWorkExperience[index].selected = true;
           }
         }
+        if (helpersWorkExperienceSelected.length == helpersWorkExperience.length) {
+          isAllWorkExperienceSelected.value = true;
+        } else {
+          isAllWorkExperienceSelected.value = false;
+        }
       }
     }
-
-    getHelpersCount();
   }
 
   String helperCountryImage({required String country}) {

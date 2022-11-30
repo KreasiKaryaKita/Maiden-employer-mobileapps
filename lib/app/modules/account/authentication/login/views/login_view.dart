@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
@@ -223,7 +225,7 @@ class LoginView extends GetView<LoginController> {
                     fontSize: 16,
                   ),
                 ),
-              ),
+              ).paddingOnly(bottom: (Platform.isAndroid) ? 0 : 12),
             ),
           ],
         ),

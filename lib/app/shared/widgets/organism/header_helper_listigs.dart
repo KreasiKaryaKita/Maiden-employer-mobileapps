@@ -31,7 +31,7 @@ class HeaderHelperListings extends StatelessWidget {
                 color: Colors.white,
                 fontFamily: AppConstant.CENTURY_GOTHIC_FONT,
                 fontWeight: FontWeight.w700,
-                fontSize: 24,
+                fontSize: 20,
               ),
             ).paddingOnly(left: 20, right: 125, top: 20),
           ],
@@ -78,6 +78,7 @@ class HeaderHelperListings extends StatelessWidget {
                 color: Color(0xFF6A7178),
                 fontWeight: FontWeight.w400,
                 fontSize: 14,
+                fontFamily: AppConstant.SF_PRO_FONT,
               ),
               border: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(50),
@@ -94,6 +95,7 @@ class HeaderHelperListings extends StatelessWidget {
               prefixIcon: Icon(
                 Icons.search_rounded,
                 color: Color(0xFFE1464A),
+                size: 24,
               ),
             ),
           ).marginOnly(right: 20, left: 20),

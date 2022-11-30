@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
+import 'package:maiden_employer/app/config/constants/app_constant.dart';
 import 'package:maiden_employer/app/modules/helper_listing/controllers/helper_listing_controller.dart';
 import 'package:maiden_employer/app/shared/widgets/bottom_sheet/filter_helper.dart';
+import 'package:maiden_employer/app/shared/widgets/bottom_sheet/search_helper.dart';
 
 class HeaderFilterResult extends StatelessWidget {
   HeaderFilterResult({Key? key}) : super(key: key);
@@ -14,9 +16,9 @@ class HeaderFilterResult extends StatelessWidget {
     return InkWell(
       onTap: () {
         Get.bottomSheet(
-          FilterHelper(
-            statusBar: MediaQuery.of(context).viewPadding.top,
-          ),
+          (controller.helpers.isNotEmpty)
+              ? FilterHelper(statusBar: MediaQuery.of(context).viewPadding.top)
+              : SearchHelper(statusBar: MediaQuery.of(context).viewPadding.top),
           isScrollControlled: true,
           isDismissible: false,
           barrierColor: Colors.transparent,
@@ -65,6 +67,7 @@ class HeaderFilterResult extends StatelessWidget {
                                 color: Color(0xFF6A7178),
                                 fontWeight: FontWeight.w700,
                                 fontSize: 14,
+                                fontFamily: AppConstant.SF_PRO_FONT,
                               ),
                             );
                           }
@@ -79,6 +82,7 @@ class HeaderFilterResult extends StatelessWidget {
                                   color: Color(0xFF6A7178),
                                   fontWeight: FontWeight.w400,
                                   fontSize: 12,
+                                  fontFamily: AppConstant.SF_PRO_FONT,
                                 ),
                               ),
                             controller.isMonthYearFiltered.value && controller.isAgeFiltered.value
@@ -92,6 +96,7 @@ class HeaderFilterResult extends StatelessWidget {
                                   color: Color(0xFF6A7178),
                                   fontWeight: FontWeight.w400,
                                   fontSize: 12,
+                                  fontFamily: AppConstant.SF_PRO_FONT,
                                 ),
                               ),
                           ],

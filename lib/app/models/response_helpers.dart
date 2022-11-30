@@ -94,7 +94,7 @@ class ListElement {
   final String? age;
   final String? country;
   final String? countryImage;
-  final String? skills;
+  final dynamic skills;
   final List<Language>? language;
   final String? religion;
   final String? educationLevel;

@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
@@ -80,6 +82,7 @@ class DetailHelperView extends GetView<DetailHelperController> {
                                         fontSize: 14,
                                         color: Colors.white,
                                         fontWeight: FontWeight.w700,
+                                        fontFamily: AppConstant.SF_PRO_FONT,
                                       ),
                                     ),
                                   ),
@@ -127,6 +130,7 @@ class DetailHelperView extends GetView<DetailHelperController> {
                                             color: Color(0xFF272B30),
                                             fontWeight: FontWeight.w500,
                                             fontSize: 14,
+                                            fontFamily: AppConstant.SF_PRO_FONT,
                                           ),
                                         ).marginOnly(left: 10)
                                       ],
@@ -153,6 +157,7 @@ class DetailHelperView extends GetView<DetailHelperController> {
                               color: Colors.white,
                               fontWeight: FontWeight.w700,
                               fontSize: 28,
+                              fontFamily: AppConstant.SF_PRO_FONT,
                             ),
                           ).paddingSymmetric(horizontal: 20).marginOnly(top: 20),
                           Row(
@@ -171,6 +176,7 @@ class DetailHelperView extends GetView<DetailHelperController> {
                                       color: Colors.white,
                                       fontWeight: FontWeight.w500,
                                       fontSize: 12,
+                                      fontFamily: AppConstant.SF_PRO_FONT,
                                     ),
                                   ),
                                 ),
@@ -192,6 +198,7 @@ class DetailHelperView extends GetView<DetailHelperController> {
                                     color: Colors.white,
                                     fontWeight: FontWeight.w500,
                                     fontSize: 12,
+                                    fontFamily: AppConstant.SF_PRO_FONT,
                                   ),
                                 ),
                               ),
@@ -204,6 +211,7 @@ class DetailHelperView extends GetView<DetailHelperController> {
                                 color: Colors.white,
                                 fontWeight: FontWeight.w400,
                                 fontSize: 14,
+                                fontFamily: AppConstant.SF_PRO_FONT,
                               ),
                             ).paddingSymmetric(horizontal: 20).marginOnly(top: 16),
                           Divider(
@@ -217,6 +225,7 @@ class DetailHelperView extends GetView<DetailHelperController> {
                               color: Color(0xFFFBFBFB),
                               fontWeight: FontWeight.w700,
                               fontSize: 16,
+                              fontFamily: AppConstant.SF_PRO_FONT,
                             ),
                           ).paddingSymmetric(horizontal: 20).marginOnly(bottom: 20),
                           Container(
@@ -239,7 +248,8 @@ class DetailHelperView extends GetView<DetailHelperController> {
                               style: TextStyle(
                                 color: Color(0xFF8C1D20),
                                 fontWeight: FontWeight.w700,
-                                fontSize: 22,
+                                fontSize: 28,
+                                fontFamily: AppConstant.SF_PRO_FONT,
                               ),
                             ),
                           ),
@@ -253,7 +263,8 @@ class DetailHelperView extends GetView<DetailHelperController> {
                             style: TextStyle(
                               color: Color(0xFFFBFBFB),
                               fontWeight: FontWeight.w700,
-                              fontSize: 16,
+                              fontSize: 14,
+                              fontFamily: AppConstant.SF_PRO_FONT,
                             ),
                           ).paddingSymmetric(horizontal: 20).marginOnly(bottom: 20),
                           SizedBox(
@@ -283,7 +294,7 @@ class DetailHelperView extends GetView<DetailHelperController> {
                                           color: Colors.white,
                                           fontFamily: AppConstant.SF_PRO_FONT,
                                           fontWeight: FontWeight.w700,
-                                          fontSize: 14,
+                                          fontSize: 12,
                                         ),
                                       ).marginOnly(bottom: 10),
                                       Text(
@@ -314,7 +325,8 @@ class DetailHelperView extends GetView<DetailHelperController> {
                             style: TextStyle(
                               color: Color(0xFFFBFBFB),
                               fontWeight: FontWeight.w700,
-                              fontSize: 16,
+                              fontSize: 14,
+                              fontFamily: AppConstant.SF_PRO_FONT,
                             ),
                           ).paddingSymmetric(horizontal: 20).marginOnly(bottom: 20),
                           SizedBox(
@@ -349,7 +361,7 @@ class DetailHelperView extends GetView<DetailHelperController> {
                                           color: Colors.white,
                                           fontFamily: AppConstant.SF_PRO_FONT,
                                           fontWeight: FontWeight.w400,
-                                          fontSize: 14,
+                                          fontSize: 12,
                                         ),
                                         textAlign: TextAlign.center,
                                       ).marginOnly(top: 10),
@@ -369,7 +381,8 @@ class DetailHelperView extends GetView<DetailHelperController> {
                             style: TextStyle(
                               color: Color(0xFFFBFBFB),
                               fontWeight: FontWeight.w700,
-                              fontSize: 16,
+                              fontSize: 14,
+                              fontFamily: AppConstant.SF_PRO_FONT,
                             ),
                           ).paddingSymmetric(horizontal: 20).marginOnly(bottom: 20),
                           SizedBox(
@@ -404,7 +417,7 @@ class DetailHelperView extends GetView<DetailHelperController> {
                                           color: Colors.white,
                                           fontFamily: AppConstant.SF_PRO_FONT,
                                           fontWeight: FontWeight.w400,
-                                          fontSize: 14,
+                                          fontSize: 12,
                                         ),
                                         textAlign: TextAlign.center,
                                       ).marginOnly(top: 10),
@@ -424,7 +437,8 @@ class DetailHelperView extends GetView<DetailHelperController> {
                             style: TextStyle(
                               color: Color(0xFFFBFBFB),
                               fontWeight: FontWeight.w700,
-                              fontSize: 16,
+                              fontSize: 14,
+                              fontFamily: AppConstant.SF_PRO_FONT,
                             ),
                           ).paddingSymmetric(horizontal: 20).marginOnly(bottom: 10),
                           ListView.builder(
@@ -494,7 +508,8 @@ class DetailHelperView extends GetView<DetailHelperController> {
                             style: TextStyle(
                               color: Color(0xFFFBFBFB),
                               fontWeight: FontWeight.w700,
-                              fontSize: 16,
+                              fontSize: 14,
+                              fontFamily: AppConstant.SF_PRO_FONT,
                             ),
                           ).paddingSymmetric(horizontal: 20).marginOnly(bottom: 10),
                           ListView.builder(
@@ -587,29 +602,24 @@ class DetailHelperView extends GetView<DetailHelperController> {
                               ),
                             ),
                           ),
-                          if (controller.helperDetail.value.availabilityInterviewedEmployer
-                                  ?.firstWhere((e) => e.question == 'Not available for interview',
-                                      orElse: () => AvailabilityInterviewedEmployer(answer: false))
-                                  .answer ==
-                              true)
-                            Expanded(
-                              flex: 2,
-                              child: ButtonFill(
-                                onPressed: () {},
-                                backgroundColor: Colors.white,
-                                height: 48,
-                                text: Text(
-                                  'request_for_interview'.tr,
-                                  style: TextStyle(
-                                    color: Color(0xFFE1464A),
-                                    fontWeight: FontWeight.w700,
-                                    fontSize: 16,
-                                  ),
+                          Expanded(
+                            flex: 2,
+                            child: ButtonFill(
+                              onPressed: () {},
+                              backgroundColor: Colors.white,
+                              height: 48,
+                              text: Text(
+                                'request_for_interview'.tr,
+                                style: TextStyle(
+                                  color: Color(0xFFE1464A),
+                                  fontWeight: FontWeight.w700,
+                                  fontSize: 16,
                                 ),
-                              ).marginOnly(left: 20),
-                            )
+                              ),
+                            ).marginOnly(left: 20),
+                          )
                         ],
-                      ),
+                      ).paddingOnly(bottom: (Platform.isAndroid) ? 0 : 12),
                     )
                   ],
                 ),

@@ -38,6 +38,7 @@ class HelperListingLanguages {
     'employer_feedback': 'Employer Feedback',
     'work_duties': 'Work Duties',
     'clear_all': 'Clear All',
+    'clear': 'Clear',
     'filter_browsing': 'Browsing',
     'filter_results': 'Results',
     'filter_results_empty':
@@ -146,6 +147,7 @@ class HelperListingLanguages {
     'employer_feedback': 'Umpan Balik Majikan',
     'work_duties': 'Tugas Kerja',
     'clear_all': 'Bersihkan semua',
+    'clear': 'Bersihkan',
     'filter_browsing': 'Menjelajahi',
     'filter_results': 'Hasil',
     'filter_results_empty':
