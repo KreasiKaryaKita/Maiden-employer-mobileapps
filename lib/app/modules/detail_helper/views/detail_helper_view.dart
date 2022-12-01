@@ -614,6 +614,7 @@ class DetailHelperView extends GetView<DetailHelperController> {
                                   color: Color(0xFFE1464A),
                                   fontWeight: FontWeight.w700,
                                   fontSize: 16,
+                                  fontFamily: AppConstant.SF_PRO_FONT,
                                 ),
                               ),
                             ).marginOnly(left: 20),
