@@ -54,7 +54,7 @@ class CommonFunction {
               ? message.join("\n")
               : (message.length > 100 ? message.substring(0, 100) : message)
           : '',
-      backgroundColor: isSuccess ? Colors.green.withOpacity(0.7) : Colors.red.withOpacity(0.7),
+      backgroundColor: isSuccess ? Color(0xFF20DC2C) : Color(0xFFDC2020),
       duration: duration,
       barBlur: 8.0,
       mainButton: mainButtonOnPressed == null
@@ -68,9 +68,9 @@ class CommonFunction {
                   ),
             ),
       colorText: Colors.white,
-      snackPosition: SnackPosition.BOTTOM,
+      snackPosition: SnackPosition.TOP,
       margin: EdgeInsets.only(bottom: 10.0, left: 10.0, right: 10.0, top: 30),
-      icon: Icon(isSuccess ? Icons.check_circle : Icons.error, color: Colors.white),
+      icon: Icon(isSuccess ? Icons.check_circle_outline_outlined : Icons.warning_amber_rounded, color: Colors.white),
     );
   }
 
