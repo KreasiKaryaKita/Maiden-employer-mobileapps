@@ -7,6 +7,9 @@ class ForgotPasswordLanguages {
     'forgot_password_desc_2': 'Enter your registered email with us to reset your password.',
     'forgot_password_desc_3': 'Create new password',
     'forgot_password_desc_4': 'Create a new strong password',
+    'forgot_password_desc_5': 'Email verification',
+    'forgot_password_desc_6': 'verification',
+    'forgot_password_desc_7': 'Enter the OTP code we sent you',
     'new_password': 'New Password',
     'new_password_validation_2': 'Password is required',
     'new_password_validation': 'New password minimum 8 characters, lowercase letters, digits(0-9), symbols',
@@ -18,6 +21,8 @@ class ForgotPasswordLanguages {
     'new_password_created_desc': 'Please click login button below to login into your account with new password.',
     'new_password_created_log_in': 'Log In',
     'success': 'success',
+    "verification_resend": "Resend in",
+    "verification_resend_code": "Resend OTP",
   };
 
   static final ID = {
@@ -26,6 +31,9 @@ class ForgotPasswordLanguages {
     'forgot_password_desc_2': 'Masukkan email terdaftar Anda dengan kami untuk mengatur ulang kata sandi Anda.',
     'forgot_password_desc_3': 'Buat kata sandi baru',
     'forgot_password_desc_4': 'Buat kata sandi baru yang kuat',
+    'forgot_password_desc_5': 'verifikasi email',
+    'forgot_password_desc_6': 'verifikasi',
+    'forgot_password_desc_7': 'Masukkan kode OTP yang kami kirimkan kepada Anda',
     'new_password': 'kata sandi baru',
     'new_password_validation_2': 'Kata sandi baru tidak boleh kosong',
     'new_password_validation': 'Kata sandi baru minimal 8 karakter, huruf besar kecil, digit(0-9), simbol',
@@ -38,5 +46,7 @@ class ForgotPasswordLanguages {
         'Silakan klik tombol login di bawah ini untuk masuk ke akun Anda dengan kata sandi baru.',
     'new_password_created_log_in': 'Masuk',
     'success': 'success',
+    "verification_resend": "Kirim ulang dalam",
+    "verification_resend_code": "Kirim ulang OTP",
   };
 }

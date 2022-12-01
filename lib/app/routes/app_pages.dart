@@ -3,6 +3,8 @@ import 'package:get/get.dart';
 import '../modules/account/authentication/forgot_password/bindings/create_password_binding.dart';
 import '../modules/account/authentication/forgot_password/bindings/create_password_success_binding.dart';
 import '../modules/account/authentication/forgot_password/bindings/forgot_password_binding.dart';
+import '../modules/account/authentication/forgot_password/bindings/validate_email_forgot_password_binding.dart';
+import '../modules/account/authentication/forgot_password/views/validate_email_forgot_password_view.dart';
 import '../modules/account/authentication/forgot_password/views/create_password_success_view.dart';
 import '../modules/account/authentication/forgot_password/views/create_password_view.dart';
 import '../modules/account/authentication/forgot_password/views/forgot_password_view.dart';
@@ -55,6 +57,11 @@ class AppPages {
       name: _Paths.FORGOT_PASSWORD,
       page: () => const ForgotPasswordView(),
       binding: ForgotPasswordBinding(),
+    ),
+    GetPage(
+      name: _Paths.VALIDATE_EMAIL_FORGOT_PASSWORD,
+      page: () => const ValidateEmailForgotPasswordView(),
+      binding: ValidateEmailForgotPasswordBinding(),
     ),
     GetPage(
       name: _Paths.CREATE_PASSWORD,
