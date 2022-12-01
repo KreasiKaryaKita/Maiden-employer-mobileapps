@@ -1,5 +1,6 @@
 // ignore_for_file: no_leading_underscores_for_local_identifiers
 
+import 'package:maiden_employer/app/config/constants/app_constant.dart';
 import 'package:maiden_employer/app/config/themes/app_colors.dart';
 
 import '/app/shared/widgets/images/cached_network_image_widget.dart';
@@ -47,16 +48,24 @@ class CommonFunction {
     Widget? mainButton,
     Duration duration = const Duration(seconds: 4),
   }) {
-    return Get.snackbar(
-      title ?? (isSuccess ? 'Success' : 'Error'),
-      message != null
-          ? (message is List)
-              ? message.join("\n")
-              : (message.length > 100 ? message.substring(0, 100) : message)
-          : '',
-      backgroundColor: isSuccess ? Color(0xFF20DC2C) : Color(0xFFDC2020),
+    return Get.rawSnackbar(
+      messageText: Text(
+        message != null
+            ? (message is List)
+                ? message.join("\n")
+                : (message.length > 100 ? message.substring(0, 100) : message)
+            : '',
+        style: TextStyle(
+          color: Colors.white,
+          fontFamily: AppConstant.SF_PRO_FONT,
+          fontWeight: FontWeight.w400,
+          fontSize: 14,
+        ),
+      ),
+      backgroundColor: isSuccess ? Color(0xFF29823B) : Color(0xFFDC2020),
       duration: duration,
       barBlur: 8.0,
+      borderRadius: 10,
       mainButton: mainButtonOnPressed == null
           ? null
           : TextButton(
@@ -67,10 +76,22 @@ class CommonFunction {
                     style: TextStyle(color: Colors.white),
                   ),
             ),
-      colorText: Colors.white,
       snackPosition: SnackPosition.TOP,
-      margin: EdgeInsets.only(bottom: 10.0, left: 10.0, right: 10.0, top: 30),
-      icon: Icon(isSuccess ? Icons.check_circle_outline_outlined : Icons.warning_amber_rounded, color: Colors.white),
+      margin: EdgeInsets.only(top: 20.0, left: 10.0, right: 10.0, bottom: 30),
+      // padding: EdgeInsets.symmetric(vertical: 20, horizontal: 21),
+      icon: Icon(
+        isSuccess ? Icons.check_rounded : Icons.warning_amber_rounded,
+        color: Colors.white,
+        size: 24,
+      ),
+      boxShadows: [
+        BoxShadow(
+          color: Colors.black.withOpacity(0.25),
+          offset: Offset(0, 10),
+          blurRadius: 20,
+          spreadRadius: 0,
+        ),
+      ],
     );
   }
 
