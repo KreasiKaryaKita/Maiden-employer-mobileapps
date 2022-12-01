@@ -15,6 +15,7 @@ abstract class Routes {
   static const MAIN = _Paths.MAIN;
   static const HELPER_LISTING = _Paths.HELPER_LISTING;
   static const DETAIL_HELPER = _Paths.DETAIL_HELPER;
+  static const VALIDATE_EMAIL_FORGOT_PASSWORD = _Paths.VALIDATE_EMAIL_FORGOT_PASSWORD;
 }
 
 abstract class _Paths {
@@ -28,4 +29,5 @@ abstract class _Paths {
   static const MAIN = '/main';
   static const HELPER_LISTING = '/helper-listing';
   static const DETAIL_HELPER = '/detail-helper';
+  static const VALIDATE_EMAIL_FORGOT_PASSWORD = '/validate-email-forgot-password';
 }

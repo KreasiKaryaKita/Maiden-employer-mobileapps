@@ -64,7 +64,7 @@ class ForgotPasswordController extends GetxController {
         CommonFunction.loadingHide();
         if (value is ResponseForgotPassword) {
           CommonFunction.snackbarHelper(message: value.message!, isSuccess: true);
-          Get.offNamed(Routes.CREATE_PASSWORD);
+          Get.offNamed(Routes.VALIDATE_EMAIL_FORGOT_PASSWORD);
           PreferenceHelper().set(
             key: PreferenceConstant.USER_EMAIL,
             value: value.data!.email!,

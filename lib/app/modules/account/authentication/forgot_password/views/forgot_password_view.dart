@@ -16,7 +16,6 @@ class ForgotPasswordView extends GetView<ForgotPasswordController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      resizeToAvoidBottomInset: false,
       appBar: AppBar(
         centerTitle: true,
         title: Text(
@@ -46,7 +45,7 @@ class ForgotPasswordView extends GetView<ForgotPasswordController> {
                 padding: const EdgeInsets.symmetric(horizontal: 24),
                 children: [
                   Text(
-                    '${'step'.tr.toUpperCase()} 1 ${'of'.tr.toUpperCase()} 2',
+                    '${'step'.tr.toUpperCase()} 1 ${'of'.tr.toUpperCase()} 3',
                     style: TextStyle(
                       fontWeight: FontWeight.w700,
                       fontSize: 12,
