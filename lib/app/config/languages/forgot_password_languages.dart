@@ -23,6 +23,8 @@ class ForgotPasswordLanguages {
     'success': 'success',
     "verification_resend": "Resend in",
     "verification_resend_code": "Resend OTP",
+    "change_password": "Change Password",
+    "change_password_success": "Password successfully updated.",
   };
 
   static final ID = {
@@ -48,5 +50,7 @@ class ForgotPasswordLanguages {
     'success': 'success',
     "verification_resend": "Kirim ulang dalam",
     "verification_resend_code": "Kirim ulang OTP",
+    "change_password": "Ubah Kata Sandi",
+    "change_password_success": "Kata sandi berhasil diperbarui.",
   };
 }
