@@ -14,7 +14,10 @@ class RegisterStepOneController extends GetxController {
   RxString msgEmail = "".obs;
 
   TextEditingController inputPassword = TextEditingController();
-  RxBool validatePassword = true.obs, obscurePasswordText = true.obs;
+  RxBool validatePasswordLength = false.obs,
+      validatePasswordCaseChar = false.obs,
+      validatePasswordSpecialChar = false.obs,
+      obscurePasswordText = true.obs;
   RxString msgPassword = "".obs;
 
   TextEditingController inputConfPassword = TextEditingController();
@@ -51,9 +54,13 @@ class RegisterStepOneController extends GetxController {
   onGooglePressed() {}
 
   onValidationFormInput(String? val) {
+    String valuePassword = inputPassword.text.toString().trim();
+    validatePasswordLength.value = MyHelpers.validateInputPasswordLength(valuePassword);
+    validatePasswordCaseChar.value = MyHelpers.validateInputPasswordCaseChar(valuePassword);
+    validatePasswordSpecialChar.value = MyHelpers.validateInputPasswordSpecialChar(valuePassword);
+
     if (isValidateFirst.value) {
       String valueEmail = inputEmail.text.toString().trim();
-      String valuePassword = inputPassword.text.toString().trim();
       String valueConfPassword = inputConfPassword.text.toString().trim();
 
       if (valueEmail.isEmpty) {
@@ -66,19 +73,6 @@ class RegisterStepOneController extends GetxController {
         } else {
           validateEmail.value = true;
           msgEmail.value = "";
-        }
-      }
-
-      if (valuePassword.isEmpty) {
-        validatePassword.value = false;
-        msgPassword.value = "password_validation_2".tr;
-      } else {
-        if (!MyHelpers.validateInputPassword(valuePassword)) {
-          validatePassword.value = false;
-          msgPassword.value = "password_validation".tr;
-        } else {
-          validatePassword.value = true;
-          msgPassword.value = "";
         }
       }
 
@@ -96,20 +90,18 @@ class RegisterStepOneController extends GetxController {
       }
     }
 
-    return validateEmail.value && validatePassword.value && validateConfPassword.value;
+    return validateEmail.value &&
+        validatePasswordLength.value &&
+        validatePasswordCaseChar.value &&
+        validatePasswordSpecialChar.value &&
+        validateConfPassword.value;
   }
 
   Future doContinue() async {
     isValidateFirst.value = true;
     bool validation = onValidationFormInput(null);
     if (validation) {
-      Get.toNamed(
-        Routes.REGISTER_STEP_TWO,
-        arguments: {
-          "email": inputEmail.text.toString().trim(),
-          "password": inputPassword.text.toString().trim(),
-        },
-      );
+      Get.toNamed(Routes.VALIDATE_EMAIL_REGISTER);
     }
   }
 }
