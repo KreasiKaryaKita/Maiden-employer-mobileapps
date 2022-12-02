@@ -77,6 +77,7 @@ class ForgotPasswordView extends GetView<ForgotPasswordController> {
                       fontWeight: FontWeight.w700,
                       fontSize: 12,
                       fontFamily: AppConstant.SF_PRO_FONT,
+                      color: controller.validateEmail.value ? Color(0xFF333333) : Color(0xFFE1464A),
                     ),
                   ).marginOnly(top: 10, bottom: 8),
                   DefaultCustomErrorInputTextField(

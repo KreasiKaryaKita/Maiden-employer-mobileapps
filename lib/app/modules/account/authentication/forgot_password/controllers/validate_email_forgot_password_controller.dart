@@ -4,6 +4,8 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:maiden_employer/app/routes/app_pages.dart';
+import 'package:maiden_employer/app/shared/common/common_function.dart';
 
 class ValidateEmailForgotPasswordController extends GetxController {
   TextEditingController inputOTP = TextEditingController();
@@ -61,5 +63,16 @@ class ValidateEmailForgotPasswordController extends GetxController {
         },
       );
     }
+  }
+
+  onCompleted(value) {
+    CommonFunction.loadingShow(message: "msg_loading_2");
+    Future.delayed(
+      Duration(seconds: 5),
+      () {
+        CommonFunction.loadingHide();
+        Get.offNamed(Routes.CREATE_PASSWORD);
+      },
+    );
   }
 }

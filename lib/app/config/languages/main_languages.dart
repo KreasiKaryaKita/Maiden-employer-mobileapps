@@ -7,6 +7,7 @@ class MainLanguages {
     'view_doc': "View Doc",
     'error_permission_storage': "Please grant storage access on your device",
     'msg_loading': "Please wait...",
+    'msg_loading_2': "Verifying...",
   };
 
   static final ID = {
@@ -15,5 +16,6 @@ class MainLanguages {
     'view_doc': "Lihat Dok",
     'error_permission_storage': "Tolong berikan akses penyimpanan pada perangkat anda",
     'msg_loading': "Silahkan tunggu...",
+    'msg_loading_2': "Memverifikasi...",
   };
 }

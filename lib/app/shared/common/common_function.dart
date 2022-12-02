@@ -1,7 +1,9 @@
 // ignore_for_file: no_leading_underscores_for_local_identifiers
 
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:maiden_employer/app/config/constants/app_constant.dart';
+import 'package:maiden_employer/app/shared/widgets/buttons/button_text.dart';
 
 import '/app/shared/widgets/images/cached_network_image_widget.dart';
 import 'package:flutter/material.dart';
@@ -103,6 +105,88 @@ class CommonFunction {
           spreadRadius: 0,
         ),
       ],
+    );
+  }
+
+  static createPasswordSuccess() {
+    return Get.dialog(
+      barrierDismissible: false,
+      barrierColor: Color(0xFF333333).withOpacity(0.8),
+      WillPopScope(
+        onWillPop: () async => false,
+        child: Dialog(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(10.0),
+          ),
+          backgroundColor: Colors.transparent,
+          insetPadding: EdgeInsets.all(10),
+          child: Stack(
+            clipBehavior: Clip.none,
+            alignment: Alignment.center,
+            children: [
+              Container(
+                width: Get.width,
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.all(
+                    Radius.circular(16),
+                  ),
+                ),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  children: [
+                    IconButton(
+                      onPressed: () => Get.close(2),
+                      icon: SvgPicture.asset(
+                        'assets/images/icon-close.svg',
+                        height: 20,
+                        width: 20,
+                      ),
+                    ).marginOnly(top: 8, right: 8),
+                    Center(
+                      child: Text(
+                        "change_password_success".tr,
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          color: Color(0xFF333333),
+                          fontWeight: FontWeight.w700,
+                          fontSize: 18,
+                          fontFamily: AppConstant.CENTURY_GOTHIC_FONT,
+                        ),
+                      ).marginOnly(top: 12),
+                    ),
+                    Center(
+                      child: SvgPicture.asset(
+                        'assets/images/undraw_accept_terms.svg',
+                        height: 200,
+                        width: 107,
+                      ).marginOnly(top: 24),
+                    ),
+                    Center(
+                      child: ButtonText(
+                        onPressed: () {
+                          Get.close(2);
+                        },
+                        text: Text(
+                          "new_password_created_log_in".tr,
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            color: Color(0xFFE1464A),
+                            fontWeight: FontWeight.w700,
+                            fontSize: 16,
+                            fontFamily: AppConstant.SF_PRO_FONT,
+                          ),
+                        ).marginOnly(top: 36, bottom: 40),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
     );
   }
 

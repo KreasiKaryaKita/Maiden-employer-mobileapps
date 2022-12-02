@@ -43,22 +43,18 @@ class MyHelpers {
   }
 
   static bool validateInputPasswordCaseChar(String value) {
-    String pattern = r'^(?=.*?[A-Z])(?=.*?[a-z]).{7,}$';
-    RegExp regExp = RegExp(pattern);
     if (value.isEmpty) {
       return false;
     } else {
-      return regExp.hasMatch(value);
+      return RegExp('.*[a-z].*').hasMatch(value) && RegExp('.*[A-Z].*').hasMatch(value);
     }
   }
 
   static bool validateInputPasswordSpecialChar(String value) {
-    String pattern = r'^(?=.*?[0-9])(?=.*?[!@#$%^&*()_+-,.?]).{7,}$';
-    RegExp regExp = RegExp(pattern);
     if (value.isEmpty) {
       return false;
     } else {
-      return regExp.hasMatch(value);
+      return RegExp('.*[0-9].*').hasMatch(value) && RegExp(r'[!@#$%^&*()_+\-,.?]').hasMatch(value);
     }
   }
 
