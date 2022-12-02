@@ -44,7 +44,7 @@ class RegisterStepOneView extends GetView<RegisterStepOneController> {
                 padding: const EdgeInsets.symmetric(horizontal: 24),
                 children: [
                   Text(
-                    '${'step'.tr.toUpperCase()} 1 ${'of'.tr.toUpperCase()} 2',
+                    '${'step'.tr.toUpperCase()} 1 ${'of'.tr.toUpperCase()} 3',
                     style: TextStyle(
                       fontWeight: FontWeight.w700,
                       fontSize: 12,
@@ -76,6 +76,7 @@ class RegisterStepOneView extends GetView<RegisterStepOneController> {
                       fontWeight: FontWeight.w700,
                       fontSize: 12,
                       fontFamily: AppConstant.SF_PRO_FONT,
+                      color: controller.validateEmail.value ? Color(0xFF333333) : Color(0xFFE1464A),
                     ),
                   ).marginOnly(top: 10, bottom: 8),
                   DefaultCustomErrorInputTextField(
@@ -101,13 +102,14 @@ class RegisterStepOneView extends GetView<RegisterStepOneController> {
                       fontWeight: FontWeight.w700,
                       fontSize: 12,
                       fontFamily: AppConstant.SF_PRO_FONT,
+                      color: Color(0xFF333333),
                     ),
                   ).marginOnly(bottom: 8),
                   DefaultCustomErrorInputTextField(
                     controller: controller.inputPassword,
                     hintText: 'Eg. ********',
-                    msgError: controller.msgPassword.value,
-                    validate: controller.validatePassword.value,
+                    msgError: "",
+                    validate: true,
                     obscureText: controller.obscurePasswordText.value,
                     suffixIcon: IconButton(
                       icon: Icon(
@@ -128,15 +130,159 @@ class RegisterStepOneView extends GetView<RegisterStepOneController> {
                     onSubmited: null,
                     prefixIcon: null,
                     radius: 8,
-                  ).marginOnly(bottom: 24),
+                  ).marginOnly(bottom: 15),
+                  Text(
+                    '${'password_validation_3'.tr} :',
+                    style: TextStyle(
+                      fontWeight: FontWeight.w400,
+                      fontSize: 12,
+                      fontFamily: AppConstant.SF_PRO_FONT,
+                      color: Color(0xFFB4B4B4),
+                    ),
+                  ).marginOnly(bottom: 4),
+                  RichText(
+                    text: TextSpan(
+                      children: [
+                        WidgetSpan(
+                          child: Icon(
+                            Icons.check_rounded,
+                            size: 12,
+                            color: !controller.validatePasswordLength.value ? Color(0xFFB4B4B4) : Color(0xFF29823B),
+                          ).marginOnly(right: 12),
+                        ),
+                        TextSpan(
+                          text: "Min. ".tr,
+                          style: TextStyle(
+                            fontWeight: FontWeight.w400,
+                            fontSize: 12,
+                            color: !controller.validatePasswordLength.value ? Color(0xFFB4B4B4) : Color(0xFF29823B),
+                            fontFamily: AppConstant.SF_PRO_FONT,
+                          ),
+                        ),
+                        TextSpan(
+                          text: "password_validation_4".tr,
+                          style: TextStyle(
+                            fontWeight: FontWeight.w600,
+                            fontSize: 12,
+                            color: !controller.validatePasswordLength.value ? Color(0xFFB4B4B4) : Color(0xFF29823B),
+                            fontFamily: AppConstant.SF_PRO_FONT,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ).marginOnly(bottom: 4),
+                  RichText(
+                    text: TextSpan(
+                      children: [
+                        WidgetSpan(
+                          child: Icon(
+                            Icons.check_rounded,
+                            size: 12,
+                            color: !controller.validatePasswordCaseChar.value ? Color(0xFFB4B4B4) : Color(0xFF29823B),
+                          ).marginOnly(right: 12),
+                        ),
+                        TextSpan(
+                          text: "${'password_validation_5.1'.tr} ",
+                          style: TextStyle(
+                            fontWeight: FontWeight.w400,
+                            fontSize: 12,
+                            color: !controller.validatePasswordCaseChar.value ? Color(0xFFB4B4B4) : Color(0xFF29823B),
+                            fontFamily: AppConstant.SF_PRO_FONT,
+                          ),
+                        ),
+                        TextSpan(
+                          text: "${'password_validation_5.2'.tr} ",
+                          style: TextStyle(
+                            fontWeight: FontWeight.w600,
+                            fontSize: 12,
+                            color: !controller.validatePasswordCaseChar.value ? Color(0xFFB4B4B4) : Color(0xFF29823B),
+                            fontFamily: AppConstant.SF_PRO_FONT,
+                          ),
+                        ),
+                        TextSpan(
+                          text: "${'password_validation_5.3'.tr} ",
+                          style: TextStyle(
+                            fontWeight: FontWeight.w400,
+                            fontSize: 12,
+                            color: !controller.validatePasswordCaseChar.value ? Color(0xFFB4B4B4) : Color(0xFF29823B),
+                            fontFamily: AppConstant.SF_PRO_FONT,
+                          ),
+                        ),
+                        TextSpan(
+                          text: "${'password_validation_5.4'.tr} ",
+                          style: TextStyle(
+                            fontWeight: FontWeight.w600,
+                            fontSize: 12,
+                            color: !controller.validatePasswordCaseChar.value ? Color(0xFFB4B4B4) : Color(0xFF29823B),
+                            fontFamily: AppConstant.SF_PRO_FONT,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ).marginOnly(bottom: 4),
+                  RichText(
+                    text: TextSpan(
+                      children: [
+                        WidgetSpan(
+                          child: Icon(
+                            Icons.check_rounded,
+                            size: 12,
+                            color:
+                                !controller.validatePasswordSpecialChar.value ? Color(0xFFB4B4B4) : Color(0xFF29823B),
+                          ).marginOnly(right: 12),
+                        ),
+                        TextSpan(
+                          text: "${'password_validation_6.1'.tr} ",
+                          style: TextStyle(
+                            fontWeight: FontWeight.w400,
+                            fontSize: 12,
+                            color:
+                                !controller.validatePasswordSpecialChar.value ? Color(0xFFB4B4B4) : Color(0xFF29823B),
+                            fontFamily: AppConstant.SF_PRO_FONT,
+                          ),
+                        ),
+                        TextSpan(
+                          text: "${'password_validation_6.2'.tr} ",
+                          style: TextStyle(
+                            fontWeight: FontWeight.w600,
+                            fontSize: 12,
+                            color:
+                                !controller.validatePasswordSpecialChar.value ? Color(0xFFB4B4B4) : Color(0xFF29823B),
+                            fontFamily: AppConstant.SF_PRO_FONT,
+                          ),
+                        ),
+                        TextSpan(
+                          text: "${'password_validation_6.3'.tr} ",
+                          style: TextStyle(
+                            fontWeight: FontWeight.w400,
+                            fontSize: 12,
+                            color:
+                                !controller.validatePasswordSpecialChar.value ? Color(0xFFB4B4B4) : Color(0xFF29823B),
+                            fontFamily: AppConstant.SF_PRO_FONT,
+                          ),
+                        ),
+                        TextSpan(
+                          text: "${'password_validation_6.4'.tr} ",
+                          style: TextStyle(
+                            fontWeight: FontWeight.w600,
+                            fontSize: 12,
+                            color:
+                                !controller.validatePasswordSpecialChar.value ? Color(0xFFB4B4B4) : Color(0xFF29823B),
+                            fontFamily: AppConstant.SF_PRO_FONT,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
                   Text(
                     '${'conf_password'.tr}*',
                     style: TextStyle(
                       fontWeight: FontWeight.w700,
                       fontSize: 12,
                       fontFamily: AppConstant.SF_PRO_FONT,
+                      color: controller.validateConfPassword.value ? Color(0xFF333333) : Color(0xFFE1464A),
                     ),
-                  ).marginOnly(bottom: 8),
+                  ).marginOnly(bottom: 8, top: 24),
                   DefaultCustomErrorInputTextField(
                     controller: controller.inputConfPassword,
                     hintText: 'Eg. ********',
@@ -301,7 +447,7 @@ class RegisterStepOneView extends GetView<RegisterStepOneController> {
                 onPressed: !controller.isAgree.value ? null : controller.doContinue,
                 backgroundColor: !controller.isAgree.value ? Color(0xFFB4B4B4) : AppColors.primary_60,
                 text: Text(
-                  'continue'.tr,
+                  'create_account'.tr,
                   style: TextStyle(
                     color: Colors.white,
                     fontWeight: FontWeight.w700,

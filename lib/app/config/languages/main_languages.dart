@@ -6,6 +6,7 @@ class MainLanguages {
     'error_server': "Sorry there's a bit of a problem!",
     'view_doc': "View Doc",
     'error_permission_storage': "Please grant storage access on your device",
+    'msg_loading': "Please wait...",
   };
 
   static final ID = {
@@ -13,5 +14,6 @@ class MainLanguages {
     'error_server': "Maaf ada sedikit masalah!",
     'view_doc': "Lihat Dok",
     'error_permission_storage': "Tolong berikan akses penyimpanan pada perangkat anda",
+    'msg_loading': "Silahkan tunggu...",
   };
 }

@@ -1,35 +1,46 @@
 // ignore_for_file: no_leading_underscores_for_local_identifiers
 
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:maiden_employer/app/config/constants/app_constant.dart';
-import 'package:maiden_employer/app/config/themes/app_colors.dart';
 
 import '/app/shared/widgets/images/cached_network_image_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class CommonFunction {
-  static loadingShow() {
+  static loadingShow({String message = "msg_loading"}) {
     return Get.dialog(
       barrierDismissible: false,
+      barrierColor: Color(0xFF333333).withOpacity(0.8),
       WillPopScope(
         onWillPop: () async => false,
         child: Center(
-          child: Container(
-            padding: const EdgeInsets.all(24),
-            decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: const BorderRadius.all(Radius.circular(8)),
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.black.withOpacity(0.3),
-                  blurRadius: 4,
-                  spreadRadius: 2,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              SpinKitCircle(
+                color: Colors.white,
+                size: 60.0,
+              ),
+              DefaultTextStyle(
+                style: TextStyle(
+                  color: Colors.white,
+                  fontWeight: FontWeight.w700,
+                  fontSize: 16,
+                  fontFamily: AppConstant.SF_PRO_FONT,
                 ),
-              ],
-            ),
-            child: const CircularProgressIndicator(
-              color: AppColors.primary_60,
-            ),
+                child: Text(
+                  message.tr,
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontWeight: FontWeight.w700,
+                    fontSize: 16,
+                    fontFamily: AppConstant.SF_PRO_FONT,
+                  ),
+                ).marginOnly(top: 15.5),
+              ),
+            ],
           ),
         ),
       ),

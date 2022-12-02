@@ -52,13 +52,13 @@ class CreatePasswordController extends GetxController {
         validatePassword.value = false;
         msgPassword.value = "new_password_validation_2".tr;
       } else {
-        if (!MyHelpers.validateInputPassword(valuePassword)) {
-          validatePassword.value = false;
-          msgPassword.value = "new_password_validation".tr;
-        } else {
-          validatePassword.value = true;
-          msgPassword.value = "";
-        }
+        // if (!MyHelpers.validateInputPassword(valuePassword)) {
+        //   validatePassword.value = false;
+        //   msgPassword.value = "new_password_validation".tr;
+        // } else {
+        //   validatePassword.value = true;
+        //   msgPassword.value = "";
+        // }
       }
 
       if (valueConfPassword.isEmpty) {

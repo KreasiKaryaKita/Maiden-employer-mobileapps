@@ -43,7 +43,7 @@ class RegisterStepTwoView extends GetView<RegisterStepTwoController> {
                 padding: const EdgeInsets.symmetric(horizontal: 24),
                 children: [
                   Text(
-                    '${'step'.tr.toUpperCase()} 2 ${'of'.tr.toUpperCase()} 2',
+                    '${'step'.tr.toUpperCase()} 3 ${'of'.tr.toUpperCase()} 3',
                     style: TextStyle(
                       fontWeight: FontWeight.w700,
                       fontSize: 12,
@@ -75,6 +75,7 @@ class RegisterStepTwoView extends GetView<RegisterStepTwoController> {
                       fontWeight: FontWeight.w700,
                       fontSize: 12,
                       fontFamily: AppConstant.SF_PRO_FONT,
+                      color: controller.validateName.value ? Color(0xFF333333) : Color(0xFFE1464A),
                     ),
                   ).marginOnly(top: 10, bottom: 8),
                   DefaultCustomErrorInputTextField(
@@ -100,6 +101,8 @@ class RegisterStepTwoView extends GetView<RegisterStepTwoController> {
                     style: TextStyle(
                       fontWeight: FontWeight.w700,
                       fontSize: 12,
+                      fontFamily: AppConstant.SF_PRO_FONT,
+                      color: controller.validatePhone.value ? Color(0xFF333333) : Color(0xFFE1464A),
                     ),
                   ).marginOnly(bottom: 8),
                   Column(
@@ -201,7 +204,12 @@ class RegisterStepTwoView extends GetView<RegisterStepTwoController> {
                   ).marginOnly(bottom: 24),
                   Text(
                     'date_of_birth'.tr,
-                    style: TextStyle(fontWeight: FontWeight.w700, fontSize: 12),
+                    style: TextStyle(
+                      fontWeight: FontWeight.w700,
+                      fontSize: 12,
+                      fontFamily: AppConstant.SF_PRO_FONT,
+                      color: controller.validatePhone.value ? Color(0xFF333333) : Color(0xFFE1464A),
+                    ),
                   ).marginOnly(bottom: 8),
                   Row(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -316,7 +324,7 @@ class RegisterStepTwoView extends GetView<RegisterStepTwoController> {
                 onPressed: controller.doContinue,
                 backgroundColor: AppColors.primary_60,
                 text: Text(
-                  'continue'.tr,
+                  'create_account'.tr,
                   style: TextStyle(
                     color: Colors.white,
                     fontWeight: FontWeight.w700,

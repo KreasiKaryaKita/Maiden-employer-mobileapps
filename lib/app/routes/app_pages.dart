@@ -4,14 +4,16 @@ import '../modules/account/authentication/forgot_password/bindings/create_passwo
 import '../modules/account/authentication/forgot_password/bindings/create_password_success_binding.dart';
 import '../modules/account/authentication/forgot_password/bindings/forgot_password_binding.dart';
 import '../modules/account/authentication/forgot_password/bindings/validate_email_forgot_password_binding.dart';
-import '../modules/account/authentication/forgot_password/views/validate_email_forgot_password_view.dart';
 import '../modules/account/authentication/forgot_password/views/create_password_success_view.dart';
 import '../modules/account/authentication/forgot_password/views/create_password_view.dart';
 import '../modules/account/authentication/forgot_password/views/forgot_password_view.dart';
+import '../modules/account/authentication/forgot_password/views/validate_email_forgot_password_view.dart';
 import '../modules/account/authentication/login/bindings/login_binding.dart';
 import '../modules/account/authentication/login/views/login_view.dart';
 import '../modules/account/authentication/register/bindings/register_step_one_binding.dart';
 import '../modules/account/authentication/register/bindings/register_step_two_binding.dart';
+import '../modules/account/authentication/register/bindings/validate_email_register_binding.dart';
+import '../modules/account/authentication/register/views/validate_email_register_view.dart';
 import '../modules/account/authentication/register/views/register_step_one_view.dart';
 import '../modules/account/authentication/register/views/register_step_two_view.dart';
 import '../modules/detail_helper/bindings/detail_helper_binding.dart';
@@ -87,6 +89,11 @@ class AppPages {
       name: _Paths.DETAIL_HELPER,
       page: () => const DetailHelperView(),
       binding: DetailHelperBinding(),
+    ),
+    GetPage(
+      name: _Paths.VALIDATE_EMAIL_REGISTER,
+      page: () => const ValidateEmailRegisterView(),
+      binding: ValidateEmailRegisterBinding(),
     ),
   ];
 }

@@ -34,8 +34,26 @@ class MyHelpers {
     return validCharacters.hasMatch(str);
   }
 
-  static bool validateInputPassword(String value) {
-    String pattern = r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#$%^&*()_+-,.?]).{7,}$';
+  static bool validateInputPasswordLength(String value) {
+    if (value.isEmpty) {
+      return false;
+    } else {
+      return value.length >= 8;
+    }
+  }
+
+  static bool validateInputPasswordCaseChar(String value) {
+    String pattern = r'^(?=.*?[A-Z])(?=.*?[a-z]).{7,}$';
+    RegExp regExp = RegExp(pattern);
+    if (value.isEmpty) {
+      return false;
+    } else {
+      return regExp.hasMatch(value);
+    }
+  }
+
+  static bool validateInputPasswordSpecialChar(String value) {
+    String pattern = r'^(?=.*?[0-9])(?=.*?[!@#$%^&*()_+-,.?]).{7,}$';
     RegExp regExp = RegExp(pattern);
     if (value.isEmpty) {
       return false;
@@ -72,6 +90,13 @@ class MyHelpers {
     } else {
       return regExp.hasMatch(value);
     }
+  }
+
+  static String encryptEmailText(String email) {
+    if (email.isEmpty) {
+      return "";
+    }
+    return email.replaceAll(RegExp('(?<=.)[^@](?=[^@]*?[^@]@)'), '*');
   }
 
   static renderDivider({
