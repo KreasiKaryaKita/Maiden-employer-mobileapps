@@ -1,17 +1,13 @@
 // ignore_for_file: unnecessary_overrides
 
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
-import 'package:maiden_employer/app/config/constants/app_constant.dart';
 import 'package:maiden_employer/app/config/constants/preference_constant.dart';
 import 'package:maiden_employer/app/data/repository/api_repositories.dart';
 import 'package:maiden_employer/app/models/response_reset_password.dart';
-import 'package:maiden_employer/app/routes/app_pages.dart';
 import 'package:maiden_employer/app/shared/common/common_function.dart';
 import 'package:maiden_employer/app/shared/utils/my_helper.dart';
 import 'package:maiden_employer/app/shared/utils/preference_helper.dart';
-import 'package:maiden_employer/app/shared/widgets/buttons/button_text.dart';
 
 class CreatePasswordController extends GetxController {
   RxBool isValidateFirst = false.obs;
@@ -82,24 +78,22 @@ class CreatePasswordController extends GetxController {
     isValidateFirst.value = true;
     bool validation = onValidationFormInput(null);
     if (validation) {
-      // CommonFunction.loadingShow();
-      // ApiRepositories.resetPassword(
-      //   email: await PreferenceHelper().get(key: PreferenceConstant.USER_EMAIL),
-      //   password: inputPassword.text.toString().trim(),
-      //   passwordConf: inputConfPassword.text.toString().trim(),
-      // ).then((value) {
-      //   CommonFunction.loadingHide();
-      //   if (value is ResponseResetPassword) {
-      //     Get.offNamed(Routes.CREATE_PASSWORD_SUCCESS);
-      //     CommonFunction.snackbarHelper(message: value.message!, isSuccess: true);
-      //   } else {
-      //     CommonFunction.snackbarHelper(message: value!.message!, isSuccess: false);
-      //   }
-      // }, onError: (e) {
-      //   CommonFunction.loadingHide();
-      //   CommonFunction.snackbarHelper(message: e.toString(), isSuccess: false);
-      // });
-      CommonFunction.createPasswordSuccess();
+      CommonFunction.loadingShow();
+      ApiRepositories.resetPassword(
+        email: await PreferenceHelper().get(key: PreferenceConstant.USER_EMAIL),
+        password: inputPassword.text.toString().trim(),
+        passwordConf: inputConfPassword.text.toString().trim(),
+      ).then((value) {
+        CommonFunction.loadingHide();
+        if (value is ResponseResetPassword) {
+          CommonFunction.createPasswordSuccess();
+        } else {
+          CommonFunction.snackbarHelper(message: value!.message!, isSuccess: false);
+        }
+      }, onError: (e) {
+        CommonFunction.loadingHide();
+        CommonFunction.snackbarHelper(message: e.toString(), isSuccess: false);
+      });
     }
   }
 }
