@@ -54,7 +54,7 @@ class MyHelpers {
     if (value.isEmpty) {
       return false;
     } else {
-      return RegExp('.*[0-9].*').hasMatch(value) && RegExp(r'[!@#$%^&*()_+\-,.?]').hasMatch(value);
+      return RegExp('.*[0-9].*').hasMatch(value) && RegExp(r'[!@#$%^&*()_+-,.?+=]').hasMatch(value);
     }
   }
 
