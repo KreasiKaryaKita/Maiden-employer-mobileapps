@@ -78,44 +78,50 @@ class LoginController extends GetxController {
       ).then((value) {
         CommonFunction.loadingHide();
         if (value is ResponseLogin) {
-          Get.offAllNamed(Routes.MAIN);
-          PreferenceHelper().set(
-            key: PreferenceConstant.USER_TOKEN,
-            value: value.data!.token ?? "",
-          );
-          PreferenceHelper().set(
-            key: PreferenceConstant.USER_ID,
-            value: value.data!.userId.toString(),
-          );
           PreferenceHelper().set(
             key: PreferenceConstant.USER_EMAIL,
             value: value.data!.email.toString(),
           );
-          PreferenceHelper().set(
-            key: PreferenceConstant.USER_FIRST_NAME,
-            value: value.data!.firstName.toString(),
-          );
-          PreferenceHelper().set(
-            key: PreferenceConstant.USER_LAST_NAME,
-            value: value.data!.lastName.toString(),
-          );
-          if (value.data!.birthDate != null) {
+          if (value.error == 200) {
+            Get.offAllNamed(Routes.MAIN);
             PreferenceHelper().set(
-              key: PreferenceConstant.USER_BIRTH_DATE,
-              value: DateFormat(
-                'dd-MM-yyyy',
-                Get.locale.toString(),
-              ).format(value.data!.birthDate!).toString(),
+              key: PreferenceConstant.USER_TOKEN,
+              value: value.data!.token ?? "",
             );
+            PreferenceHelper().set(
+              key: PreferenceConstant.USER_ID,
+              value: value.data!.userId.toString(),
+            );
+            PreferenceHelper().set(
+              key: PreferenceConstant.USER_FIRST_NAME,
+              value: value.data!.firstName.toString(),
+            );
+            PreferenceHelper().set(
+              key: PreferenceConstant.USER_LAST_NAME,
+              value: value.data!.lastName.toString(),
+            );
+            if (value.data!.birthDate != null) {
+              PreferenceHelper().set(
+                key: PreferenceConstant.USER_BIRTH_DATE,
+                value: DateFormat(
+                  'dd-MM-yyyy',
+                  Get.locale.toString(),
+                ).format(value.data!.birthDate!).toString(),
+              );
+            }
+            PreferenceHelper().set(
+              key: PreferenceConstant.USER_TYPE,
+              value: value.data!.userType.toString(),
+            );
+            PreferenceHelper().set(
+              key: PreferenceConstant.USER_TYPE_LABEL,
+              value: value.data!.userTypeLabel.toString(),
+            );
+          } else if (value.error == 201) {
+            Get.offNamed(Routes.REGISTER_STEP_TWO);
+          } else if (value.error == 202) {
+            Get.offNamed(Routes.VALIDATE_EMAIL_REGISTER);
           }
-          PreferenceHelper().set(
-            key: PreferenceConstant.USER_TYPE,
-            value: value.data!.userType.toString(),
-          );
-          PreferenceHelper().set(
-            key: PreferenceConstant.USER_TYPE_LABEL,
-            value: value.data!.userTypeLabel.toString(),
-          );
         } else {
           CommonFunction.snackbarHelper(message: value!.message!, isSuccess: false);
         }
