@@ -8,7 +8,9 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:get/get_utils/src/extensions/internacionalization.dart';
 import 'package:maiden_employer/app/config/constants/preference_constant.dart';
 import 'package:maiden_employer/app/models/response_standard.dart';
+import 'package:maiden_employer/app/routes/app_pages.dart';
 import 'package:maiden_employer/app/shared/utils/preference_helper.dart';
+import 'package:get/get.dart' as pref_get;
 
 /// *** API SERVICE CLIENT
 enum REQUEST_METHOD { POST, GET }
@@ -25,7 +27,7 @@ class ApiClient {
       var token = await PreferenceHelper().get(
         key: PreferenceConstant.USER_TOKEN,
       );
-      dio.options.headers['Authorization'] = "Bearer $token";
+      // dio.options.headers['Authorization'] = "Bearer $token";
     }
     dio.options.connectTimeout = 25000;
     dio.options.sendTimeout = 25000;
@@ -105,6 +107,15 @@ class CustomInterceptors extends Interceptor {
         ),
         handler,
       );
+    } else if (err.response?.statusCode == 401) {
+      if (kDebugMode) {
+        log('ERROR[${err.response?.statusCode}: ${err.requestOptions.path}] => DATA: ${err.response}');
+      }
+      super.onError(err, handler);
+      if (isAuth) {
+        PreferenceHelper().deleteAll();
+        pref_get.Get.offAllNamed(Routes.SPLASH);
+      }
     } else {
       if (kDebugMode) {
         log('ERROR[${err.response?.statusCode}: ${err.requestOptions.path}] => DATA: ${err.response}');
