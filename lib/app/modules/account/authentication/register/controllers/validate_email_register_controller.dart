@@ -8,14 +8,17 @@ import 'package:maiden_employer/app/models/response_resend_otp.dart';
 import 'package:maiden_employer/app/models/response_validate_otp.dart';
 import 'package:maiden_employer/app/routes/app_pages.dart';
 import 'package:maiden_employer/app/shared/common/common_function.dart';
+import 'package:maiden_employer/app/shared/utils/my_helper.dart';
 import 'package:maiden_employer/app/shared/utils/preference_helper.dart';
 
 class ValidateEmailRegisterController extends GetxController {
   TextEditingController inputOTP = TextEditingController();
+  RxString email = "".obs;
 
   @override
-  void onInit() {
+  void onInit() async {
     super.onInit();
+    email.value = MyHelpers.encryptEmailText(await PreferenceHelper().get(key: PreferenceConstant.USER_EMAIL));
   }
 
   @override
@@ -45,6 +48,7 @@ class ValidateEmailRegisterController extends GetxController {
           key: PreferenceConstant.USER_EMAIL,
           value: value.data!.email.toString(),
         );
+        email.value = MyHelpers.encryptEmailText(value.data?.email ?? "");
       } else {
         CommonFunction.snackbarHelper(message: value?.message ?? 'Failed', isSuccess: false);
       }

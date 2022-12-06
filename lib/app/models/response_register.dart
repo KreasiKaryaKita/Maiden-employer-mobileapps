@@ -28,36 +28,16 @@ class ResponseRegister implements ResponseModel {
 
 class RegisterData {
   RegisterData({
-    this.userId,
-    this.token,
     this.email,
-    this.name,
-    this.userType,
-    this.userTypeLabel,
   });
 
-  int? userId;
-  String? token;
   String? email;
-  String? name;
-  int? userType;
-  String? userTypeLabel;
 
   factory RegisterData.fromJson(Map<String, dynamic> json) => RegisterData(
-        userId: json["user_id"],
-        token: json["token"],
         email: json["email"],
-        name: json["name"],
-        userType: json["user_type"],
-        userTypeLabel: json["user_type_label"],
       );
 
   Map<String, dynamic> toJson() => {
-        "user_id": userId,
-        "token": token,
         "email": email,
-        "name": name,
-        "user_type": userType,
-        "user_type_label": userTypeLabel,
       };
 }
