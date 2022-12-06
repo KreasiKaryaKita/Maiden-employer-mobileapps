@@ -2,8 +2,13 @@
 
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
+import 'package:maiden_employer/app/config/constants/preference_constant.dart';
+import 'package:maiden_employer/app/data/repository/api_repositories.dart';
+import 'package:maiden_employer/app/models/response_register.dart';
 import 'package:maiden_employer/app/routes/app_pages.dart';
+import 'package:maiden_employer/app/shared/common/common_function.dart';
 import 'package:maiden_employer/app/shared/utils/my_helper.dart';
+import 'package:maiden_employer/app/shared/utils/preference_helper.dart';
 
 class RegisterStepOneController extends GetxController {
   RxBool isAgree = false.obs;
@@ -101,7 +106,25 @@ class RegisterStepOneController extends GetxController {
     isValidateFirst.value = true;
     bool validation = onValidationFormInput(null);
     if (validation) {
-      Get.toNamed(Routes.VALIDATE_EMAIL_REGISTER);
+      CommonFunction.loadingShow();
+      ApiRepositories.register(
+        email: inputEmail.text.toString().trim(),
+        password: inputPassword.text.toString().trim(),
+      ).then((value) async {
+        CommonFunction.loadingHide();
+        if (value is ResponseRegister) {
+          PreferenceHelper().set(
+            key: PreferenceConstant.USER_EMAIL,
+            value: value.data!.email.toString(),
+          );
+          Get.offNamed(Routes.VALIDATE_EMAIL_REGISTER);
+        } else {
+          CommonFunction.snackbarHelper(message: value?.message ?? 'Failed', isSuccess: false);
+        }
+      }, onError: (e) {
+        CommonFunction.loadingHide();
+        CommonFunction.snackbarHelper(message: e.toString(), isSuccess: false);
+      });
     }
   }
 }

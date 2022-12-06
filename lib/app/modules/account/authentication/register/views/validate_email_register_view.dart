@@ -148,7 +148,7 @@ class ValidateEmailRegisterView extends GetView<ValidateEmailRegisterController>
           ).marginOnly(bottom: 10),
           Center(
             child: ButtonText(
-              onPressed: controller.startTimer,
+              onPressed: () {},
               text: Text(
                 "otp_exp_4".tr,
                 textAlign: TextAlign.center,
