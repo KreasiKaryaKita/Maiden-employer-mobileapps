@@ -7,6 +7,8 @@ class EndpointConstant {
   static const String ACCOUNT_INFO = 'auth/account-info';
   static const String FORGOT_PASSWORD = 'auth/forgot';
   static const String RESET_PASSWORD = 'auth/change-password';
+  static const String VALIDATE_OTP = 'auth/validate-otp';
+  static const String RESEND_OTP = 'auth/send-otp';
 
   ///FILTER DATA
   static const String COUNTRIES = 'country/list';

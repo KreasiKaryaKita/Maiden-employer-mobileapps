@@ -36,6 +36,7 @@ class AccountInfoData {
     this.birthDate,
     this.userType,
     this.userTypeLabel,
+    this.token,
   });
 
   int? userId;
@@ -46,6 +47,7 @@ class AccountInfoData {
   DateTime? birthDate;
   int? userType;
   String? userTypeLabel;
+  String? token;
 
   factory AccountInfoData.fromJson(Map<String, dynamic> json) => AccountInfoData(
         userId: json["user_id"],
@@ -53,9 +55,10 @@ class AccountInfoData {
         firstName: json["first_name"],
         lastName: json["last_name"],
         phone: json["phone"],
-        birthDate: (json["birth_date"] == null) ? null : DateTime.parse(json["birth_date"]),
+        birthDate: DateTime.parse(json["birth_date"]),
         userType: json["user_type"],
         userTypeLabel: json["user_type_label"],
+        token: json["token"],
       );
 
   Map<String, dynamic> toJson() => {
@@ -68,5 +71,6 @@ class AccountInfoData {
             "${birthDate!.year.toString().padLeft(4, '0')}-${birthDate!.month.toString().padLeft(2, '0')}-${birthDate!.day.toString().padLeft(2, '0')}",
         "user_type": userType,
         "user_type_label": userTypeLabel,
+        "token": token,
       };
 }

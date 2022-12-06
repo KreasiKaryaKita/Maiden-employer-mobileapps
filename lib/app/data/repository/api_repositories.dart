@@ -13,10 +13,12 @@ import 'package:maiden_employer/app/models/response_marital_status.dart';
 import 'package:maiden_employer/app/models/response_nationalities.dart';
 import 'package:maiden_employer/app/models/response_register.dart';
 import 'package:maiden_employer/app/models/response_religions.dart';
+import 'package:maiden_employer/app/models/response_resend_otp.dart';
 import 'package:maiden_employer/app/models/response_reset_password.dart';
 import 'package:maiden_employer/app/models/response_skills.dart';
 import 'package:maiden_employer/app/models/response_sortings.dart';
 import 'package:maiden_employer/app/models/response_standard.dart';
+import 'package:maiden_employer/app/models/response_validate_otp.dart';
 import 'package:maiden_employer/app/models/response_work_experiences.dart';
 
 class ApiRepositories {
@@ -120,6 +122,43 @@ class ApiRepositories {
 
     if (response.statusCode == 200) {
       return ResponseResetPassword.fromJson(response.data);
+    } else {
+      return ResponseStandard.fromJson(response.data);
+    }
+  }
+
+  static Future<ResponseModel?> resenOtp({required String email}) async {
+    var data = {
+      'email': email,
+    };
+    var response = await ApiClient().service(
+      pathUrl: EndpointConstant.RESEND_OTP,
+      method: REQUEST_METHOD.POST,
+      data: data,
+      isAuth: false,
+    );
+
+    if (response.statusCode == 200) {
+      return ResponseResendOtp.fromJson(response.data);
+    } else {
+      return ResponseStandard.fromJson(response.data);
+    }
+  }
+
+  static Future<ResponseModel?> validateOtp({required String email, required String otp}) async {
+    var data = {
+      'email': email,
+      'otp': otp,
+    };
+    var response = await ApiClient().service(
+      pathUrl: EndpointConstant.VALIDATE_OTP,
+      method: REQUEST_METHOD.POST,
+      data: data,
+      isAuth: false,
+    );
+
+    if (response.statusCode == 200) {
+      return ResponseValidateOtp.fromJson(response.data);
     } else {
       return ResponseStandard.fromJson(response.data);
     }

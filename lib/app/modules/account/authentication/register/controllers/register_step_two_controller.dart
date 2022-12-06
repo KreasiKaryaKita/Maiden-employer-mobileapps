@@ -7,7 +7,6 @@ import 'package:maiden_employer/app/config/constants/preference_constant.dart';
 import 'package:maiden_employer/app/data/repository/api_repositories.dart';
 import 'package:maiden_employer/app/models/response_account_info.dart';
 import 'package:maiden_employer/app/models/response_countries.dart';
-import 'package:maiden_employer/app/models/response_register.dart';
 import 'package:maiden_employer/app/modules/account/authentication/register/models/option_month.dart';
 import 'package:maiden_employer/app/modules/account/authentication/register/models/phone_prefix.dart';
 import 'package:maiden_employer/app/routes/app_pages.dart';
@@ -34,13 +33,10 @@ class RegisterStepTwoController extends GetxController {
   RxBool validateDate = true.obs;
   RxString msgDate = "".obs;
 
-  var arguments = {}.obs;
-
   @override
   void onInit() {
     super.onInit();
     init();
-    arguments.value = Get.arguments;
   }
 
   @override
@@ -152,46 +148,9 @@ class RegisterStepTwoController extends GetxController {
     isValidateFirst.value = true;
     bool validation = onValidationFormInput(null);
     if (validation) {
-      doRegister();
+      CommonFunction.loadingShow();
+      doAccountInfo();
     }
-  }
-
-  doRegister() async {
-    CommonFunction.loadingShow();
-    ApiRepositories.register(
-      email: arguments['email'],
-      password: arguments['password'],
-    ).then((value) async {
-      if (value is ResponseRegister) {
-        PreferenceHelper().set(
-          key: PreferenceConstant.USER_TOKEN,
-          value: value.data!.token ?? "",
-        );
-        PreferenceHelper().set(
-          key: PreferenceConstant.USER_ID,
-          value: value.data!.userId.toString(),
-        );
-        PreferenceHelper().set(
-          key: PreferenceConstant.USER_EMAIL,
-          value: value.data!.email.toString(),
-        );
-        PreferenceHelper().set(
-          key: PreferenceConstant.USER_TYPE,
-          value: value.data!.userType.toString(),
-        );
-        PreferenceHelper().set(
-          key: PreferenceConstant.USER_TYPE_LABEL,
-          value: value.data!.userTypeLabel.toString(),
-        );
-        await doAccountInfo();
-      } else {
-        CommonFunction.loadingHide();
-        CommonFunction.snackbarHelper(message: value!.message ?? 'Failed', isSuccess: false);
-      }
-    }, onError: (e) {
-      CommonFunction.loadingHide();
-      CommonFunction.snackbarHelper(message: e.toString(), isSuccess: false);
-    });
   }
 
   doAccountInfo() async {
@@ -209,6 +168,10 @@ class RegisterStepTwoController extends GetxController {
     ).then((value) {
       CommonFunction.loadingHide();
       if (value is ResponseAccountInfo) {
+        PreferenceHelper().set(
+          key: PreferenceConstant.USER_TOKEN,
+          value: value.data!.token ?? "",
+        );
         PreferenceHelper().set(
           key: PreferenceConstant.USER_ID,
           value: value.data!.userId.toString(),
@@ -242,7 +205,6 @@ class RegisterStepTwoController extends GetxController {
           key: PreferenceConstant.USER_TYPE_LABEL,
           value: value.data!.userTypeLabel.toString(),
         );
-        CommonFunction.snackbarHelper(message: value.message ?? 'Success', isSuccess: true);
         Get.offAllNamed(Routes.MAIN);
       } else {
         CommonFunction.snackbarHelper(message: value!.message ?? 'Failed', isSuccess: false);
