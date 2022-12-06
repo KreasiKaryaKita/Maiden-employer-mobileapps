@@ -219,7 +219,7 @@ class LoginView extends GetView<LoginController> {
                 onPressed: controller.doLogin,
                 backgroundColor: AppColors.primary_60,
                 text: Text(
-                  'continue'.tr,
+                  'new_password_created_log_in'.tr,
                   style: TextStyle(
                     color: Colors.white,
                     fontWeight: FontWeight.w700,
