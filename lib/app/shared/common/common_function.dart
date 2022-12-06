@@ -79,6 +79,7 @@ class CommonFunction {
       duration: duration,
       barBlur: 8.0,
       borderRadius: 10,
+      padding: EdgeInsets.symmetric(vertical: 20),
       mainButton: mainButtonOnPressed == null
           ? null
           : TextButton(
@@ -91,7 +92,6 @@ class CommonFunction {
             ),
       snackPosition: SnackPosition.TOP,
       margin: EdgeInsets.only(top: 20.0, left: 10.0, right: 10.0, bottom: 30),
-      // padding: EdgeInsets.symmetric(vertical: 20, horizontal: 21),
       icon: Icon(
         isSuccess ? Icons.check_rounded : Icons.warning_amber_rounded,
         color: Colors.white,
