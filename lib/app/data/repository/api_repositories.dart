@@ -1,4 +1,5 @@
 import 'package:maiden_employer/app/config/constants/endpoint_constant.dart';
+import 'package:maiden_employer/app/config/constants/preference_constant.dart';
 import 'package:maiden_employer/app/data/networking/api_client.dart';
 import 'package:maiden_employer/app/models/response_account_info.dart';
 import 'package:maiden_employer/app/models/response_countries.dart';
@@ -20,6 +21,7 @@ import 'package:maiden_employer/app/models/response_sortings.dart';
 import 'package:maiden_employer/app/models/response_standard.dart';
 import 'package:maiden_employer/app/models/response_validate_otp.dart';
 import 'package:maiden_employer/app/models/response_work_experiences.dart';
+import 'package:maiden_employer/app/shared/utils/preference_helper.dart';
 
 class ApiRepositories {
   static Future<ResponseModel?> login({required String username, required String password}) async {
@@ -67,6 +69,7 @@ class ApiRepositories {
     required String lastName,
   }) async {
     var data = {
+      "email": await PreferenceHelper().get(key: PreferenceConstant.USER_EMAIL),
       "birth_of_date": birthOfDate,
       "phone": phone,
       "first_name": firstName,
@@ -76,6 +79,7 @@ class ApiRepositories {
       pathUrl: EndpointConstant.ACCOUNT_INFO,
       method: REQUEST_METHOD.POST,
       data: data,
+      isAuth: false,
     );
 
     if (response.statusCode == 200) {
