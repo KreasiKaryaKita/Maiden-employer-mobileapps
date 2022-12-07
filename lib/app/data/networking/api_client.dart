@@ -27,7 +27,7 @@ class ApiClient {
       var token = await PreferenceHelper().get(
         key: PreferenceConstant.USER_TOKEN,
       );
-      // dio.options.headers['Authorization'] = "Bearer $token";
+      dio.options.headers['Authorization'] = "Bearer $token";
     }
     dio.options.connectTimeout = 25000;
     dio.options.sendTimeout = 25000;
