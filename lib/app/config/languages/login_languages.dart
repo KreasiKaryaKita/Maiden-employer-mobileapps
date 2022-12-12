@@ -9,6 +9,8 @@ class LoginLanguages {
     'password': 'Password',
     'password_validation_2': 'Password is required',
     'login_forgot_password': 'Forgot Password',
+    'login_complete_signup': 'Welcome to Maiden! Please complete your profile before continuing.',
+    'login_complete_signup_2': 'Complete my profile',
   };
 
   static final ID = {
@@ -19,5 +21,7 @@ class LoginLanguages {
     'password': 'Kata Sandi',
     'password_validation_2': 'Kata sandi is required',
     'login_forgot_password': 'Lupa Kata Sandi',
+    'login_complete_signup': 'Selamat datang di Maiden! Lengkapi profil Anda sebelum melanjutkan.',
+    'login_complete_signup_2': 'Lengkapi profil saya',
   };
 }
