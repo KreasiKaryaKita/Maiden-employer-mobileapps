@@ -3,6 +3,7 @@
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:maiden_employer/app/config/constants/app_constant.dart';
+import 'package:maiden_employer/app/routes/app_pages.dart';
 import 'package:maiden_employer/app/shared/widgets/buttons/button_text.dart';
 
 import '/app/shared/widgets/images/cached_network_image_widget.dart';
@@ -182,6 +183,86 @@ class CommonFunction {
                     ),
                   ],
                 ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  static loginCompleteSignUp({required int code}) {
+    return Get.dialog(
+      barrierDismissible: false,
+      barrierColor: Color(0xFF333333).withOpacity(0.8),
+      WillPopScope(
+        onWillPop: () async => false,
+        child: Dialog(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(10.0),
+          ),
+          backgroundColor: Colors.transparent,
+          insetPadding: EdgeInsets.all(10),
+          child: Stack(
+            clipBehavior: Clip.none,
+            alignment: Alignment.center,
+            children: [
+              Container(
+                width: Get.width,
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.all(
+                    Radius.circular(16),
+                  ),
+                ),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  children: [
+                    Center(
+                      child: Text(
+                        "login_complete_signup".tr,
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          color: Color(0xFF333333),
+                          fontWeight: FontWeight.w700,
+                          fontSize: 18,
+                          fontFamily: AppConstant.CENTURY_GOTHIC_FONT,
+                        ),
+                      ).marginOnly(top: 40),
+                    ),
+                    Center(
+                      child: SvgPicture.asset(
+                        'assets/images/undraw_welcome.svg',
+                        height: 200,
+                        width: 107,
+                      ).marginOnly(top: 24),
+                    ),
+                    Center(
+                      child: ButtonText(
+                        onPressed: () {
+                          if (code == 201) {
+                            Get.offNamed(Routes.REGISTER_STEP_TWO);
+                          } else if (code == 202) {
+                            Get.offNamed(Routes.VALIDATE_EMAIL_REGISTER);
+                          } else {
+                            Get.back();
+                          }
+                        },
+                        text: Text(
+                          "login_complete_signup_2".tr,
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            color: Color(0xFFE1464A),
+                            fontWeight: FontWeight.w700,
+                            fontSize: 16,
+                            fontFamily: AppConstant.SF_PRO_FONT,
+                          ),
+                        ).marginOnly(top: 36, bottom: 40),
+                      ),
+                    ),
+                  ],
+                ).paddingSymmetric(horizontal: 49),
               ),
             ],
           ),

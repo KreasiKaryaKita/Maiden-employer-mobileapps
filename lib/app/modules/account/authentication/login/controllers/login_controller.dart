@@ -75,7 +75,7 @@ class LoginController extends GetxController {
       ApiRepositories.login(
         username: inputEmail.text.toString().trim(),
         password: inputPassword.text.toString().trim(),
-      ).then((value) {
+      ).then((value) async {
         CommonFunction.loadingHide();
         if (value is ResponseLogin) {
           PreferenceHelper().set(
@@ -117,10 +117,10 @@ class LoginController extends GetxController {
               key: PreferenceConstant.USER_TYPE_LABEL,
               value: value.data!.userTypeLabel.toString(),
             );
-          } else if (value.error == 201) {
-            Get.offNamed(Routes.REGISTER_STEP_TWO);
-          } else if (value.error == 202) {
-            Get.offNamed(Routes.VALIDATE_EMAIL_REGISTER);
+          } else {
+            Get.dialog(
+              CommonFunction.loginCompleteSignUp(code: value.error ?? 0),
+            );
           }
         } else {
           CommonFunction.snackbarHelper(message: value!.message!, isSuccess: false);
