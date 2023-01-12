@@ -118,9 +118,7 @@ class LoginController extends GetxController {
               value: value.data!.userTypeLabel.toString(),
             );
           } else {
-            Get.dialog(
-              CommonFunction.loginCompleteSignUp(code: value.error ?? 0),
-            );
+            CommonFunction.loginCompleteSignUp(code: value.error ?? 0);
           }
         } else {
           CommonFunction.snackbarHelper(message: value!.message!, isSuccess: false);

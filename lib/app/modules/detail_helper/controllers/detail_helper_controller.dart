@@ -253,7 +253,7 @@ class DetailHelperController extends GetxController {
               }
 
               vaccination.add({
-                "step": "$vaccineKe Dose ${i == 2 ? '- Booster' : ''}",
+                "step": "Dose ${i + 1}",
                 "label": value.data!.vaccination![0].vaccine![i].date,
                 "type": value.data!.vaccination![0].vaccine![i].type,
               });

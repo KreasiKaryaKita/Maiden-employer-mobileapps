@@ -119,8 +119,8 @@ class ListElement {
         country: json["country"],
         countryImage: json["country_image"],
         skills: json["skills"],
-        language:
-            json["language"] == null ? null : List<Language>.from(json["language"].map((x) => Language.fromJson(x))),
+        // language:
+        //     json["language"] == null ? null : List<Language>.from(json["language"].map((x) => Language.fromJson(x))),
         religion: json["religion"],
         educationLevel: json["education_level"],
         maritalStatus: json["marital_status"],

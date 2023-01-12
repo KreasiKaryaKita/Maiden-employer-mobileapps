@@ -281,7 +281,7 @@ class ApiRepositories {
       String? readyFromMax,
       String? orderBy,
       String? workExperience}) async {
-    Map<String, dynamic> params = {"limit": 50, "page": page};
+    Map<String, dynamic> params = {"limit": 20, "page": page};
 
     if (ageMin != null) params['age_min'] = ageMin;
     if (ageMax != null) params['age_max'] = ageMax;

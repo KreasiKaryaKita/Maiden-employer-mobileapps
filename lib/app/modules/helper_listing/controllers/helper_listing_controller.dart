@@ -27,8 +27,12 @@ import 'package:maiden_employer/app/models/response_work_experiences.dart';
 import 'package:maiden_employer/app/modules/account/authentication/register/models/option_month.dart';
 import 'package:maiden_employer/app/modules/account/authentication/register/models/option_year.dart';
 import 'package:maiden_employer/app/shared/common/common_function.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 class HelperListingController extends GetxController {
+  RefreshController refreshCt = RefreshController();
+  RxInt page = 1.obs;
+  RxInt totalData = 0.obs;
   TextEditingController inputSearch = TextEditingController();
   var isLoading = true.obs;
   var helpers = <HelpersModel>[].obs;
@@ -1125,7 +1129,13 @@ class HelperListingController extends GetxController {
   getHelpers() {
     isLoading.value = true;
     helpers.clear();
+    page.value = 1;
+    hitApi();
+  }
+
+  hitApi() {
     ApiRepositories.helperList(
+      page: page.value,
       ageMin: isAgeFiltered.value ? currentRangeValues.value.start.toInt() : null,
       ageMax: isAgeFiltered.value ? currentRangeValues.value.end.toInt() : null,
       status: helpersStatusSelected.value.value,
@@ -1154,8 +1164,11 @@ class HelperListingController extends GetxController {
           : helpersWorkExperienceSelected.map((e) => e.value).toList().join(','),
     ).then((value) {
       isLoading.value = false;
+      refreshCt.refreshCompleted();
+      refreshCt.loadComplete();
       if (value is ResponseHelpers) {
-        helpers.assignAll(value.data!.list!.map(
+        totalData.value = value.data?.totalData ?? 0;
+        helpers.addAll(value.data!.list!.map(
           (e) => HelpersModel(
             id: e.id,
             image: e.photo != null && e.photo!.isNotEmpty
@@ -1174,6 +1187,7 @@ class HelperListingController extends GetxController {
     }, onError: (e) {
       CommonFunction.snackbarHelper(isSuccess: false, message: e.toString());
       isLoading.value = false;
+      printInfo(info: e.toString());
     });
   }
 
@@ -1209,5 +1223,16 @@ class HelperListingController extends GetxController {
         helpersCountSearch.value = value.data?.totalData ?? 0;
       } else {}
     }, onError: (e) {});
+  }
+
+  onRefresh() async {
+    isLoading.value = true;
+    page.value = 1;
+    getHelpers();
+  }
+
+  onLoadingMore() async {
+    page.value++;
+    hitApi();
   }
 }
