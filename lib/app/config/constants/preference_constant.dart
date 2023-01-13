@@ -1,6 +1,7 @@
 // ignore_for_file: non_constant_identifier_names
 
 class PreferenceConstant {
+  static String USER_ON_BOARDING = 'USER_ON_BOARDING';
   static String USER_TOKEN = 'USER_TOKEN';
   static String USER_ID = 'USER_ID';
   static String USER_EMAIL = 'USER_EMAIL';
