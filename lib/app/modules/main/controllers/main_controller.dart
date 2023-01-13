@@ -33,7 +33,7 @@ class MainController extends GetxController {
     return true;
   }
 
-  logout() {
+  logout() async {
     ///debug
     PreferenceHelper().delete(PreferenceConstant.USER_TOKEN);
     PreferenceHelper().delete(PreferenceConstant.USER_ID);
@@ -41,7 +41,10 @@ class MainController extends GetxController {
     PreferenceHelper().delete(PreferenceConstant.USER_TYPE);
     PreferenceHelper().delete(PreferenceConstant.USER_TYPE_LABEL);
 
-    Get.offAllNamed(Routes.SPLASH);
+    Get.offAllNamed(
+      Routes.ON_BOARDING,
+      arguments: await PreferenceHelper().get(key: PreferenceConstant.USER_ON_BOARDING),
+    );
   }
 
   onChangeTab(int tab) {

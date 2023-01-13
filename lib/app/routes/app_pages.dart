@@ -13,15 +13,17 @@ import '../modules/account/authentication/login/views/login_view.dart';
 import '../modules/account/authentication/register/bindings/register_step_one_binding.dart';
 import '../modules/account/authentication/register/bindings/register_step_two_binding.dart';
 import '../modules/account/authentication/register/bindings/validate_email_register_binding.dart';
-import '../modules/account/authentication/register/views/validate_email_register_view.dart';
 import '../modules/account/authentication/register/views/register_step_one_view.dart';
 import '../modules/account/authentication/register/views/register_step_two_view.dart';
+import '../modules/account/authentication/register/views/validate_email_register_view.dart';
 import '../modules/detail_helper/bindings/detail_helper_binding.dart';
 import '../modules/detail_helper/views/detail_helper_view.dart';
 import '../modules/helper_listing/bindings/helper_listing_binding.dart';
 import '../modules/helper_listing/views/helper_listing_view.dart';
 import '../modules/main/bindings/main_binding.dart';
 import '../modules/main/views/main_view.dart';
+import '../modules/on_boarding/bindings/on_boarding_binding.dart';
+import '../modules/on_boarding/views/on_boarding_view.dart';
 import '../modules/splash/bindings/splash_binding.dart';
 import '../modules/splash/views/splash_view.dart';
 
@@ -94,6 +96,11 @@ class AppPages {
       name: _Paths.VALIDATE_EMAIL_REGISTER,
       page: () => const ValidateEmailRegisterView(),
       binding: ValidateEmailRegisterBinding(),
+    ),
+    GetPage(
+      name: _Paths.ON_BOARDING,
+      page: () => const OnBoardingView(),
+      binding: OnBoardingBinding(),
     ),
   ];
 }

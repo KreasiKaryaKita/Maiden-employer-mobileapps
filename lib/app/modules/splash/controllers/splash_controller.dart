@@ -10,7 +10,6 @@ class SplashController extends GetxController {
   @override
   void onInit() {
     super.onInit();
-    init();
   }
 
   @override
@@ -25,18 +24,11 @@ class SplashController extends GetxController {
     Future.delayed(Duration(seconds: 3), () async {
       String token = await PreferenceHelper().get(key: PreferenceConstant.USER_TOKEN);
       if (token.isEmpty) {
-        isShownOnboarding.value = true;
+        String isOnboarding = await PreferenceHelper().get(key: PreferenceConstant.USER_ON_BOARDING);
+        Get.offAllNamed(Routes.ON_BOARDING, arguments: isOnboarding);
       } else {
         Get.offAllNamed(Routes.MAIN);
       }
     });
-  }
-
-  onGetStartedPressed() {
-    Get.toNamed(Routes.REGISTER_STEP_ONE);
-  }
-
-  onLoginPressed() {
-    Get.toNamed(Routes.LOGIN);
   }
 }
