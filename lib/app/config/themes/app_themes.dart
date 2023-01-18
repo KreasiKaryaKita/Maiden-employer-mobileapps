@@ -59,7 +59,7 @@ class AppThemes {
           enabledBorder: OutlineInputBorder(borderSide: BorderSide(color: Color(0xFFEBEBEB))),
           errorStyle: TextStyle(fontSize: 10),
           errorMaxLines: 2),
-      progressIndicatorTheme: ProgressIndicatorThemeData(color: AppColors.primary_20),
+      progressIndicatorTheme: ProgressIndicatorThemeData(color: Colors.white),
       chipTheme: ChipThemeData(
           backgroundColor: Colors.white,
           disabledColor: Colors.grey.withOpacity(0.2),
