@@ -1,10 +1,6 @@
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
-import 'package:maiden_employer/app/config/constants/app_constant.dart';
-import 'package:maiden_employer/app/config/themes/app_colors.dart';
-import 'package:maiden_employer/app/shared/widgets/buttons/button_fill.dart';
-import 'package:maiden_employer/app/shared/widgets/buttons/button_text.dart';
 
 import '../controllers/splash_controller.dart';
 

@@ -244,13 +244,13 @@ class DetailHelperController extends GetxController {
               value.data!.vaccination!.isNotEmpty &&
               value.data!.vaccination![0].vaccine != null) {
             for (var i = 0; i < value.data!.vaccination![0].vaccine!.length; i++) {
-              String vaccineKe = '1st';
+              // String vaccineKe = '1st';
 
-              if (i == 1) {
-                vaccineKe = '2nd';
-              } else if (i == 2) {
-                vaccineKe = '3rd';
-              }
+              // if (i == 1) {
+              //   vaccineKe = '2nd';
+              // } else if (i == 2) {
+              //   vaccineKe = '3rd';
+              // }
 
               vaccination.add({
                 "step": "Dose ${i + 1}",

@@ -19,6 +19,7 @@ abstract class Routes {
       _Paths.VALIDATE_EMAIL_FORGOT_PASSWORD;
   static const VALIDATE_EMAIL_REGISTER = _Paths.VALIDATE_EMAIL_REGISTER;
   static const ON_BOARDING = _Paths.ON_BOARDING;
+  static const SCHEDULE_INTERVIEW = _Paths.SCHEDULE_INTERVIEW;
 }
 
 abstract class _Paths {
@@ -36,4 +37,5 @@ abstract class _Paths {
       '/validate-email-forgot-password';
   static const VALIDATE_EMAIL_REGISTER = '/validate-email-register';
   static const ON_BOARDING = '/on-boarding';
+  static const SCHEDULE_INTERVIEW = '/schedule-interview';
 }

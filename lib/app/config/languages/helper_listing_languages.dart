@@ -28,7 +28,7 @@ class HelperListingLanguages {
     'work_experience': 'Work Experiences',
     'vaccination_status': 'Vaccination Status',
     'download_pdf': 'Download PDF',
-    'request_for_interview': 'Request for Interview',
+    'request_for_interview': 'Schedule Interview',
     'in': 'In',
     'available': 'Available',
     'work_information': 'Work Information',
@@ -111,6 +111,13 @@ class HelperListingLanguages {
     'download_file_msg': 'File Successfully Downloaded on',
     'download_file_error_msg': 'Cannot get download folder path',
     'download_file_error_msg_2': 'File Failed to Download',
+    'schedule_interview_title': 'Schedule Interview',
+    'schedule_interview_desc': "Let's set an interview date with",
+    'schedule_interview_select_date': "Select available dates",
+    'schedule_interview_select_time': "Select available timeslot",
+    'schedule_interview_remarks': "Additional remarks",
+    'schedule_interview_remarks_hint': "Enter your remarks here",
+    'schedule_interview_button': "Set Schedule",
   };
 
   static final ID = {
@@ -137,7 +144,7 @@ class HelperListingLanguages {
     'work_experience': 'Pengalaman kerja',
     'vaccination_status': 'Vaccination Status',
     'download_pdf': 'Unduh PDF',
-    'request_for_interview': 'Permintaan Wawancara',
+    'request_for_interview': 'Jadwalkan Wawancara',
     'in': 'Di',
     'available': 'Tersedia',
     'work_information': 'Informasi Pekerjaan',
@@ -220,5 +227,12 @@ class HelperListingLanguages {
     'download_file_msg': 'File Berhasil Diunduh di',
     'download_file_error_msg': 'Tidak bisa mendapatkan jalur folder unduhan',
     'download_file_error_msg_2': 'File Gagal Diunduh',
+    'schedule_interview_title': 'Jadwal Wawancara',
+    'schedule_interview_desc': "Mari kita tetapkan tanggal wawancara dengan",
+    'schedule_interview_select_date': "Pilih tanggal yang tersedia",
+    'schedule_interview_select_time': "Pilih slot waktu yang tersedia",
+    'schedule_interview_remarks': "Catatan tambahan",
+    'schedule_interview_remarks_hint': "Masukkan catatan Anda di sini",
+    'schedule_interview_button': "Tetapkan Jadwal",
   };
 }
