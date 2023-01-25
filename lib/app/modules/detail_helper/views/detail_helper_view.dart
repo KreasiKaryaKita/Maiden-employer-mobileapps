@@ -465,7 +465,7 @@ class DetailHelperView extends GetView<DetailHelperController> {
                                           mainAxisAlignment: MainAxisAlignment.start,
                                           children: [
                                             Text(
-                                              '${item['from']} - ${item['to']}',
+                                              '${DateFormat("yyyy").format(DateTime.parse(item['from']))} - ${DateFormat("yyyy").format(DateTime.parse(item['to']))}',
                                               overflow: TextOverflow.ellipsis,
                                               style: TextStyle(
                                                 color: Colors.white,

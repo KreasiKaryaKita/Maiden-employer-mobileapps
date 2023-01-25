@@ -191,10 +191,12 @@ class DetailHelperController extends GetxController {
 
             for (var i = 0; i < value.data!.willingAbleTo!.length; i++) {
               var searchwil = tempAble.indexWhere((e) => e == value.data!.willingAbleTo![i].question);
-              willing.add({
-                "icon": searchwil == -1 ? tempImgAble[0] : tempImgAble[searchwil],
-                "label": value.data!.willingAbleTo![i].question,
-              });
+              if (value.data!.willingAbleTo![i].answer ?? false) {
+                willing.add({
+                  "icon": searchwil == -1 ? "assets/images/worker.svg" : tempImgAble[searchwil],
+                  "label": value.data!.willingAbleTo![i].question,
+                });
+              }
             }
           }
 
