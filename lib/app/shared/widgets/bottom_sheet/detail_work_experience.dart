@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 import 'package:maiden_employer/app/config/constants/app_constant.dart';
 import 'package:maiden_employer/app/modules/detail_helper/controllers/detail_helper_controller.dart';
 
@@ -56,7 +57,7 @@ class DetailWorkExperience extends StatelessWidget {
               ),
               Expanded(
                 child: Text(
-                  "${item['from']} - ${item['to']} ${item['country'].toString().toUpperCase()}",
+                  '${DateFormat("yyyy").format(DateTime.parse(item['from']))} - ${DateFormat("yyyy").format(DateTime.parse(item['to']))} ${item['country'].toString().toUpperCase()}',
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     color: Color(0xFFFBFBFB),
@@ -198,42 +199,42 @@ class DetailWorkExperience extends StatelessWidget {
                     ),
                   ],
                 ).marginOnly(bottom: 20),
-                Row(
-                  children: [
-                    SvgPicture.asset(
-                      "assets/images/Handshake.svg",
-                      height: 24,
-                      width: 24,
-                    ),
-                    Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          Text(
-                            "employer_feedback".tr,
-                            overflow: TextOverflow.ellipsis,
-                            style: TextStyle(
-                              color: Color(0xFFFBFBFB),
-                              fontFamily: AppConstant.SF_PRO_FONT,
-                              fontWeight: FontWeight.w400,
-                              fontSize: 12,
-                            ),
-                          ).marginOnly(bottom: 5),
-                          Text(
-                            "Good and Pleasant worker.",
-                            style: TextStyle(
-                              color: Color(0xFFFBFBFB),
-                              fontFamily: AppConstant.SF_PRO_FONT,
-                              fontWeight: FontWeight.w700,
-                              fontSize: 15,
-                            ),
-                          ),
-                        ],
-                      ).marginOnly(left: 16),
-                    ),
-                  ],
-                ).marginOnly(bottom: 20),
+                // Row(
+                //   children: [
+                //     SvgPicture.asset(
+                //       "assets/images/Handshake.svg",
+                //       height: 24,
+                //       width: 24,
+                //     ),
+                //     Expanded(
+                //       child: Column(
+                //         crossAxisAlignment: CrossAxisAlignment.start,
+                //         mainAxisAlignment: MainAxisAlignment.start,
+                //         children: [
+                //           Text(
+                //             "employer_feedback".tr,
+                //             overflow: TextOverflow.ellipsis,
+                //             style: TextStyle(
+                //               color: Color(0xFFFBFBFB),
+                //               fontFamily: AppConstant.SF_PRO_FONT,
+                //               fontWeight: FontWeight.w400,
+                //               fontSize: 12,
+                //             ),
+                //           ).marginOnly(bottom: 5),
+                //           Text(
+                //             "Good and Pleasant worker.",
+                //             style: TextStyle(
+                //               color: Color(0xFFFBFBFB),
+                //               fontFamily: AppConstant.SF_PRO_FONT,
+                //               fontWeight: FontWeight.w700,
+                //               fontSize: 15,
+                //             ),
+                //           ),
+                //         ],
+                //       ).marginOnly(left: 16),
+                //     ),
+                //   ],
+                // ).marginOnly(bottom: 20),
                 Divider(
                   height: 0,
                   thickness: 1,

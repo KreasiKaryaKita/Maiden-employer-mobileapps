@@ -154,8 +154,8 @@ class Experience {
     this.reasonTermination,
   });
 
-  final int? from;
-  final int? to;
+  final String? from;
+  final String? to;
   final String? country;
   final String? name;
   final String? ethnicity;
