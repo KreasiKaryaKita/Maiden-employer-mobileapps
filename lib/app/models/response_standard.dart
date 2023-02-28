@@ -35,7 +35,7 @@ class ResponseStandard implements ResponseModel {
 
   Map<String, dynamic> toJson() => {
         "error": error is int ? error : 500,
-        "data": data.toJson(),
+        "data": data,
         "message": message == null
             ? null
             : message is String

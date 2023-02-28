@@ -1,8 +1,8 @@
 // ignore_for_file: unnecessary_null_comparison
 
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:maiden_employer/app/config/constants/app_constant.dart';
 
-import '/app/data/networking/api_client.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
@@ -28,8 +28,8 @@ class CachedNetworkImageWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     String finalUrl = url;
-    String baseUrl = ApiClient().baseUrl!.replaceAll('api/', '');
-
+    final baseUrl =
+        dotenv.env['APP_ENV'] == 'dev' ? dotenv.env['BASE_URL_MEDIA_DEV'] : dotenv.env['BASE_URL_MEDIA_PROD'];
     if (url == null || url.isEmpty || url == '-') {
       if (isHaveDefault) {
         finalUrl = '$baseUrl$defaultUrl';
@@ -43,6 +43,7 @@ class CachedNetworkImageWidget extends StatelessWidget {
         }
       }
     }
+    print(finalUrl);
 
     return Center(
       child: CachedNetworkImage(

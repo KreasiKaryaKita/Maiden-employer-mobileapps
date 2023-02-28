@@ -8,30 +8,15 @@ class AppThemes {
   static final String _fontFamily = "SF-Pro";
 
   static final TextTheme _lightTextTheme = TextTheme(
-    overline: TextStyle(fontFamily: _fontFamily),
-    headline1: TextStyle(fontSize: 20.0, fontFamily: _fontFamily),
-    bodyText1: TextStyle(fontSize: 16.0, fontFamily: _fontFamily),
-    bodyText2: TextStyle(fontSize: 14.0, fontFamily: _fontFamily),
-    button: TextStyle(fontSize: 15.0, fontFamily: _fontFamily),
-    headline6: TextStyle(fontSize: 16.0, fontFamily: _fontFamily),
-    subtitle1: TextStyle(fontSize: 16.0, fontFamily: _fontFamily),
-    caption: TextStyle(fontSize: 12.0, fontFamily: _fontFamily),
+    labelSmall: TextStyle(fontFamily: _fontFamily),
   );
 
   static final TextTheme _darkTextTheme = TextTheme(
-    overline: TextStyle(fontFamily: _fontFamily),
-    headline1: TextStyle(fontSize: 20.0, fontFamily: _fontFamily),
-    bodyText1: TextStyle(fontSize: 16.0, fontFamily: _fontFamily),
-    bodyText2: TextStyle(fontSize: 14.0, fontFamily: _fontFamily),
-    button: TextStyle(fontSize: 15.0, fontFamily: _fontFamily),
-    headline6: TextStyle(fontSize: 16.0, fontFamily: _fontFamily),
-    subtitle1: TextStyle(fontSize: 16.0, fontFamily: _fontFamily),
-    caption: TextStyle(fontSize: 12.0, fontFamily: _fontFamily),
+    labelSmall: TextStyle(fontFamily: _fontFamily),
   );
 
   static final ThemeData _lightTheme = ThemeData(
       fontFamily: _fontFamily,
-      errorColor: Colors.red[500],
       scaffoldBackgroundColor: Colors.white,
       visualDensity: VisualDensity.adaptivePlatformDensity,
       bottomNavigationBarTheme: BottomNavigationBarThemeData(
@@ -71,7 +56,6 @@ class AppThemes {
           secondaryLabelStyle: TextStyle(),
           checkmarkColor: Colors.white,
           brightness: Brightness.light),
-      colorScheme: const ColorScheme.light(primary: AppColors.primary_60, secondary: AppColors.primary_20),
       iconTheme: const IconThemeData(color: Colors.black),
       popupMenuTheme: const PopupMenuThemeData(color: Colors.grey),
       textTheme: _lightTextTheme,
@@ -86,7 +70,9 @@ class AppThemes {
           return AppColors.neutral_50;
         }
         return AppColors.primary_60;
-      })));
+      })),
+      colorScheme: const ColorScheme.light(primary: AppColors.primary_60, secondary: AppColors.primary_20)
+          .copyWith(error: Colors.red[500]));
 
   static final ThemeData _darkTheme = ThemeData();
 

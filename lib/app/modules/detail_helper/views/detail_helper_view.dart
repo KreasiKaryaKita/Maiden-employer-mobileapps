@@ -93,8 +93,7 @@ class DetailHelperView extends GetView<DetailHelperController> {
                                   CachedNetworkImageWidget(
                                     url: controller.helperDetail.value.photo != null &&
                                             controller.helperDetail.value.photo!.isNotEmpty
-                                        ? 'https://api.maiden.yurekadev.com/${controller.helperDetail.value.photo}'
-                                            .replaceAll('public/', 'helper/')
+                                        ? '${controller.helperDetail.value.photo}'.replaceAll('public/', '')
                                         : AppConstant.DEFAULT_AVATAR,
                                     fit: BoxFit.cover,
                                   ),
@@ -465,7 +464,12 @@ class DetailHelperView extends GetView<DetailHelperController> {
                                           mainAxisAlignment: MainAxisAlignment.start,
                                           children: [
                                             Text(
-                                              '${DateFormat("yyyy").format(DateTime.parse(item['from']))} - ${DateFormat("yyyy").format(DateTime.parse(item['to']))}',
+                                              (item['from'] == null ||
+                                                      item['to'] == null ||
+                                                      item['from'].toString().isEmpty ||
+                                                      item['to'].toString().isEmpty)
+                                                  ? "-"
+                                                  : '${DateFormat("yyyy").format(DateTime.parse(item['from']))} - ${DateFormat("yyyy").format(DateTime.parse(item['to']))}',
                                               overflow: TextOverflow.ellipsis,
                                               style: TextStyle(
                                                 color: Colors.white,
