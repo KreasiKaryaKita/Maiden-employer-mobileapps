@@ -57,7 +57,12 @@ class DetailWorkExperience extends StatelessWidget {
               ),
               Expanded(
                 child: Text(
-                  '${DateFormat("yyyy").format(DateTime.parse(item['from']))} - ${DateFormat("yyyy").format(DateTime.parse(item['to']))} ${item['country'].toString().toUpperCase()}',
+                  (item['from'] == null ||
+                          item['to'] == null ||
+                          item['from'].toString().isEmpty ||
+                          item['to'].toString().isEmpty)
+                      ? "-"
+                      : '${DateFormat("yyyy").format(DateTime.parse(item['from']))} - ${DateFormat("yyyy").format(DateTime.parse(item['to']))} ${item['country'].toString().toUpperCase()}',
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     color: Color(0xFFFBFBFB),

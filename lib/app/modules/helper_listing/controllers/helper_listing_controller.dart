@@ -1172,7 +1172,7 @@ class HelperListingController extends GetxController {
           (e) => HelpersModel(
             id: e.id,
             image: e.photo != null && e.photo!.isNotEmpty
-                ? 'https://api.maiden.yurekadev.com/${e.photo}'.replaceAll('public/', 'helper/')
+                ? '${e.photo}'.replaceAll('public/', '')
                 : AppConstant.DEFAULT_AVATAR,
             age: int.tryParse(e.age ?? '0'),
             country: e.country,

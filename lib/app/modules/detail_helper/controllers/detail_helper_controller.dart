@@ -93,10 +93,14 @@ class DetailHelperController extends GetxController {
         helperDetail.value = value.data!;
 
         if (value.data!.language != null && value.data!.language!.isNotEmpty) {
-          languageSkills.assignAll(value.data!.language!.map((e) => {
-                "value": e.level,
-                "label": e.question,
-              }));
+          for (var e in value.data!.language!) {
+            if (e.answer ?? false) {
+              languageSkills.add({
+                "value": e.level ?? "-",
+                "label": e.question ?? "-",
+              });
+            }
+          }
         }
 
         if (value.data!.helperSkills != null) {
@@ -226,7 +230,10 @@ class DetailHelperController extends GetxController {
             workExperience.assignAll(value.data!.experience!.map((e) {
               var duties = e.workDuties!.where((e) => e.answer != null && e.answer!).map((e) {
                 var searchwil = tempDuties.indexWhere((x) => x == e.question!);
-                return {'icon': searchwil == -1 ? tempImgDuties[0] : tempImgDuties[searchwil], 'label': e.question};
+                return {
+                  'icon': searchwil == -1 ? "assets/images/worker.svg" : tempImgDuties[searchwil],
+                  'label': e.question
+                };
               }).toList();
               return {
                 "from": e.from,
