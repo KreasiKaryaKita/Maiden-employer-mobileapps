@@ -1,3 +1,4 @@
+import 'package:intl/intl.dart';
 import 'package:maiden_employer/app/config/constants/endpoint_constant.dart';
 import 'package:maiden_employer/app/config/constants/preference_constant.dart';
 import 'package:maiden_employer/app/data/networking/api_client.dart';
@@ -19,6 +20,7 @@ import 'package:maiden_employer/app/models/response_reset_password.dart';
 import 'package:maiden_employer/app/models/response_skills.dart';
 import 'package:maiden_employer/app/models/response_sortings.dart';
 import 'package:maiden_employer/app/models/response_standard.dart';
+import 'package:maiden_employer/app/models/response_interview_time_slot.dart';
 import 'package:maiden_employer/app/models/response_validate_otp.dart';
 import 'package:maiden_employer/app/models/response_work_experiences.dart';
 import 'package:maiden_employer/app/shared/utils/preference_helper.dart';
@@ -361,5 +363,42 @@ class ApiRepositories {
     } else {
       return ResponseStandard.fromJson(response.data);
     }
+  }
+
+  static Future<ResponseModel?> interviewTimeSlot({required int helperId, required DateTime date}) async {
+    var params = {"helper_id": helperId, "date": DateFormat('yyyy-MM-dd').format(date)};
+
+    var response = await ApiClient()
+        .service(pathUrl: EndpointConstant.INTERVIEW_TIME_SLOT, method: REQUEST_METHOD.GET, params: params);
+
+    if (response.statusCode == 200) {
+      return ResponseInterviewTimeSlot.fromJson(response.data);
+    } else {
+      return ResponseStandard.fromJson(response.data);
+    }
+  }
+
+  static Future<ResponseModel?> interviewCreate(
+      {required int helperId,
+      required DateTime date,
+      required String startTime,
+      required String endTime,
+      required String remark}) async {
+    var datas = {
+      "helper_id": helperId,
+      "date": DateFormat('yyyy-MM-dd').format(date),
+      "start_time": startTime,
+      "finish_time": endTime,
+      "remark": remark
+    };
+
+    var response =
+        await ApiClient().service(pathUrl: EndpointConstant.INTERVIEW_CREATE, method: REQUEST_METHOD.POST, data: datas);
+
+    // if (response.statusCode == 200) {
+    //   return ResponseInterviewTimeSlot.fromJson(response.data);
+    // } else {
+    return ResponseStandard.fromJson(response.data);
+    // }
   }
 }

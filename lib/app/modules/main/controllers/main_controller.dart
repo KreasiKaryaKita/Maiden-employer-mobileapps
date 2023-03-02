@@ -57,7 +57,6 @@ class MainController extends GetxController {
 
       default:
         // logout();
-        Get.toNamed(Routes.SCHEDULE_INTERVIEW);
         tabPage.value = Container(child: HelperListingView());
     }
   }

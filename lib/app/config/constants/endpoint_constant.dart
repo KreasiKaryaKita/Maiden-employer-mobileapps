@@ -26,4 +26,7 @@ class EndpointConstant {
   static const String HELPER_DETAIL = 'helper/detail';
   static const String HELPERS_COUNT = 'helper/count';
   static const String HELPERS_PDF = '/pdf';
+
+  static const String INTERVIEW_TIME_SLOT = 'interview/time';
+  static const String INTERVIEW_CREATE = 'interview/create';
 }

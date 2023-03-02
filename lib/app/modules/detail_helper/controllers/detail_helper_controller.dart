@@ -11,6 +11,7 @@ import 'package:maiden_employer/app/config/constants/endpoint_constant.dart';
 import 'package:maiden_employer/app/data/repository/api_repositories.dart';
 import 'package:maiden_employer/app/models/response_helper_detail.dart';
 import 'package:maiden_employer/app/modules/detail_helper/views/document_preview_view.dart';
+import 'package:maiden_employer/app/routes/app_pages.dart';
 import 'package:maiden_employer/app/shared/common/common_function.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:permission_handler/permission_handler.dart';
@@ -386,5 +387,9 @@ class DetailHelperController extends GetxController {
       return directory.path;
     }
     return "";
+  }
+
+  onScheduleInterviewPressed() {
+    Get.toNamed(Routes.SCHEDULE_INTERVIEW, arguments: {'helper': helperDetail.value});
   }
 }

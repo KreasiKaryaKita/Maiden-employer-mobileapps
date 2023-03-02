@@ -56,7 +56,7 @@ class ScheduleInterviewView extends GetView<ScheduleInterviewController> {
                     padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
                     children: [
                       Text(
-                        "${'schedule_interview_desc'.tr} Susilawati Riandy",
+                        "${'schedule_interview_desc'.tr} ${controller.helperDetail.value.fullName ?? ''}",
                         style: TextStyle(
                           fontFamily: AppConstant.CENTURY_GOTHIC_FONT,
                           color: Colors.white,
@@ -275,15 +275,16 @@ class ScheduleInterviewView extends GetView<ScheduleInterviewController> {
                         height: 47,
                         child: ListView.builder(
                           itemBuilder: (context, index) {
-                            Map item = controller.timeSlot[index];
+                            var item = controller.timeSlot[index];
+                            var isSelected = item.timeLabel == controller.timeSlotSelected.value.timeLabel;
                             return ButtonFill(
-                              onPressed: () {},
+                              onPressed: () => controller.onTimeSlotSelected(item),
                               height: 47,
                               width: 106,
                               radius: 5,
-                              backgroundColor: item['is_available'] ? Color(0xFFC9283E) : Color(0xFFC47C7E),
+                              backgroundColor: isSelected ? Color(0xFFC9283E) : Color(0xFFC47C7E),
                               text: Text(
-                                item['time'],
+                                item.timeLabel ?? '-',
                                 style: TextStyle(
                                   color: Colors.white,
                                   fontSize: 14,
@@ -378,7 +379,7 @@ class ScheduleInterviewView extends GetView<ScheduleInterviewController> {
                         child: GestureDetector(
                           onTap: () {},
                           child: Text(
-                            "26 Oct 2022\n10am - 11am",
+                            "${DateFormat('dd MMM yyyy').format(controller.selectedDay.value)}\n${controller.timeSlotSelected.value.timeLabel ?? '-'}",
                             textAlign: TextAlign.center,
                             overflow: TextOverflow.ellipsis,
                             style: TextStyle(
@@ -393,7 +394,7 @@ class ScheduleInterviewView extends GetView<ScheduleInterviewController> {
                       Expanded(
                         flex: 2,
                         child: ButtonFill(
-                          onPressed: () {},
+                          onPressed: controller.onSetSchedulePressed,
                           backgroundColor: Colors.white,
                           height: 48,
                           text: Text(

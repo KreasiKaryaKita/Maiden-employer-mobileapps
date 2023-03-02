@@ -608,7 +608,7 @@ class DetailHelperView extends GetView<DetailHelperController> {
                             Expanded(
                               flex: 2,
                               child: ButtonFill(
-                                onPressed: () {},
+                                onPressed: controller.onScheduleInterviewPressed,
                                 backgroundColor: Colors.white,
                                 height: 48,
                                 text: Text(
