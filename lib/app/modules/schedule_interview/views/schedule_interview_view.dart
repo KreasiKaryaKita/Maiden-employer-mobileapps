@@ -103,9 +103,10 @@ class ScheduleInterviewView extends GetView<ScheduleInterviewController> {
                             return isSameDay(controller.selectedDay.value, day);
                           },
                           enabledDayPredicate: (day) {
-                            return !controller.notAvailable.contains(
-                              DateTime(day.year, day.month, day.day),
-                            );
+                            return day.isAfter(controller.firstDay.value.subtract(Duration(days: 1)));
+                            // return !controller.notAvailable.contains(
+                            //   DateTime(day.year, day.month, day.day),
+                            // );
                           },
                           headerStyle: HeaderStyle(
                             leftChevronVisible: true,
@@ -207,8 +208,10 @@ class ScheduleInterviewView extends GetView<ScheduleInterviewController> {
                               if (day.isBefore(controller.firstDay.value) || day.isAfter(controller.lastDay.value)) {
                                 return Center(
                                   child: Container(
+                                    margin: EdgeInsets.all(6),
                                     decoration: const BoxDecoration(
                                       shape: BoxShape.rectangle,
+                                      color: Color.fromARGB(255, 243, 243, 243),
                                       borderRadius: BorderRadius.all(Radius.circular(4)),
                                     ),
                                     alignment: Alignment.center,
@@ -216,7 +219,7 @@ class ScheduleInterviewView extends GetView<ScheduleInterviewController> {
                                       day.day.toString(),
                                       textAlign: TextAlign.center,
                                       style: TextStyle(
-                                        color: Color(0xFF6A7178),
+                                        color: Color.fromARGB(255, 195, 199, 204),
                                         fontSize: 14,
                                         fontFamily: AppConstant.SF_PRO_FONT,
                                         fontWeight: FontWeight.w400,
@@ -277,16 +280,25 @@ class ScheduleInterviewView extends GetView<ScheduleInterviewController> {
                           itemBuilder: (context, index) {
                             var item = controller.timeSlot[index];
                             var isSelected = item.timeLabel == controller.timeSlotSelected.value.timeLabel;
+                            var isAvaliable = item.isAvailable ?? false;
                             return ButtonFill(
-                              onPressed: () => controller.onTimeSlotSelected(item),
+                              onPressed: () {
+                                if (isAvaliable) {
+                                  controller.onTimeSlotSelected(item);
+                                }
+                              },
                               height: 47,
                               width: 106,
                               radius: 5,
-                              backgroundColor: isSelected ? Color(0xFFC9283E) : Color(0xFFC47C7E),
+                              backgroundColor: isSelected
+                                  ? Color(0xFFC9283E)
+                                  : isAvaliable
+                                      ? Color(0xFFC47C7E)
+                                      : Color.fromARGB(255, 243, 243, 243),
                               text: Text(
                                 item.timeLabel ?? '-',
                                 style: TextStyle(
-                                  color: Colors.white,
+                                  color: isAvaliable ? Colors.white : Color.fromARGB(255, 195, 199, 204),
                                   fontSize: 14,
                                   fontWeight: FontWeight.w500,
                                   fontFamily: AppConstant.SF_PRO_FONT,

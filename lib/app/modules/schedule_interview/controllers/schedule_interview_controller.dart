@@ -9,11 +9,11 @@ import 'package:maiden_employer/app/models/response_standard.dart';
 import 'package:maiden_employer/app/shared/common/common_function.dart';
 
 class ScheduleInterviewController extends GetxController {
-  Rx<DateTime> focusedDay = DateTime.now().obs;
-  Rx<DateTime> selectedDay = DateTime.now().obs;
-  Rx<DateTime> firstDay = DateTime.now().obs;
+  Rx<DateTime> focusedDay = DateTime.now().add(Duration(days: 1)).obs;
+  Rx<DateTime> selectedDay = DateTime.now().add(Duration(days: 1)).obs;
+  Rx<DateTime> firstDay = DateTime.now().add(Duration(days: 1)).obs;
   Rx<DateTime> lastDay = DateTime.now().add(Duration(days: 90)).obs;
-  RxList<DateTime> notAvailable = <DateTime>[].obs;
+  // RxList<DateTime> notAvailable = <DateTime>[].obs;
   var timeSlot = <InterviewTimeSlotModel>[].obs;
   var timeSlotSelected = InterviewTimeSlotModel().obs;
   TextEditingController inputRemarks = TextEditingController();
@@ -28,11 +28,11 @@ class ScheduleInterviewController extends GetxController {
       helperDetail.value = data['helper'];
     }
 
-    for (var i = 3; i < 13; i++) {
-      if (i % 3 > 0) {
-        notAvailable.add(DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day + i));
-      }
-    }
+    // for (var i = 3; i < 13; i++) {
+    //   if (i % 3 > 0) {
+    //     notAvailable.add(DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day + i));
+    //   }
+    // }
     getTimeSlot();
   }
 
@@ -50,7 +50,7 @@ class ScheduleInterviewController extends GetxController {
     timeSlot.clear();
     ApiRepositories.interviewTimeSlot(helperId: helperDetail.value.id ?? 0, date: selectedDay.value).then((value) {
       if (value is ResponseInterviewTimeSlot) {
-        timeSlot.assignAll(value.data!.list!.where((e) => e.isAvailable!).toList());
+        timeSlot.assignAll(value.data!.list!);
       } else {
         CommonFunction.snackbarHelper(isSuccess: false, title: 'Failed', message: value?.message ?? '');
       }
