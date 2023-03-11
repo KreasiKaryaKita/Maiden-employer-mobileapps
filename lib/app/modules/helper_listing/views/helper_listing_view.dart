@@ -82,24 +82,22 @@ class HelperListingView extends GetView<HelperListingController> {
                               child: ClipRRect(
                                 borderRadius: BorderRadius.all(Radius.circular(8)),
                                 child: Container(
-                                  color: Colors.white,
+                                  color: Color.fromARGB(250, 250, 250, 250),
                                   child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    mainAxisAlignment: MainAxisAlignment.start,
                                     children: [
-                                      SizedBox(
-                                        height: 150,
+                                      Expanded(
                                         child: CachedNetworkImageWidget(
                                           url: item.image ?? AppConstant.DEFAULT_AVATAR,
                                           fit: BoxFit.cover,
+                                          alignment: Alignment.topCenter,
                                         ),
                                       ),
-                                      Expanded(
-                                        child: Column(
-                                          crossAxisAlignment: CrossAxisAlignment.center,
-                                          mainAxisAlignment: MainAxisAlignment.center,
-                                          children: [
-                                            Row(
+                                      Column(
+                                        crossAxisAlignment: CrossAxisAlignment.center,
+                                        mainAxisAlignment: MainAxisAlignment.center,
+                                        children: [
+                                          Container(
+                                            child: Row(
                                               crossAxisAlignment: CrossAxisAlignment.start,
                                               mainAxisAlignment: MainAxisAlignment.start,
                                               children: [
@@ -136,58 +134,58 @@ class HelperListingView extends GetView<HelperListingController> {
                                                 )
                                               ],
                                             ).paddingSymmetric(horizontal: 16, vertical: 10),
-                                            Divider(
-                                              thickness: 1,
-                                              height: 0,
-                                              color: Color(0xFFDEE2E6),
-                                            ).paddingSymmetric(horizontal: 16),
-                                            Column(
-                                              crossAxisAlignment: CrossAxisAlignment.start,
-                                              mainAxisAlignment: MainAxisAlignment.start,
-                                              children: [
-                                                Text(
-                                                  "${item.experience ?? "0"} ${'years_experience'.tr}",
-                                                  overflow: TextOverflow.ellipsis,
-                                                  style: TextStyle(
-                                                    color: Color(0xFF272B30),
-                                                    fontFamily: AppConstant.SF_PRO_FONT,
-                                                    fontWeight: FontWeight.w700,
-                                                    fontSize: 13,
+                                          ),
+                                          Divider(
+                                            thickness: 1,
+                                            height: 0,
+                                            color: Color(0xFFDEE2E6),
+                                          ).paddingSymmetric(horizontal: 16),
+                                          Column(
+                                            crossAxisAlignment: CrossAxisAlignment.start,
+                                            mainAxisAlignment: MainAxisAlignment.start,
+                                            children: [
+                                              Text(
+                                                "${item.experience ?? "0"} ${'years_experience'.tr}",
+                                                overflow: TextOverflow.ellipsis,
+                                                style: TextStyle(
+                                                  color: Color(0xFF272B30),
+                                                  fontFamily: AppConstant.SF_PRO_FONT,
+                                                  fontWeight: FontWeight.w700,
+                                                  fontSize: 13,
+                                                ),
+                                              ).marginOnly(bottom: 6),
+                                              Row(
+                                                children: [
+                                                  Text(
+                                                    'ready_from'.tr,
+                                                    overflow: TextOverflow.ellipsis,
+                                                    style: TextStyle(
+                                                      color: Color(0xFFADB5BD),
+                                                      fontFamily: AppConstant.SF_PRO_FONT,
+                                                      fontWeight: FontWeight.w400,
+                                                      fontSize: 11,
+                                                    ),
                                                   ),
-                                                ).marginOnly(bottom: 6),
-                                                Row(
-                                                  children: [
-                                                    Text(
-                                                      'ready_from'.tr,
+                                                  Expanded(
+                                                    child: Text(
+                                                      DateFormat('dd MMM yyyy', Get.locale.toString()).format(
+                                                        item.readyDate ?? DateTime.now(),
+                                                      ),
+                                                      textAlign: TextAlign.right,
                                                       overflow: TextOverflow.ellipsis,
                                                       style: TextStyle(
                                                         color: Color(0xFFADB5BD),
                                                         fontFamily: AppConstant.SF_PRO_FONT,
-                                                        fontWeight: FontWeight.w400,
+                                                        fontWeight: FontWeight.w700,
                                                         fontSize: 11,
                                                       ),
                                                     ),
-                                                    Expanded(
-                                                      child: Text(
-                                                        DateFormat('dd MMM yyyy', Get.locale.toString()).format(
-                                                          item.readyDate ?? DateTime.now(),
-                                                        ),
-                                                        textAlign: TextAlign.right,
-                                                        overflow: TextOverflow.ellipsis,
-                                                        style: TextStyle(
-                                                          color: Color(0xFFADB5BD),
-                                                          fontFamily: AppConstant.SF_PRO_FONT,
-                                                          fontWeight: FontWeight.w700,
-                                                          fontSize: 11,
-                                                        ),
-                                                      ),
-                                                    )
-                                                  ],
-                                                )
-                                              ],
-                                            ).paddingSymmetric(horizontal: 16, vertical: 10),
-                                          ],
-                                        ),
+                                                  )
+                                                ],
+                                              )
+                                            ],
+                                          ).paddingSymmetric(horizontal: 16, vertical: 10),
+                                        ],
                                       ),
                                     ],
                                   ),

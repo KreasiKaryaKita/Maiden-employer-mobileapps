@@ -43,7 +43,7 @@ class DetailHelperView extends GetView<DetailHelperController> {
                   headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
                     return <Widget>[
                       SliverAppBar(
-                        expandedHeight: Get.width * 0.60,
+                        expandedHeight: Get.width * 0.80,
                         pinned: true,
                         snap: false,
                         floating: true,
@@ -54,7 +54,7 @@ class DetailHelperView extends GetView<DetailHelperController> {
                           onPressed: () => Get.back(),
                           icon: Icon(
                             Icons.arrow_back_ios_new_rounded,
-                            color: Colors.white,
+                            color: Color.fromARGB(250, 250, 250, 250),
                             size: 24,
                           ),
                         ),
@@ -96,13 +96,14 @@ class DetailHelperView extends GetView<DetailHelperController> {
                                         ? '${controller.helperDetail.value.photo}'.replaceAll('public/', '')
                                         : AppConstant.DEFAULT_AVATAR,
                                     fit: BoxFit.cover,
+                                    alignment: Alignment.topCenter,
                                   ),
                                   Positioned(
                                     bottom: 20,
                                     left: 20,
                                     child: Container(
                                       decoration: BoxDecoration(
-                                        color: Colors.white,
+                                        color: Color.fromARGB(250, 250, 250, 250),
                                         borderRadius: BorderRadius.all(Radius.circular(5)),
                                         boxShadow: [
                                           BoxShadow(
