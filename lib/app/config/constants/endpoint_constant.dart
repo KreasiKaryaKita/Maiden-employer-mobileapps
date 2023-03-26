@@ -20,6 +20,7 @@ class EndpointConstant {
   static const String NATIONALITIES = 'options/nationality';
   static const String WORK_EXPERIENCES = 'options/work-experience';
   static const String SORTINGS = 'options/sorting';
+  static const String AGE_RANGE = 'helper/filter-metadata';
 
   ///HELPER
   static const String HELPERS = 'helper/list';

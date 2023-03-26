@@ -16,6 +16,7 @@ import 'package:maiden_employer/app/models/entity/option_sort_helpers_model.dart
 import 'package:maiden_employer/app/models/entity/option_status_helpers_model.dart';
 import 'package:maiden_employer/app/models/entity/option_work_experience_helpers_model.dart';
 import 'package:maiden_employer/app/models/entity/option_work_skill_helpers_model.dart';
+import 'package:maiden_employer/app/models/response_age_range.dart';
 import 'package:maiden_employer/app/models/response_education_levels.dart';
 import 'package:maiden_employer/app/models/response_helpers.dart';
 import 'package:maiden_employer/app/models/response_helpers_count.dart';
@@ -49,7 +50,8 @@ class HelperListingController extends GetxController {
   var now = DateTime.now();
   var isMonthYearFiltered = false.obs;
 
-  Rx<RangeValues> currentRangeValues = RangeValues(15, 80).obs;
+  var minMaxAgeRange = RangeValues(0, 0).obs;
+  Rx<RangeValues> currentRangeValues = RangeValues(0, 0).obs;
   TextEditingController inputAgeEnd = TextEditingController();
   TextEditingController inputAgeStart = TextEditingController();
   var isAgeFiltered = false.obs;
@@ -99,8 +101,6 @@ class HelperListingController extends GetxController {
   @override
   void onInit() {
     super.onInit();
-    inputAgeStart.value = TextEditingValue(text: "15");
-    inputAgeEnd.value = TextEditingValue(text: "80");
 
     helpersCountSearch.value = 0;
     months.assignAll([
@@ -181,6 +181,8 @@ class HelperListingController extends GetxController {
     getSkills();
 
     getWorkExperiences();
+
+    getAgeRange();
   }
 
   @override
@@ -500,6 +502,19 @@ class HelperListingController extends GetxController {
     });
   }
 
+  getAgeRange() {
+    ApiRepositories.ageRange().then((value) {
+      if (value is ResponseAgeRange) {
+        minMaxAgeRange.value = RangeValues(value.data!.age!.min!.toDouble(), value.data!.age!.max!.toDouble());
+        currentRangeValues.value = minMaxAgeRange.value;
+        isMonthYearFiltered.refresh();
+
+        inputAgeStart.value = TextEditingValue(text: currentRangeValues.value.start.toStringAsFixed(0));
+        inputAgeEnd.value = TextEditingValue(text: currentRangeValues.value.end.toStringAsFixed(0));
+      }
+    }, onError: (e) {});
+  }
+
   onSkillSearchRemoveSelected(String value) {
     for (var i = 0; i < helpersWorkSkill.length; i++) {
       if (helpersWorkSkill[i].value == value) {
@@ -556,9 +571,9 @@ class HelperListingController extends GetxController {
       inputAgeStart.value = TextEditingValue(text: start.toStringAsFixed(0));
     } else {
       double newStart = double.parse(value);
-      if (newStart < 15) {
-        inputAgeStart.value = TextEditingValue(text: "15");
-        newStart = 15;
+      if (newStart < minMaxAgeRange.value.start) {
+        inputAgeStart.value = TextEditingValue(text: minMaxAgeRange.value.start.toStringAsFixed(0));
+        newStart = minMaxAgeRange.value.start;
       } else if (newStart >= end) {
         inputAgeStart.value = TextEditingValue(text: start.toStringAsFixed(0));
         newStart = start;
@@ -574,9 +589,9 @@ class HelperListingController extends GetxController {
       inputAgeEnd.value = TextEditingValue(text: end.toStringAsFixed(0));
     } else {
       double newEnd = double.parse(value);
-      if (newEnd > 80) {
-        inputAgeEnd.value = TextEditingValue(text: "80");
-        newEnd = 80;
+      if (newEnd > minMaxAgeRange.value.end) {
+        inputAgeEnd.value = TextEditingValue(text: minMaxAgeRange.value.end.toStringAsFixed(0));
+        newEnd = minMaxAgeRange.value.end;
       } else if (newEnd <= start) {
         inputAgeEnd.value = TextEditingValue(text: end.toStringAsFixed(0));
         newEnd = end;
@@ -645,9 +660,9 @@ class HelperListingController extends GetxController {
     selectedYear.value = year[0];
     isMonthYearFiltered.value = false;
 
-    currentRangeValues.value = RangeValues(15, 80);
-    inputAgeStart.value = TextEditingValue(text: "15");
-    inputAgeEnd.value = TextEditingValue(text: "80");
+    currentRangeValues.value = minMaxAgeRange.value;
+    inputAgeStart.value = TextEditingValue(text: currentRangeValues.value.start.toStringAsFixed(0));
+    inputAgeEnd.value = TextEditingValue(text: currentRangeValues.value.end.toStringAsFixed(0));
     isAgeFiltered.value = false;
 
     selectedSortBy.value = helpersSortBy[0];

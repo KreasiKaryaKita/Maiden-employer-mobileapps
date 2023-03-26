@@ -594,7 +594,7 @@ class DetailHelperView extends GetView<DetailHelperController> {
                               child: GestureDetector(
                                 onTap: controller.onDownloadPdfPressed,
                                 child: Text(
-                                  "download_pdf".tr,
+                                  "view_pdf".tr,
                                   textAlign: TextAlign.center,
                                   overflow: TextOverflow.ellipsis,
                                   style: TextStyle(

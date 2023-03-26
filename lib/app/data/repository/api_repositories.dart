@@ -3,6 +3,7 @@ import 'package:maiden_employer/app/config/constants/endpoint_constant.dart';
 import 'package:maiden_employer/app/config/constants/preference_constant.dart';
 import 'package:maiden_employer/app/data/networking/api_client.dart';
 import 'package:maiden_employer/app/models/response_account_info.dart';
+import 'package:maiden_employer/app/models/response_age_range.dart';
 import 'package:maiden_employer/app/models/response_countries.dart';
 import 'package:maiden_employer/app/models/response_education_levels.dart';
 import 'package:maiden_employer/app/models/response_forgot_password.dart';
@@ -400,5 +401,15 @@ class ApiRepositories {
     // } else {
     return ResponseStandard.fromJson(response.data);
     // }
+  }
+
+  static Future<ResponseModel?> ageRange() async {
+    var response = await ApiClient().service(pathUrl: EndpointConstant.AGE_RANGE, method: REQUEST_METHOD.GET);
+
+    if (response.statusCode == 200) {
+      return ResponseAgeRange.fromJson(response.data);
+    } else {
+      return ResponseStandard.fromJson(response.data);
+    }
   }
 }

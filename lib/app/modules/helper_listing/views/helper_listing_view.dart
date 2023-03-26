@@ -18,6 +18,8 @@ class HelperListingView extends GetView<HelperListingController> {
   const HelperListingView({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
+    print(
+        '=================> ${controller.minMaxAgeRange.value.toString()}   ==   ${controller.currentRangeValues.value.toString()}');
     return Scaffold(
       resizeToAvoidBottomInset: false,
       body: Container(

@@ -564,8 +564,8 @@ class SearchHelper extends StatelessWidget {
                                     ),
                                     child: RangeSlider(
                                       values: controller.currentRangeValues.value,
-                                      max: 80,
-                                      min: 15,
+                                      max: controller.minMaxAgeRange.value.end,
+                                      min: controller.minMaxAgeRange.value.start,
                                       onChanged: controller.onChangeRangeAge,
                                       inactiveColor: Color(0xFFCED4DA),
                                       activeColor: Color(0xFF8C1D20),

@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_pdfview/flutter_pdfview.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 import 'package:maiden_employer/app/config/constants/app_constant.dart';
 import 'package:maiden_employer/app/config/constants/endpoint_constant.dart';
 import 'package:maiden_employer/app/data/repository/api_repositories.dart';
@@ -318,48 +319,57 @@ class DetailHelperController extends GetxController {
 
       var uri = '$baseUrl${helperDetail.value.id}${EndpointConstant.HELPERS_PDF}';
 
-      String pathDownload = "${await getDownloadPath()}/${DateTime.now().millisecondsSinceEpoch}.pdf";
+      String pathDownload =
+          "${await getDownloadPath()}/${helperDetail.value.fullName}-${DateFormat('dd-MM-yyyy').format(DateTime.now())}.pdf";
       printInfo(info: "Path : $pathDownload");
       printInfo(info: "uri : $uri");
 
       if (pathDownload.isNotEmpty) {
-        Dio dio = Dio();
+        if (!await File(pathDownload).exists()) {
+          Dio dio = Dio();
 
-        try {
-          var respon = await dio.download(
-            uri,
-            pathDownload,
-            onReceiveProgress: (rcv, total) {
-              printInfo(info: 'received: ${rcv.toStringAsFixed(0)} out of total: ${total.toStringAsFixed(0)}');
-            },
-          );
-          printInfo(info: "Res : ${respon.statusMessage}");
-          CommonFunction.loadingHide();
-          CommonFunction.snackbarHelper(
-            message: "${'download_file_msg'.tr} $pathDownload",
-            isSuccess: true,
-            duration: Duration(seconds: 10),
-            mainButtonOnPressed: () {
-              Get.to(
-                () => DocumentPreviewView(pdfPath: pathDownload),
-              );
-            },
-            mainButton: Text(
-              'view_doc'.tr,
-              style: TextStyle(
-                color: Colors.white,
-                fontWeight: FontWeight.w700,
-                fontFamily: AppConstant.SF_PRO_FONT,
-              ),
-            ),
-          );
-        } on DioError catch (e) {
-          CommonFunction.loadingHide();
-          CommonFunction.snackbarHelper(message: "download_file_error_msg_2".tr, isSuccess: false);
-          printError(info: "Error : ${e.response?.statusCode}");
-        } catch (e) {
-          printError(info: "Error : $e");
+          try {
+            var respon = await dio.download(
+              uri,
+              pathDownload,
+              onReceiveProgress: (rcv, total) {
+                printInfo(info: 'received: ${rcv.toStringAsFixed(0)} out of total: ${total.toStringAsFixed(0)}');
+              },
+            );
+            printInfo(info: "Res : ${respon.statusMessage}");
+            CommonFunction.loadingHide();
+
+            // CommonFunction.snackbarHelper(
+            //   message: "${'download_file_msg'.tr} $pathDownload",
+            //   isSuccess: true,
+            //   duration: Duration(seconds: 10),
+            //   // mainButtonOnPressed: () {
+            //   //   Get.to(
+            //   //     () => DocumentPreviewView(pdfPath: pathDownload),
+            //   //   );
+            //   // },
+            //   // mainButton: Text(
+            //   //   'view_doc'.tr,
+            //   //   style: TextStyle(
+            //   //     color: Colors.white,
+            //   //     fontWeight: FontWeight.w700,
+            //   //     fontFamily: AppConstant.SF_PRO_FONT,
+            //   //   ),
+            //   // ),
+            // );
+            // DocumentPreviewView(pdfPath: pathDownload);
+          } on DioError catch (e) {
+            CommonFunction.loadingHide();
+            CommonFunction.snackbarHelper(message: "download_file_error_msg_2".tr, isSuccess: false);
+            printError(info: "Error : ${e.response?.statusCode}");
+          } catch (e) {
+            printError(info: "Error : $e");
+          }
         }
+        CommonFunction.loadingHide();
+        Get.to(
+          () => DocumentPreviewView(pdfPath: pathDownload),
+        );
       } else {
         CommonFunction.loadingHide();
         CommonFunction.snackbarHelper(message: "download_file_error_msg".tr, isSuccess: false);
